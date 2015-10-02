@@ -1,0 +1,46 @@
+{
+  "appName": {
+    "message": "FimFiction",
+    "description": "The name of the application"
+  },
+  "appDescription": {
+    "message": "Fimfiction.net reader and offline generator",
+    "description": "The description of the application"
+  },
+
+  "Minimize": {
+    "message": "Minimize"
+  },
+  "MinimizeMore": {
+    "message": "Minimize to toolbar"
+  },
+  "Maximize": {
+    "message": "Maximize"
+  },
+  "MaximizeMore": {
+    "message": "Maximize to view"
+  },
+  "Restore": {
+    "message": "Restore size"
+  },
+  "RestoreMore": {
+    "message": "Restore to previous size"
+  },
+  "Close": {
+    "message": "Close"
+  },
+  "CloseMore": {
+    "message": "Close"
+  },
+
+
+  "Story": {
+    "message": "Story"
+  },
+  "NoStory": {
+    "message": "No story found!"
+  },
+  "Stories": {
+    "message": "Stories"
+  }
+}

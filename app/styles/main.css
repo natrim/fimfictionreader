@@ -1,0 +1,54 @@
+#content {
+  overflow: hidden;
+}
+#page_toolbar {
+  -webkit-app-region: drag;
+}
+#page_toolbar button, #page_toolbar md-button {
+  -webkit-app-region: no-drag;
+}
+#page_toolbar h2 {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+#page_toolbar h2 img {
+  vertical-align: middle;
+  border: 0;
+  padding: 1px 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  display: none;
+}
+
+.md-blur {
+  background-color: grey!important;
+}
+
+.md-max {
+
+}
+
+.md-small {
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+}
+
+.md-small .md-toolbar-tools {
+  height: 32px;
+  min-height: 32px;
+  max-height: 32px;
+}
+
+.trim {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.full {
+  width: 100%;
+  height: 100%;
+}
