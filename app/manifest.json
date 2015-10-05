@@ -19,7 +19,9 @@
         "unlimitedStorage",
         "webview",
         "*://fimfiction.net/",
-        "*://*.fimfiction.net/"
+        "*://*.fimfiction.net/",
+        "*://fimfiction.net/*",
+        "*://*.fimfiction.net/*"
     ],
     "icons": {
         "16": "images/icon-16.png",

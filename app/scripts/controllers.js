@@ -2,7 +2,7 @@
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', function ($scope, $window, $timeout) {
+.controller('AppCtrl', ['$scope', '$window', function ($scope, $window) {
 
   // Make sure we read the initial state as well, since the app might startup as maximized.
   $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
@@ -46,49 +46,148 @@ angular.module('fictionReader.controllers', [])
   };
 
 
-  //TODO: online / offline auto hlasku a prepnuti? pres confirm?
+  //TODO: online / offline auto mode switch, with confirm?
   //$window.addEventListener('online',  updateOnlineStatus);
   //$window.addEventListener('offline', updateOnlineStatus);
+}])
 
-  //to make it right size window
-  function updateContentSize() {
-    var content = $window.document.getElementById('main');
-    content.style.height = $window.document.documentElement.clientHeight + 'px';
-    content.style.width = $window.document.documentElement.clientWidth + 'px';
-  }
-
-  $scope.$on('$viewContentLoaded', updateContentSize);
-  var sizeTimer = null;
-  $window.onresize = function () {
-    if (sizeTimer) {
-      $timeout.cancel(sizeTimer);
-      sizeTimer = null;
-    }
-    sizeTimer = $timeout(function () {
-      sizeTimer = null;
-      updateContentSize();
-    }, 10);
-  };
-})
-
-.controller('StoriesCtrl', function ($scope, storiesStorage) {
+/*
+.controller('StoriesCtrl', ['$scope', 'storiesStorage', function ($scope, storiesStorage) {
   storiesStorage.then(function (store) {
     $scope.stories = store.getAll();
   });
-})
+}])
 
-.controller('StoryCtrl', function ($scope, $stateParams, storiesStorage) {
+.controller('StoryCtrl', ['$scope', '$stateParams', 'storiesStorage', function ($scope, $stateParams, storiesStorage) {
   storiesStorage.then(function (store) {
     $scope.story = store.get(parseInt($stateParams.storyId));
   });
-})
+}])
+*/
 
-.controller('OnlineCtrl', function ($scope, $window) {
+.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
   var webview = $window.document.getElementById('fimfiction');
-  webview.addEventListener('newwindow', function (e) {
-    e.preventDefault();
-    $window.open(e.targetUrl);
+  var indicator = $window.document.querySelector('.loading-indicator');
+  var loading = document.querySelector('#loading');
+
+  var homeUrl = webview.src;
+
+  var firstLoading = true;
+  var webviewLoaded = false;
+  webview.addEventListener('loadstart', function () {
+    webviewLoaded = false;
+    indicator.style.display = 'block';
+    if (firstLoading) {
+      loading.style.display = 'block';
+    }
   });
+  webview.addEventListener('loadstop', function () {
+    webviewLoaded = true;
+    indicator.style.display = 'none';
+    if (firstLoading) {
+      loading.style.display = 'none';
+      firstLoading = false;
+    }
+  });
+
+  $scope.menu = {
+    open: false
+  };
+
+  $scope.canBack = function () {
+    return webview.canGoBack();
+  };
+
+  $scope.back = function () {
+    if (webview.canGoBack()) {
+      webview.back();
+    }
+  };
+
+  $scope.canForward = function () {
+    return webview.canGoForward();
+  };
+
+  $scope.forward = function () {
+    if (webview.canGoForward()) {
+      webview.forward();
+    }
+  };
+
+  $scope.reload = function () {
+    webview.reload();
+  };
+
+  $scope.canHome = function () {
+    return webview.src !== homeUrl;
+  };
+
+  $scope.home = function () {
+    webview.src = homeUrl;
+  };
+
+  var scrollTop = {
+    can: false,
+    query: false
+  };
+  $scope.canTop = function () {
+    if (!webviewLoaded || scrollTop.query) {
+      return scrollTop.can;
+    }
+
+    scrollTop.query = true;
+    webview.executeScript({
+      code: 'window.scrollY'
+    }, function (result) {
+      if (chrome.runtime.lastError) {
+        scrollTop.query = false;
+        return;
+      }
+      if (result && result[0]) {
+        if (result[0] > 100) {
+          scrollTop.can = true;
+          $scope.$apply();
+          scrollTop.query = false;
+          return;
+        }
+      }
+
+      scrollTop.can = false;
+      $scope.$apply();
+      scrollTop.query = false;
+    });
+
+    return scrollTop.can;
+  };
+
+  $scope.top = function () {
+    if (!webviewLoaded) {
+      return false;
+    }
+    var source = 'if(typeof jQuery !== \'undefined\')jQuery(\'html, body\').animate({scrollTop : 0}, 800); else window.scrollTo(0, 0);';
+    webview.executeScript({
+      code: 'var script=document.createElement(\'script\');script.textContent="' + source + '";(document.head||document.documentElement).appendChild(script);script.parentNode.removeChild(script);'
+    });
+  };
+
+  // fimfiction does not use new windows (only ads), so no handling
+  /*webview.addEventListener('newwindow', function (e) {
+    if (e.windowOpenDisposition === 'save_to_disk') {
+      e.preventDefault();
+      $window.open(e.targetUrl); //open in chrome
+    } else {
+      e.window.discard();
+    }
+  });*/
+
+  //TODO: catch the request and save to app archive
+  webview.addEventListener('permissionrequest', function (e) {
+    if (e.permission === 'download' && e.request.url.search('fimfiction.net') !== -1) {
+      e.request.allow();
+    }
+  });
+
+  // capture and handle confirm and alert dialogs
   webview.addEventListener('dialog', function (e) {
     if (e.messageType === 'prompt') {
       console.error('prompt dialog not handled!');
@@ -96,9 +195,42 @@ angular.module('fictionReader.controllers', [])
     }
     e.preventDefault();
 
-    //returnDialog = e.dialog;
-    //todo: modal
+    var returnDialog = e.dialog;
+    var dialog;
+    if (e.messageType === 'confirm') {
+      dialog = $mdDialog.confirm({
+        title: 'Confirm',
+        content: e.messageText,
+        ok: 'Ok',
+        cancel: 'Cancel'
+      });
+    } else {
+      dialog = $mdDialog.alert({
+        title: 'Alert',
+        content: e.messageText,
+        ok: 'Close'
+      });
+    }
+    $mdDialog
+      .show(dialog)
+      .then(function () {
+        if (returnDialog) {
+          if (typeof returnDialog.ok === 'function') {
+            returnDialog.ok();
+          } else {
+            returnDialog.cancel();
+          }
+          returnDialog = undefined;
+        }
+      })
+      .finally(function () {
+        dialog = undefined;
+        if (returnDialog) {
+          returnDialog.cancel();
+          returnDialog = undefined;
+        }
+      });
   });
-})
+}])
 
 ;

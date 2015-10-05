@@ -1,30 +1,30 @@
 <div layout="column" class="trim full">
   <md-toolbar id="page_toolbar" class="md-small" ng-class="{'md-blur': !isFocused, 'md-max': isMaximized}">
     <div class="md-toolbar-tools">
-      <h2><img src="images/icon-32.png" alt="">{{l('appName')}}</h2>
+      <h2><img src="images/icon-32.png" alt="icon">{{l('appName')}}</h2>
       <span flex></span>
 
-      <md-button class="md-icon-button" aria-label="{{l('Minimize')}}" ng-click="minimize()">
+      <md-button class="md-small-button" aria-label="{{l('Minimize')}}" ng-click="minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
         <md-icon>keyboard_arrow_down</md-icon>
       </md-button>
 
-      <md-button class="md-icon-button" aria-label="{{l('Restore')}}" ng-click="restore()" ng-show="isMaximized">
+      <md-button class="md-small-button" aria-label="{{l('Restore')}}" ng-click="restore()" ng-show="isMaximized">
         <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
         <md-icon>zoom_out</md-icon>
       </md-button>
 
-      <md-button class="md-icon-button" aria-label="{{l('Maximize')}}" ng-click="maximize()" ng-hide="isMaximized">
+      <md-button class="md-small-button" aria-label="{{l('Maximize')}}" ng-click="maximize()" ng-hide="isMaximized">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
         <md-icon>zoom_in</md-icon>
       </md-button>
 
-      <md-button class="md-icon-button" aria-label="{{l('Close')}}" ng-click="close()">
+      <md-button class="md-small-button" aria-label="{{l('Close')}}" ng-click="close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
         <md-icon>close</md-icon>
       </md-button>
     </div>
+    <md-progress-linear class="md-hue-1 loading-indicator" style="display:none;" md-mode="indeterminate"></md-progress-linear>
   </md-toolbar>
-<!-- be careful: nothing between md-toolbar and md-content -->
   <md-content flex id="content" class="trim full" ui-view="main" layout="column"></md-content>
 </div>

@@ -1,22 +1,43 @@
 'use strict';
 
-angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.storiesStorage', 'ui.router', 'ngMaterial'], function ($provide) {
+//to make it right size window
+function updateContentSize() {
+  var content = window.document.getElementById('main');
+  content.style.height = window.document.documentElement.clientHeight + 'px';
+  content.style.width = window.document.documentElement.clientWidth + 'px';
+}
+
+onload = updateContentSize;
+var sizeTimer = null;
+window.onresize = function () {
+  if (sizeTimer) {
+    clearTimeout(sizeTimer);
+    sizeTimer = null;
+  }
+  sizeTimer = setTimeout(function () {
+    sizeTimer = null;
+    updateContentSize();
+  }, 10);
+};
+
+angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.storiesStorage'*/ , 'ui.router', 'ngMaterial'], ['$provide', function ($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.
-  $provide.decorator('$window', function ($delegate) {
+  $provide.decorator('$window', ['$delegate', function ($delegate) {
     $delegate.history = null;
     return $delegate;
-  });
-})
+  }]);
+}])
 
-.config(function ($mdThemingProvider) {
+.config(['$mdThemingProvider', function ($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .backgroundPalette('grey')
     .primaryPalette('blue-grey')
-    .accentPalette('indigo');
-})
+    .accentPalette('light-blue')
+    .warnPalette('red');
+}])
 
-.config(function ($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('app', {
@@ -30,7 +51,7 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.sto
     }
   })
 
-  .state('app.stories', {
+  /*.state('app.stories', {
     url: '/stories',
     views: {
       'main': {
@@ -49,7 +70,7 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.sto
       }
     }
   })
-
+*/
 
   .state('app.online', {
     url: '/online',
@@ -63,9 +84,9 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.sto
 
   ;
 
-  if (navigator.onLine) {
-    $urlRouterProvider.otherwise('/app/online');
-  } else {
-    $urlRouterProvider.otherwise('/app/stories');
-  }
-});
+  //if (navigator.onLine) {
+  $urlRouterProvider.otherwise('/app/online');
+  //} else {
+  //  $urlRouterProvider.otherwise('/app/stories');
+  //}
+}]);

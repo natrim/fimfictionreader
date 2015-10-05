@@ -1,10 +1,10 @@
 {
   "appName": {
-    "message": "FimFiction",
+    "message": "FimFiction Reader",
     "description": "The name of the application"
   },
   "appDescription": {
-    "message": "Fimfiction.net reader and offline generator",
+    "message": "Fimfiction.net as app and offline reader",
     "description": "The description of the application"
   },
 
@@ -42,5 +42,27 @@
   },
   "Stories": {
     "message": "Stories"
+  },
+
+  "online_loading": {
+    "message": "Loading online context"
+  },
+  "BrowserMenu": {
+    "message": "Menu"
+  },
+  "BrowserHome": {
+    "message": "Go to Home page"
+  },
+  "BrowserBack": {
+    "message": "Go Back by one page"
+  },
+  "BrowserForward": {
+    "message": "Go Forward by on page"
+  },
+  "BrowserReload": {
+    "message": "Reload page"
+  },
+  "BrowserTop": {
+    "message": "Go to top of page"
   }
 }
