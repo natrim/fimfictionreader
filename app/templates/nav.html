@@ -1,39 +1,73 @@
-<div layout="column" class="trim full">
-  <md-toolbar id="page_toolbar" class="md-small" ng-class="{'md-blur': !isFocused, 'md-max': isMaximized}">
-    <div class="md-toolbar-tools">
-      <h2><img src="images/icon-32.png" alt="icon">{{l('appName')}}</h2>
-      <span flex></span>
+<div class="trim full" layout="column">
+  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !isFocused, 'md-max': isMaximized}">
+    <div class="md-toolbar-tools" ng-if="os === 'mac'">
+      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
+        <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
+        <md-icon>close</md-icon>
+      </md-button>
 
-      <md-button class="md-small-button" aria-label="{{l('Minimize')}}" ng-click="minimize()">
+      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
         <md-icon>keyboard_arrow_down</md-icon>
       </md-button>
 
-      <md-button class="md-small-button" aria-label="{{l('Restore')}}" ng-click="restore()" ng-show="isMaximized">
-        <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
-        <md-icon>zoom_out</md-icon>
-      </md-button>
-
-      <md-button class="md-small-button" aria-label="{{l('Maximize')}}" ng-click="maximize()" ng-hide="isMaximized">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="isMaximized">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
         <md-icon>zoom_in</md-icon>
       </md-button>
 
-      <md-button class="md-small-button" aria-label="{{l('Close')}}" ng-click="close()">
+      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="isMaximized">
+        <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
+        <md-icon>zoom_out</md-icon>
+      </md-button>
+
+      <span flex></span>
+
+      <h2 class="os-mac">{{l('appName')}}</h2>
+
+      <span flex></span>
+
+      <img alt="icon" src="images/icon-32.png">
+    </div>
+    <div class="md-toolbar-tools" ng-if="os !== 'mac'">
+      <img alt="icon" src="images/icon-32.png">
+
+      <h2>{{l('appName')}}</h2>
+
+      <span flex></span>
+
+      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
+        <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
+        <md-icon>keyboard_arrow_down</md-icon>
+      </md-button>
+
+      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="isMaximized">
+        <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
+        <md-icon>zoom_out</md-icon>
+      </md-button>
+
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="isMaximized">
+        <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
+        <md-icon>zoom_in</md-icon>
+      </md-button>
+
+      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
         <md-icon>close</md-icon>
       </md-button>
     </div>
-    <md-progress-linear class="md-hue-1 loading-indicator" style="display:none;" md-mode="indeterminate"></md-progress-linear>
+    <md-progress-linear class="md-hue-1 loading-indicator" md-mode="indeterminate" style="display:none;"></md-progress-linear>
   </md-toolbar>
-  <md-content flex id="content" class="trim full" ui-view="main" layout="column"></md-content>
-  <md-fab-speed-dial md-direction="left" class="md-fab-bottom-right" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
+  <md-content class="trim full" flex id="content" layout="column" ui-view="main"></md-content>
+  <md-fab-speed-dial class="md-fab-bottom-right" md-direction="left" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
     <md-fab-trigger>
-      <md-button aria-label="{l('Menu')}}" class="md-fab"><md-icon>menu</md-icon></md-button>
+      <md-button aria-label="{l('Menu')}}" class="md-fab">
+        <md-icon>menu</md-icon>
+      </md-button>
     </md-fab-trigger>
     <md-fab-actions ng-show="menu.open">
       <div ui-view="menu_more1"></div>
-      <md-button ng-if="menu.settings" aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings()">
+      <md-button aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings()" ng-if="menu.settings">
         <md-tooltip md-direction="top">{{l('Settings')}}</md-tooltip>
         <md-icon>settings</md-icon>
       </md-button>

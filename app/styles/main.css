@@ -12,10 +12,13 @@
   vertical-align: middle;
   margin-right: 15px;
 }
-#page_toolbar h2 img {
+#page_toolbar img {
   vertical-align: middle;
   border: 0;
   padding: 1px 5px;
+}
+#page_toolbar h2.os-mac {
+  margin-left: -8%;
 }
 ::-webkit-scrollbar-thumb {
   display: none;
@@ -57,6 +60,8 @@
 }
 .md-small .md-small-button {
   height: 32px;
+  min-height: 32px;
+  min-width: 32px;
   line-height: 32px;
   width: 32px;
   margin: 0 3px;

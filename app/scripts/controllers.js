@@ -3,6 +3,11 @@
 angular.module('fictionReader.controllers', [])
 
 .controller('AppCtrl', ['$scope', '$window', function ($scope, $window) {
+  $scope.os = 'linux';
+  $window.chrome.runtime.getPlatformInfo(function (info) {
+    $scope.os = info.os;
+    $scope.$apply();
+  });
 
   // Make sure we read the initial state as well, since the app might startup as maximized.
   $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
