@@ -5,18 +5,8 @@
     "version": "1.0.1",
     "manifest_version": 2,
     "default_locale": "en",
-    "offline_enabled": true,
+    "offline_enabled": false,
     "permissions": [
-        "app.window",
-        {
-            "fileSystem": [
-                "write",
-                "retainEntries",
-                "directory"
-            ]
-        },
-        "storage",
-        "syncFileSystem",
         "unlimitedStorage",
         "webview",
         "*://fimfiction.net/",
