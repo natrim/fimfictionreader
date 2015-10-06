@@ -2,7 +2,7 @@
   <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
   <md-icon>home</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-click="reload()">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-disabled="!canReload()" ng-click="reload()">
   <md-tooltip md-direction="top">{{l('BrowserReload')}}</md-tooltip>
   <md-icon>refresh</md-icon>
 </md-button>

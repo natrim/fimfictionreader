@@ -89,6 +89,7 @@ angular.module('fictionReader.controllers', [])
     if (firstLoading) {
       loading.style.display = 'block';
     }
+    $scope.$apply();
   });
   webview.addEventListener('loadstop', function () {
     webviewLoaded = true;
@@ -97,10 +98,11 @@ angular.module('fictionReader.controllers', [])
       loading.style.display = 'none';
       firstLoading = false;
     }
+    $scope.$apply();
   });
 
   $scope.canBack = function () {
-    return webview.canGoBack();
+    return webviewLoaded && webview.canGoBack();
   };
 
   $scope.back = function () {
@@ -110,7 +112,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canForward = function () {
-    return webview.canGoForward();
+    return webviewLoaded && webview.canGoForward();
   };
 
   $scope.forward = function () {
@@ -119,12 +121,16 @@ angular.module('fictionReader.controllers', [])
     }
   };
 
+  $scope.canReload = function () {
+    return webviewLoaded;
+  };
+
   $scope.reload = function () {
     webview.reload();
   };
 
   $scope.canHome = function () {
-    return webview.src !== homeUrl;
+    return webviewLoaded && webview.src !== homeUrl;
   };
 
   $scope.home = function () {
@@ -137,7 +143,7 @@ angular.module('fictionReader.controllers', [])
   };
   $scope.canTop = function () {
     if (!webviewLoaded || scrollTop.query) {
-      return scrollTop.can;
+      return webviewLoaded && scrollTop.can;
     }
 
     scrollTop.query = true;
@@ -151,18 +157,18 @@ angular.module('fictionReader.controllers', [])
       if (result && result[0]) {
         if (result[0] > 100) {
           scrollTop.can = true;
-          $scope.$apply();
+          $scope.$apply(); //apply here to prevent loop
           scrollTop.query = false;
           return;
         }
       }
 
       scrollTop.can = false;
-      $scope.$apply();
+      $scope.$apply(); //apply here to prevent loop
       scrollTop.query = false;
     });
 
-    return scrollTop.can;
+    return webviewLoaded && scrollTop.can;
   };
 
   $scope.top = function () {
