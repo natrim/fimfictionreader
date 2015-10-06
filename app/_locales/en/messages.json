@@ -47,8 +47,11 @@
   "online_loading": {
     "message": "Loading online context"
   },
-  "BrowserMenu": {
+  "Menu": {
     "message": "Menu"
+  },
+  "Settings": {
+    "message": "Settings"
   },
   "BrowserHome": {
     "message": "Go to Home page"

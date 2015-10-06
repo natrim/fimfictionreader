@@ -45,6 +45,15 @@ angular.module('fictionReader.controllers', [])
     return $window.chrome.i18n.getMessage(key);
   };
 
+  $scope.menu = {
+    open: false,
+    settings: false,
+    browser: false
+  };
+
+  $scope.openSettings = function () {
+
+  };
 
   //TODO: online / offline auto mode switch, with confirm?
   //$window.addEventListener('online',  updateOnlineStatus);
@@ -89,10 +98,6 @@ angular.module('fictionReader.controllers', [])
       firstLoading = false;
     }
   });
-
-  $scope.menu = {
-    open: false
-  };
 
   $scope.canBack = function () {
     return webview.canGoBack();
@@ -169,6 +174,8 @@ angular.module('fictionReader.controllers', [])
       code: 'var script=document.createElement(\'script\');script.textContent="' + source + '";(document.head||document.documentElement).appendChild(script);script.parentNode.removeChild(script);'
     });
   };
+
+  $scope.menu.browser = true;
 
   // fimfiction does not use new windows (only ads), so no handling
   /*webview.addEventListener('newwindow', function (e) {

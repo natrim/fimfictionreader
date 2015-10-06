@@ -1,33 +1,5 @@
 <webview allowtransparency="on" class="trim full" flex id="fimfiction" partition="persist:fimfictionreader" src="http://www.fimfiction.net/"></webview>
 
-<md-fab-speed-dial md-direction="left" class="md-fab-bottom-right" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
-  <md-fab-trigger>
-    <md-button aria-label="{l('BrowserMenu')}}" class="md-fab"><md-icon>menu</md-icon></md-button>
-  </md-fab-trigger>
-  <md-fab-actions ng-show="menu.open">
-    <md-button aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!canTop()" ng-click="top()">
-      <md-tooltip md-direction="top">{{l('BrowserTop')}}</md-tooltip>
-      <md-icon>expand_less</md-icon>
-    </md-button>
-    <md-button aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!canForward()" ng-click="forward()">
-      <md-tooltip md-direction="top">{{l('BrowserForward')}}</md-tooltip>
-      <md-icon>chevron_right</md-icon>
-    </md-button>
-    <md-button aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!canBack()" ng-click="back()">
-      <md-tooltip md-direction="top">{{l('BrowserBack')}}</md-tooltip>
-      <md-icon>chevron_left</md-icon>
-    </md-button>
-    <md-button aria-label="{l('BrowserReload')}}" class="md-fab" ng-click="reload()">
-      <md-tooltip md-direction="top">{{l('BrowserReload')}}</md-tooltip>
-      <md-icon>refresh</md-icon>
-    </md-button>
-    <md-button aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!canHome()" ng-click="home()">
-      <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
-      <md-icon>home</md-icon>
-    </md-button>
-  </md-fab-actions>
-</md-fab-speed-dial>
-
 <div class="trim full" id="loading" style="position:fixed;z-index:1;left:0;top:0;background-color:inherit;">
   <div style="position:absolute;text-align:center;top:50%;font-family:monospace;font-size:26px;left:0;right:0;">
     {{l('online_loading')}}...
