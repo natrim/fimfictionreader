@@ -11,6 +11,8 @@
         "webview",
         "*://fimfiction.net/",
         "*://*.fimfiction.net/",
+        "http://www.fimfiction.net/",
+        "https://www.fimfiction.net/",
         "*://fimfiction.net/*",
         "*://*.fimfiction.net/*"
     ],

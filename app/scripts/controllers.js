@@ -84,7 +84,11 @@ angular.module('fictionReader.controllers', [])
   var indicator = $window.document.querySelector('.loading-indicator');
   var loading = document.querySelector('#loading');
 
-  var homeUrl = webview.src;
+  var homeUrl = 'https://www.fimfiction.net/';
+
+  //TODO: load last url from storage
+  //for now go home
+  webview.src = homeUrl;
 
   var firstLoading = true;
   var webviewLoaded = false;
