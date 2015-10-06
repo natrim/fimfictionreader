@@ -107,7 +107,7 @@ angular.module('fictionReader.controllers', [])
   });
 
   $scope.canBack = function () {
-    return webviewLoaded && webview.canGoBack();
+    return !firstLoading && webview.canGoBack();
   };
 
   $scope.back = function () {
@@ -117,7 +117,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canForward = function () {
-    return webviewLoaded && webview.canGoForward();
+    return !firstLoading && webview.canGoForward();
   };
 
   $scope.forward = function () {
@@ -127,7 +127,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canReload = function () {
-    return webviewLoaded;
+    return !firstLoading;
   };
 
   $scope.reload = function () {
@@ -135,7 +135,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canHome = function () {
-    return webviewLoaded && webview.src !== homeUrl;
+    return !firstLoading && webview.src !== homeUrl;
   };
 
   $scope.home = function () {
