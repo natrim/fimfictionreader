@@ -10,7 +10,8 @@
 #page_toolbar h2 {
   display: inline-block;
   vertical-align: middle;
-  margin-right: 15px;
+  margin-left: 0;
+  margin-right: -7%;
 }
 #page_toolbar img {
   vertical-align: middle;
@@ -18,7 +19,8 @@
   padding: 1px 5px;
 }
 #page_toolbar h2.os-mac {
-  margin-left: -8%;
+  margin-left: -7%;
+  margin-right: 0;
 }
 ::-webkit-scrollbar-thumb {
   display: none;
