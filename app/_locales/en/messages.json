@@ -3,6 +3,9 @@
     "message": "FimFiction Reader",
     "description": "The name of the application"
   },
+  "appShortName": {
+    "message": "FimFicReader"
+  },
   "appDescription": {
     "message": "Fimfiction.net as app and offline reader",
     "description": "The description of the application"
