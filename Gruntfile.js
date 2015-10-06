@@ -318,7 +318,7 @@ module.exports = function (grunt) {
         options: {
           archive: function() {
             var manifest = grunt.file.readJSON('app/manifest.json');
-            return 'package/chromeapps-' + manifest.version + '.zip';
+            return 'package/fimfiction-' + manifest.version + '.zip';
           }
         },
         files: [{
