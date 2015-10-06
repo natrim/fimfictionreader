@@ -7,6 +7,8 @@
     "default_locale": "en",
     "offline_enabled": false,
     "permissions": [
+        "notifications",
+        "storage",
         "unlimitedStorage",
         "webview",
         "*://fimfiction.net/",
