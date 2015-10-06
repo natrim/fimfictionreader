@@ -32,26 +32,7 @@
       <md-button aria-label="{l('Menu')}}" class="md-fab"><md-icon>menu</md-icon></md-button>
     </md-fab-trigger>
     <md-fab-actions ng-show="menu.open">
-      <md-button ng-if="menu.browser" aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!canTop()" ng-click="top()">
-        <md-tooltip md-direction="top">{{l('BrowserTop')}}</md-tooltip>
-        <md-icon>expand_less</md-icon>
-      </md-button>
-      <md-button ng-if="menu.browser" aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!canForward()" ng-click="forward()">
-        <md-tooltip md-direction="top">{{l('BrowserForward')}}</md-tooltip>
-        <md-icon>chevron_right</md-icon>
-      </md-button>
-      <md-button ng-if="menu.browser" aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!canBack()" ng-click="back()">
-        <md-tooltip md-direction="top">{{l('BrowserBack')}}</md-tooltip>
-        <md-icon>chevron_left</md-icon>
-      </md-button>
-      <md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-click="reload()">
-        <md-tooltip md-direction="top">{{l('BrowserReload')}}</md-tooltip>
-        <md-icon>refresh</md-icon>
-      </md-button>
-      <md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!canHome()" ng-click="home()">
-        <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
-        <md-icon>home</md-icon>
-      </md-button>
+      <div ui-view="menu_more1"></div>
       <md-button ng-if="menu.settings" aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings()">
         <md-tooltip md-direction="top">{{l('Settings')}}</md-tooltip>
         <md-icon>settings</md-icon>

@@ -78,6 +78,10 @@ angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.
       'main': {
         templateUrl: 'templates/online.html',
         controller: 'OnlineCtrl'
+      },
+      'menu_more1': {
+        templateUrl: 'templates/browser_control.html',
+        controller: 'OnlineCtrl'
       }
     }
   })
