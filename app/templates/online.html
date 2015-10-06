@@ -1,10 +1,10 @@
 <webview allowtransparency="on" class="trim full" flex id="fimfiction" partition="persist:fimfictionreader" src="http://www.fimfiction.net/"></webview>
 
-<md-fab-speed-dial md-direction="left" class="md-fling md-fab-bottom-right" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
+<md-fab-speed-dial md-direction="left" class="md-fab-bottom-right" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
   <md-fab-trigger>
     <md-button aria-label="{l('BrowserMenu')}}" class="md-fab"><md-icon>menu</md-icon></md-button>
   </md-fab-trigger>
-  <md-fab-actions>
+  <md-fab-actions ng-show="menu.open">
     <md-button aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!canTop()" ng-click="top()">
       <md-tooltip md-direction="top">{{l('BrowserTop')}}</md-tooltip>
       <md-icon>expand_less</md-icon>

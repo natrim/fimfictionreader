@@ -23,7 +23,6 @@
 .md-blur {
   background-color: grey!important;
 }
-.md-max {}
 .md-small {
   height: 32px;
   min-height: 32px;
@@ -61,4 +60,13 @@
   line-height: 32px;
   width: 32px;
   margin: 0 3px;
+}
+md-fab-actions {
+  opacity: 1;
+}
+md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
+  transition: all ease-in-out 0.5s;
+}
+md-fab-actions.ng-hide {
+  opacity: 0;
 }
