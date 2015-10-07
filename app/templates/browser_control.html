@@ -1,20 +1,20 @@
-<md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!canHome()" ng-click="home()">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!canHome()" ng-click="home();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
   <md-icon>home</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-disabled="!canReload()" ng-click="reload()">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-disabled="!canReload()" ng-click="reload();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserReload')}}</md-tooltip>
   <md-icon>refresh</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!canForward()" ng-click="forward()">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!canForward()" ng-click="forward();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserForward')}}</md-tooltip>
   <md-icon>chevron_right</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!canBack()" ng-click="back()">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!canBack()" ng-click="back();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserBack')}}</md-tooltip>
   <md-icon>chevron_left</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!canTop()" ng-click="top()">
+<md-button ng-if="menu.browser" aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!canTop()" ng-click="top();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserTop')}}</md-tooltip>
   <md-icon>expand_less</md-icon>
 </md-button>

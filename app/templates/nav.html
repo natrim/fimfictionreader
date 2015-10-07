@@ -69,7 +69,7 @@
     </md-fab-trigger>
     <md-fab-actions ng-show="menu.open">
       <div ui-view="menu_more1"></div>
-      <md-button aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings()" ng-if="menu.settings">
+      <md-button aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings();$event.stopPropagation();" ng-if="menu.settings">
         <md-tooltip md-direction="top">{{l('Settings')}}</md-tooltip>
         <md-icon>settings</md-icon>
       </md-button>
