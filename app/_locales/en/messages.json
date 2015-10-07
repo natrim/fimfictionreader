@@ -24,6 +24,12 @@
   "MenuPositionSetting": {
     "message": "Show menu at"
   },
+  "SettingsSaved": {
+    "message": "Settings Saved!"
+  },
+  "SettingsSaveFailed": {
+    "message": "Settings save failed!"
+  },
 
 
   "ResetData": {

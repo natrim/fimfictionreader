@@ -102,6 +102,51 @@ angular.module('fictionReader.controllers', [])
     }
   });
 
+  var loadDone = false;
+  $window.chrome.storage.local.get('settings', function (items) {
+    var error = $window.chrome.runtime.lastError;
+
+    if (error) {
+      console.log('load settings failed: ' + error.message);
+    } else if (items.settings) {
+      console.log('load settings');
+      var keys = Object.keys(items.settings);
+      for (var i in keys) {
+        var key = keys[i];
+        $scope.settings[key] = items.settings[key];
+      }
+      $scope.$apply();
+    }
+    loadDone = true;
+  });
+
+  var reverting = false;
+  $scope.$watch('settings', function (newValue, oldValue) {
+    if (loadDone && !reverting) {
+      $window.chrome.storage.local.set({
+        'settings': $scope.settings
+      }, function () {
+        var error = $window.chrome.runtime.lastError;
+        if (error) {
+          $mdToast.show($mdToast.simple().hideDelay(8000).content($scope.l('SettingsSaveFailed')).action($scope.l('Close')));
+          console.log('save settings failed: ' + error.message);
+          reverting = true;
+          var keys = Object.keys(oldValue);
+          for (var i in keys) {
+            var key = keys[i];
+            $scope.settings[key] = oldValue[key];
+          }
+          $timeout(function () {
+            reverting = false;
+          });
+        } else {
+          $mdToast.show($mdToast.simple().content($scope.l('SettingsSaved')).action($scope.l('Close')));
+          console.log('save settings');
+        }
+      });
+    }
+  }, true);
+
   $scope.menu = {
     open: false,
     settings: true,
