@@ -44,8 +44,8 @@ angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.
     url: '/app',
     abstract: true,
     views: {
-      'nav': {
-        templateUrl: 'templates/nav.html',
+      'main': {
+        templateUrl: 'templates/main.html',
         controller: 'AppCtrl'
       },
     }
@@ -54,7 +54,7 @@ angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.
   /*.state('app.stories', {
     url: '/stories',
     views: {
-      'main': {
+      'content': {
         templateUrl: 'templates/stories.html',
         controller: 'StoriesCtrl'
       }
@@ -64,7 +64,7 @@ angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.
   .state('app.story', {
     url: '/stories/:storyId',
     views: {
-      'main': {
+      'content': {
         templateUrl: 'templates/story.html',
         controller: 'StoryCtrl'
       }
@@ -75,7 +75,7 @@ angular.module('fictionReader', ['fictionReader.controllers' /*, 'fictionReader.
   .state('app.online', {
     url: '/online',
     views: {
-      'main': {
+      'content': {
         templateUrl: 'templates/online.html',
         controller: 'OnlineCtrl'
       }

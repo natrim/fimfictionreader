@@ -1,5 +1,9 @@
 'use strict';
 
+var homeUrl = 'https://www.fimfiction.net/';
+var webviewFirstLoading = true;
+var webviewLoaded = false;
+
 angular.module('fictionReader.controllers', [])
 
 .controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', '$mdMedia', function ($scope, $window, $mdToast, $timeout, $mdMedia) {
@@ -191,39 +195,15 @@ angular.module('fictionReader.controllers', [])
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
 }])
 
-.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
+.controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function ($scope, $window, $mdDialog, $mdSidenav) {
   var webview = $window.document.getElementById('fimfiction');
-  var indicator = $window.document.querySelector('.loading-indicator');
-  var loading = document.querySelector('#loading');
 
-  var homeUrl = 'https://www.fimfiction.net/';
-
-  //TODO: load last url from storage
-  //for now go home
-  webview.src = homeUrl;
-
-  var firstLoading = true;
-  var webviewLoaded = false;
-  webview.addEventListener('loadstart', function () {
-    webviewLoaded = false;
-    indicator.style.display = 'block';
-    if (firstLoading) {
-      loading.style.display = 'block';
-    }
-    $scope.$apply();
-  });
-  webview.addEventListener('loadstop', function () {
-    webviewLoaded = true;
-    indicator.style.display = 'none';
-    if (firstLoading) {
-      loading.style.display = 'none';
-      firstLoading = false;
-    }
-    $scope.$apply();
-  });
+  $scope.openSettings = function () {
+    $mdSidenav('settings').toggle();
+  };
 
   $scope.canBack = function () {
-    return !firstLoading && webview.canGoBack();
+    return !webviewFirstLoading && webview.canGoBack();
   };
 
   $scope.back = function () {
@@ -233,7 +213,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canForward = function () {
-    return !firstLoading && webview.canGoForward();
+    return !webviewFirstLoading && webview.canGoForward();
   };
 
   $scope.forward = function () {
@@ -251,7 +231,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canHome = function () {
-    return !firstLoading && webview.src !== homeUrl;
+    return !webviewFirstLoading && webview.src !== homeUrl;
   };
 
   $scope.home = function () {
@@ -322,7 +302,36 @@ angular.module('fictionReader.controllers', [])
       code: 'var script=document.createElement(\'script\');script.textContent="' + source + '";(document.head||document.documentElement).appendChild(script);script.parentNode.removeChild(script);'
     });
   };
+}])
 
+.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
+  var webview = $window.document.getElementById('fimfiction');
+  var indicator = $window.document.querySelector('.loading-indicator');
+  var loading = document.querySelector('#loading');
+
+  //TODO: load last url from storage
+  //for now go home
+  webview.src = homeUrl;
+
+  webview.addEventListener('loadstart', function () {
+    webviewLoaded = false;
+    indicator.style.display = 'block';
+    if (webviewFirstLoading) {
+      loading.style.display = 'block';
+    }
+    $scope.$apply();
+  });
+  webview.addEventListener('loadstop', function () {
+    webviewLoaded = true;
+    indicator.style.display = 'none';
+    if (webviewFirstLoading) {
+      loading.style.display = 'none';
+      webviewFirstLoading = false;
+    }
+    $scope.$apply();
+  });
+
+  //show browser controls
   $scope.menu.browser = true;
 
   // fimfiction does not use new windows (only ads), so no handling

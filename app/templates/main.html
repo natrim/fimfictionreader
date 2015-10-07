@@ -60,7 +60,7 @@
     </div>
     <md-progress-linear class="md-hue-1 loading-indicator" md-mode="indeterminate" style="display:none;"></md-progress-linear>
   </md-toolbar>
-  <md-content class="trim full" flex id="content" layout="column" ui-view="main"></md-content>
+  <md-content class="trim full" flex id="content" layout="column" ui-view="content"></md-content>
   <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="settings">
     <md-toolbar class="md-theme-light">
       <h2 class="md-toolbar-tools">{{l('Settings')}}</h2>
@@ -73,6 +73,6 @@
         <md-icon>menu</md-icon>
       </md-button>
     </md-fab-trigger>
-    <md-fab-actions ng-include="'templates/menu.html'" ng-show="menu.open"></md-fab-actions>
+    <md-fab-actions ng-include="'templates/menu.html'" ng-controller="MenuCtrl" ng-show="menu.open"></md-fab-actions>
   </md-fab-speed-dial>
 </div>
