@@ -73,6 +73,9 @@
   position: absolute;
   z-index: 9999;
 }
+md-fab-speed-dial {
+  z-index: 10;
+}
 md-fab-actions {
   opacity: 1;
 }
