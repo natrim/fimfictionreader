@@ -241,26 +241,34 @@ angular.module('fictionReader.controllers', [])
 
   // capture and handle confirm and alert dialogs
   webview.addEventListener('dialog', function (e) {
-    if (e.messageType === 'prompt') {
-      console.error('prompt dialog not handled!');
-      return;
-    }
     e.preventDefault();
 
     var returnDialog = e.dialog;
     var dialog;
     if (e.messageType === 'confirm') {
       dialog = $mdDialog.confirm({
-        title: 'Confirm',
+        title: $scope.l('Confirm'),
         content: e.messageText,
-        ok: 'Ok',
-        cancel: 'Cancel'
+        ok: $scope.l('Ok'),
+        cancel: $scope.l('Cancel')
+      });
+    } else if (e.messageType === 'prompt') {
+      /*dialog = $mdDialog.prompt({
+        title: $scope.l('Prompt'),
+        content: e.messageText,
+        ok: $scope.l('Ok'),
+        cancel: $scope.l('Cancel')
+      });*/
+      dialog = $mdDialog.alert({
+        title: $scope.l('Alert'),
+        content: 'Prompt dialog not handled, yet!',
+        ok: $scope.l('Close')
       });
     } else {
       dialog = $mdDialog.alert({
-        title: 'Alert',
+        title: $scope.l('Alert'),
         content: e.messageText,
-        ok: 'Close'
+        ok: $scope.l('Close')
       });
     }
     $mdDialog

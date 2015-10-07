@@ -18,6 +18,27 @@
     "message": "Restart"
   },
 
+  "Alert": {
+    "message": "Alert"
+  },
+  "Confirm": {
+    "message": "Confirm"
+  },
+  "Prompt": {
+    "message": "Prompt"
+  },
+
+  "Ok": {
+    "message": "ok"
+  },
+  "Cancel": {
+    "message": "Cancel"
+  },
+
+  "clear_data": {
+    "message": "All cookies and cached pages removed!"
+  },
+
   "Minimize": {
     "message": "Minimize"
   },
