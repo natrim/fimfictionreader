@@ -11,8 +11,7 @@ NOTE: i write this app for me to read pony on chromebook, so some things may loo
 ##### TODO'S:
 - offline mode (saving the stories and reading them without internet)
 - remember page and scroll (inject code to page to send messages back to app (+ change scrolltop code to it))
-- allow changing position of menu and toolbar (settings page)
+- allow changing position of toolbar (really?)
 - maybe completely remove and put the window controls to menu?
-- remember login cross platform (maybe not doable)
-- keyboard shortcuts (boss mode, ... ?)
+- keyboard shortcuts (boss mode, browser controls, ... ?)
 - fullscreen? does somepony use this?

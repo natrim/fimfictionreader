@@ -30,6 +30,9 @@
   "SettingsSaveFailed": {
     "message": "Settings save failed!"
   },
+  "LocalSettings": {
+    "message": "Settings are stored on this computer only."
+  },
 
 
   "ResetData": {
