@@ -2,12 +2,47 @@
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', '$window', function ($scope, $window) {
+.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', function ($scope, $window, $mdToast, $timeout) {
   $scope.os = 'linux';
   $window.chrome.runtime.getPlatformInfo(function (info) {
     $scope.os = info.os;
     $scope.$apply();
   });
+
+  // translations
+  $scope.l = function (key) {
+    return $window.chrome.i18n.getMessage(key);
+  };
+
+  // update box
+  $window.chrome.runtime.onUpdateAvailable.addListener(function (details) {
+    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + details.version)).then(function (val) {
+      if (val === 'ok') {
+        $window.chrome.runtime.reload();
+      }
+    });
+  });
+
+  var updateTime = 60000 * 60 * 2; //every two hours
+  var checkUpdate = function () {
+    $window.chrome.runtime.requestUpdateCheck(function (status) {
+      if (status === 'update_available') {
+        console.log('update pending...');
+        //stop checking we just need to wait for user to close the app
+        //$timeout(checkUpdate, updateTime);
+      } else if (status === 'no_update') {
+        console.log('no update found');
+        $timeout(checkUpdate, updateTime);
+      } else if (status === 'throttled') {
+        console.log('wait more time for update...');
+        updateTime += (60000 * 5); //add five minutes to check
+        $timeout(checkUpdate, updateTime);
+      }
+    });
+  };
+
+  //check update right now (almost)
+  $timeout(checkUpdate, 5000);
 
   // Make sure we read the initial state as well, since the app might startup as maximized.
   $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
@@ -43,11 +78,6 @@ angular.module('fictionReader.controllers', [])
 
   $scope.close = function () {
     $window.chrome.app.window.current().close();
-  };
-
-  //translations
-  $scope.l = function (key) {
-    return $window.chrome.i18n.getMessage(key);
   };
 
   $scope.menu = {

@@ -82,3 +82,6 @@ md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
 md-fab-actions.ng-hide {
   opacity: 0;
 }
+md-toast {
+  opacity: 0.9;
+}

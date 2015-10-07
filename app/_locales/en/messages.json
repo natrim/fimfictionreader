@@ -11,6 +11,13 @@
     "description": "The description of the application"
   },
 
+  "newVersionAvailable": {
+    "message": "New version available: "
+  },
+  "Restart": {
+    "message": "Restart"
+  },
+
   "Minimize": {
     "message": "Minimize"
   },
