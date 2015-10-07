@@ -161,7 +161,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   $scope.canReload = function () {
-    return !firstLoading;
+    return true; //reload anytime
   };
 
   $scope.reload = function () {
