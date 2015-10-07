@@ -88,6 +88,16 @@ md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
 md-fab-actions.ng-hide {
   opacity: 0;
 }
+.md-button[disabled] {
+  color: rgb(0, 0, 0)!important;
+  color: rgba(0, 0, 0, 0.8)!important;
+  background-color: rgb(200, 200, 200)!important;
+  background-color: rgba(200, 200, 200, 0.8)!important;
+}
+.md-button[disabled] md-icon {
+  color: rgb(0, 0, 0)!important;
+  color: rgba(0, 0, 0, 0.8)!important;
+}
 md-toast {
   opacity: 0.9;
 }
