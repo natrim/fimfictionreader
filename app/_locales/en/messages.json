@@ -36,10 +36,10 @@
 
 
   "ResetData": {
-    "message": "Reset application Data"
+    "message": "Clear browser data"
   },
   "ConfirmResetData": {
-    "message": "Do you really want to reset app data?<br> This will remove cookies and cached pages."
+    "message": "Do you really want to clear browser data?<br>This will remove cookies and cached pages, meaning you will be logged out."
   },
   "Reset": {
     "message": "Reset"
