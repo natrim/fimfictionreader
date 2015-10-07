@@ -13,21 +13,21 @@ angular.module('fictionReader.controllers', [])
   $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
   $scope.isFocused = $window.document.hasFocus();
 
-  $scope.handleWindowEvents = function () {
-    // Happens when user uses the window bar or shortcuts to maximize.
+  var maximize = function () {
     $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
-    $scope.isFocused = $window.document.hasFocus();
-
-    // This happens from an event and therefore we need to run $apply to make the UI update.
     $scope.$apply();
   };
 
-  $window.chrome.app.window.current().onMaximized.addListener($scope.handleWindowEvents);
-  $window.chrome.app.window.current().onMinimized.addListener($scope.handleWindowEvents);
-  $window.chrome.app.window.current().onRestored.addListener($scope.handleWindowEvents);
+  $window.chrome.app.window.current().onMaximized.addListener(maximize);
+  $window.chrome.app.window.current().onMinimized.addListener(maximize);
+  $window.chrome.app.window.current().onRestored.addListener(maximize);
 
-  $window.addEventListener('focus', $scope.handleWindowEvents);
-  $window.addEventListener('blur', $scope.handleWindowEvents);
+  var focus = function (focus) {
+    $scope.isFocused = typeof focus === 'boolean' ? focus : $window.document.hasFocus();
+    $scope.$apply();
+  };
+  $window.addEventListener('focus', focus.bind(null, true));
+  $window.addEventListener('blur', focus.bind(null, false));
 
   $scope.minimize = function () {
     $window.chrome.app.window.current().minimize();
