@@ -1,5 +1,5 @@
 <div class="trim full" layout="column">
-  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !isFocused, 'md-max': isMaximized}">
+  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}">
     <div class="md-toolbar-tools" ng-if="os === 'mac'">
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
@@ -11,12 +11,12 @@
         <md-icon>keyboard_arrow_down</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="isMaximized">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="window.isMaximized">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
         <md-icon>zoom_in</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="isMaximized">
+      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="window.isMaximized">
         <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
         <md-icon>zoom_out</md-icon>
       </md-button>
@@ -43,12 +43,12 @@
         <md-icon>keyboard_arrow_down</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="isMaximized">
+      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="window.isMaximized">
         <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
         <md-icon>zoom_out</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="isMaximized">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="window.isMaximized">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
         <md-icon>zoom_in</md-icon>
       </md-button>
@@ -73,6 +73,6 @@
         <md-icon>menu</md-icon>
       </md-button>
     </md-fab-trigger>
-    <md-fab-actions ng-show="menu.open" ng-include="'templates/menu.html'"></md-fab-actions>
+    <md-fab-actions ng-include="'templates/menu.html'" ng-show="menu.open"></md-fab-actions>
   </md-fab-speed-dial>
 </div>

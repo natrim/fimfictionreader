@@ -45,11 +45,13 @@ angular.module('fictionReader.controllers', [])
   $timeout(checkUpdate, 5000);
 
   // Make sure we read the initial state as well, since the app might startup as maximized.
-  $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
-  $scope.isFocused = $window.document.hasFocus();
+  $scope.window = {
+    isMaximized: $window.chrome.app.window.current().isMaximized(),
+    isFocused: $window.document.hasFocus()
+  };
 
   var maximize = function () {
-    $scope.isMaximized = $window.chrome.app.window.current().isMaximized();
+    $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
     $scope.$apply();
   };
 
@@ -58,12 +60,11 @@ angular.module('fictionReader.controllers', [])
   $window.chrome.app.window.current().onRestored.addListener(maximize);
 
   var onfocus = function (focus) {
-    $scope.isFocused = typeof focus === 'boolean' ? focus : $window.document.hasFocus();
+    $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
     $scope.$apply();
   };
   $window.addEventListener('focus', onfocus.bind(null, true));
   $window.addEventListener('blur', onfocus.bind(null, false));
-  $window.chrome.app.window.current().onRestored.addListener(onfocus.bind(null, true));
 
   $scope.minimize = function () {
     $window.chrome.app.window.current().minimize();
