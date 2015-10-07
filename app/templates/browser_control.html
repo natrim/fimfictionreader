@@ -1,3 +1,7 @@
+<md-button aria-label="{l('ResetData')}}" class="md-fab" ng-click="resetWebData();$event.stopPropagation();">
+  <md-tooltip md-direction="top">{{l('ResetData')}}</md-tooltip>
+  <md-icon>layers_clear</md-icon>
+</md-button>
 <md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!canHome()" ng-click="home();$event.stopPropagation();">
   <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
   <md-icon>home</md-icon>

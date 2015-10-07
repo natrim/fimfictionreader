@@ -176,6 +176,27 @@ angular.module('fictionReader.controllers', [])
     webview.src = homeUrl;
   };
 
+  $scope.resetWebData = function () {
+    $mdDialog.show($mdDialog.confirm({
+      title: $scope.l('Confirm'),
+      content: $scope.l('ConfirmResetData'),
+      ok: $scope.l('Reset'),
+      cancel: $scope.l('Cancel')
+    })).then(function() {
+      webview.clearData({}, {
+        'appcache': true,
+        'cookies': true
+      }, function () {
+        $mdDialog.show($mdDialog.alert({
+          title: $scope.l('Alert'),
+          content: $scope.l('clear_data'),
+          ok: $scope.l('Ok')
+        }));
+        $scope.home();
+      });
+    });
+  };
+
   var scrollTop = {
     can: false,
     query: false

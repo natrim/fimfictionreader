@@ -18,6 +18,17 @@
     "message": "Restart"
   },
 
+  "ResetData": {
+    "message": "Reset application Data"
+  },
+  "ConfirmResetData": {
+    "message": "Do you really want to reset app data?<br> This will remove cookies and cached pages."
+  },
+
+  "Reset": {
+    "message": "Reset"
+  },
+
   "Alert": {
     "message": "Alert"
   },
