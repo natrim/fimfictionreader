@@ -57,12 +57,13 @@ angular.module('fictionReader.controllers', [])
   $window.chrome.app.window.current().onMinimized.addListener(maximize);
   $window.chrome.app.window.current().onRestored.addListener(maximize);
 
-  var focus = function (focus) {
+  var onfocus = function (focus) {
     $scope.isFocused = typeof focus === 'boolean' ? focus : $window.document.hasFocus();
     $scope.$apply();
   };
-  $window.addEventListener('focus', focus.bind(null, true));
-  $window.addEventListener('blur', focus.bind(null, false));
+  $window.addEventListener('focus', onfocus.bind(null, true));
+  $window.addEventListener('blur', onfocus.bind(null, false));
+  $window.chrome.app.window.current().onRestored.addListener(onfocus.bind(null, true));
 
   $scope.minimize = function () {
     $window.chrome.app.window.current().minimize();
