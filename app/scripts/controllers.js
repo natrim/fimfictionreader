@@ -2,7 +2,7 @@
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', function ($scope, $window, $mdToast, $timeout) {
+.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', '$mdMedia', function ($scope, $window, $mdToast, $timeout, $mdMedia) {
   $scope.os = 'linux';
   $window.chrome.runtime.getPlatformInfo(function (info) {
     $scope.os = info.os;
@@ -16,7 +16,7 @@ angular.module('fictionReader.controllers', [])
 
   // update box
   $window.chrome.runtime.onUpdateAvailable.addListener(function (details) {
-    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + details.version)).then(function (val) {
+    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function (val) {
       if (val === 'ok') {
         $window.chrome.runtime.reload();
       }
@@ -80,14 +80,37 @@ angular.module('fictionReader.controllers', [])
     $window.chrome.app.window.current().close();
   };
 
+  $scope.settings = {};
+  $scope.settings.menuPosition = 'bottom-right';
+  $scope.settings.menuOpenDirection = 'left';
+  $scope.settings.menuOpenOnHover = false;
+  $scope.$watch('settings.menuPosition', function (newValue) {
+    if ($mdMedia('sm')) {
+      $scope.settings.menuOpenDirection = newValue.split('-').shift() === 'top' ? 'down' : 'up';
+    } else {
+      $scope.settings.menuOpenDirection = newValue.split('-').pop() === 'left' ? 'right' : 'left';
+    }
+  });
+  $scope.$watch(function () {
+    return $mdMedia('sm');
+  }, function (small) {
+    if (small) {
+      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
+    } else {
+      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
+    }
+  });
+
   $scope.menu = {
     open: false,
-    settings: false,
+    settings: true,
     browser: false
   };
 
-  $scope.openSettings = function () {
-
+  $scope.toggleHoverMenu = function (open) {
+    if ($scope.settings.menuOpenOnHover) {
+      $scope.menu.open = open;
+    }
   };
 
   //TODO: online / offline auto mode switch, with confirm?
@@ -108,6 +131,18 @@ angular.module('fictionReader.controllers', [])
   });
 }])
 */
+
+.controller('SettingsCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+  $scope.open = function () {
+    $mdSidenav('settings').toggle();
+  };
+
+  $scope.close = function () {
+    $mdSidenav('settings').close();
+  };
+
+  $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
+}])
 
 .controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
   var webview = $window.document.getElementById('fimfiction');
@@ -182,7 +217,7 @@ angular.module('fictionReader.controllers', [])
       content: $scope.l('ConfirmResetData'),
       ok: $scope.l('Reset'),
       cancel: $scope.l('Cancel')
-    })).then(function() {
+    })).then(function () {
       webview.clearData({}, {
         'appcache': true,
         'cookies': true

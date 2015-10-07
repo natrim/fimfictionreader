@@ -12,11 +12,19 @@
   },
 
   "newVersionAvailable": {
-    "message": "New version available: "
+    "message": "New version available"
   },
   "Restart": {
     "message": "Restart"
   },
+
+  "OpenMenuOnHoverSetting": {
+    "message": "Open menu on hover?"
+  },
+  "MenuPositionSetting": {
+    "message": "Show menu at"
+  },
+
 
   "ResetData": {
     "message": "Reset application Data"
@@ -24,7 +32,6 @@
   "ConfirmResetData": {
     "message": "Do you really want to reset app data?<br> This will remove cookies and cached pages."
   },
-
   "Reset": {
     "message": "Reset"
   },

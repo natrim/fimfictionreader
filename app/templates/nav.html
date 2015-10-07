@@ -61,18 +61,18 @@
     <md-progress-linear class="md-hue-1 loading-indicator" md-mode="indeterminate" style="display:none;"></md-progress-linear>
   </md-toolbar>
   <md-content class="trim full" flex id="content" layout="column" ui-view="main"></md-content>
-  <md-fab-speed-dial class="md-fab-bottom-right" md-direction="left" md-open="menu.open" ng-mouseenter="menu.open=true" ng-mouseleave="menu.open=false">
+  <md-sidenav class="md-sidenav-right md-whiteframe-z2" md-component-id="settings">
+    <md-toolbar class="md-theme-light">
+      <h2 class="md-toolbar-tools">{{l('Settings')}}</h2>
+    </md-toolbar>
+    <md-content layout-padding ng-controller="SettingsCtrl" ng-include="'templates/settings.html'"></md-content>
+  </md-sidenav>
+  <md-fab-speed-dial class="md-fab-{{settings.menuPosition}}" md-direction="{{settings.menuOpenDirection}}" md-open="menu.open" ng-mouseenter="toggleHoverMenu(true)" ng-mouseleave="toggleHoverMenu(false)">
     <md-fab-trigger>
       <md-button aria-label="{l('Menu')}}" class="md-fab">
         <md-icon>menu</md-icon>
       </md-button>
     </md-fab-trigger>
-    <md-fab-actions ng-show="menu.open">
-      <div ui-view="menu_more1"></div>
-      <md-button aria-label="{l('Settings')}}" class="md-fab" ng-click="openSettings();$event.stopPropagation();" ng-if="menu.settings">
-        <md-tooltip md-direction="top">{{l('Settings')}}</md-tooltip>
-        <md-icon>settings</md-icon>
-      </md-button>
-    </md-fab-actions>
+    <md-fab-actions ng-show="menu.open" ng-include="'templates/menu.html'"></md-fab-actions>
   </md-fab-speed-dial>
 </div>

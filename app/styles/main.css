@@ -76,6 +76,9 @@
 md-fab-speed-dial {
   z-index: 10;
 }
+md-fab-speed-dial.md-fab-top-left, md-fab-speed-dial.md-fab-top-right {
+  top: 36px;
+}
 md-fab-actions {
   opacity: 1;
 }

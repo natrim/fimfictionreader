@@ -5,7 +5,8 @@ Opens fimfiction.net as app window and allows saving and offline stories browsin
 NOTE: i write this app for me to read pony on chromebook, so some things may look weird, but you just have to deal with it
 
 ##### KNOWN BUG'Z:
-- fimfiction settings working weird (chromebook)
+- fimfiction settings sometimes working weird (some weirdness with reading from localStorage)
+- notifications are working only sometimes (localStorage again?)
 
 ##### TODO'S:
 - offline mode (saving the stories and reading them without internet)
@@ -15,6 +16,3 @@ NOTE: i write this app for me to read pony on chromebook, so some things may loo
 - remember login cross platform (maybe not doable)
 - keyboard shortcuts (boss mode, ... ?)
 - fullscreen? does somepony use this?
-
-##### NOT WORKING:
-- notifications (sometimes it works if you open fimfiction in normal chrome and allow it there, then restart app)

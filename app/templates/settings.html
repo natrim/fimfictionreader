@@ -1,0 +1,14 @@
+<form>
+  <md-checkbox ng-model="settings.menuOpenOnHover" aria-label="{{l('OpenMenuOnHoverSetting')}}">
+    {{l('OpenMenuOnHoverSetting')}}
+  </md-checkbox>
+  <md-radio-group ng-model="settings.menuPosition">
+    <label>{{l('MenuPositionSetting')}}:</label>
+    <md-radio-button aria-label="{{d}}" ng-repeat="d in menuPositionPositions" ng-value="d">
+      {{d}}
+    </md-radio-button>
+  </md-radio-group>
+</form>
+<md-button class="md-accent md-raised" ng-click="close()">
+  {{l('Close')}}
+</md-button>
