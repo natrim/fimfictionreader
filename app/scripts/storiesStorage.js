@@ -33,15 +33,15 @@
   };
 
   Stories.prototype.insert = function (story) {
-    return this._db.openStore('stories', (function (db) {
+    return this._db.openStore('stories', function (db) {
       return db.insert(story).then(this._saveIndex.bind(this));
-    }).bind(this));
+    }.bind(this));
   };
 
   Stories.prototype.upsert = function (story) {
-    return this._db.openStore('stories', (function (db) {
+    return this._db.openStore('stories', function (db) {
       return db.upsert(story).then(this._saveIndex.bind(this));
-    }).bind(this));
+    }.bind(this));
   };
 
   Stories.prototype.set = Stories.prototype.save = Stories.prototype.upsert;
@@ -67,7 +67,7 @@
       this._saver = null;
     }
 
-    this._saver = this._timeout((function () {
+    this._saver = this._timeout(function () {
       this._saver = null;
       this._db.getAllKeys().then(function (result) {
         if (typeof this._storage.set === 'function') {
@@ -79,7 +79,7 @@
           defer.resolve(result.length);
         }
       });
-    }).bind(this), 1000);
+    }.bind(this), 1000);
 
     return defer.promise;
   };
@@ -87,10 +87,10 @@
   Stories.prototype._loadIndex = function () {
     var defer = this._q.defer();
     if (typeof this._storage.get === 'function') {
-      this._storage.get('stories', (function (items) {
+      this._storage.get('stories', function (items) {
         var data = items.stories || [];
         defer.resolve(data);
-      }).bind(this));
+      }.bind(this));
     } else {
       var data = JSON.parse(this._storage.getItem('stories') || '[]');
       defer.resolve(data);
@@ -120,7 +120,7 @@
         //push test data if storage empty
         if (count <= 0) {
           stories._loadIndex().then(function (data) {
-            //$fimfictionLoader.load(stories, data);
+            $fimfictionLoader.load(stories, data);
 
             defer.resolve(stories);
           });
