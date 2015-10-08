@@ -1,5 +1,5 @@
 <div class="trim full" layout="column">
-  <md-toolbar ng-controller="ToolbarCtrl" class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}">
+  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}" ng-controller="ToolbarCtrl" ng-hide="window.isFullscreen">
     <div class="md-toolbar-tools" ng-if="os === 'mac'">
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
@@ -8,7 +8,8 @@
 
       <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
-        <md-icon>remove_circle</md-icon>
+        <md-icon ng-hide="window.isMinimized">remove_circle</md-icon>
+        <md-icon ng-show="window.isMinimized">remove_circle_outline</md-icon>
       </md-button>
 
       <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
@@ -64,6 +65,6 @@
         <md-icon>menu</md-icon>
       </md-button>
     </md-fab-trigger>
-    <md-fab-actions ng-include="'templates/menu.html'" ng-controller="MenuCtrl" ng-show="menu.open"></md-fab-actions>
+    <md-fab-actions ng-controller="MenuCtrl" ng-include="'templates/menu.html'" ng-show="menu.open"></md-fab-actions>
   </md-fab-speed-dial>
 </div>

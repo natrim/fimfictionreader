@@ -136,19 +136,25 @@ angular.module('fictionReader.controllers', [])
 
   // Make sure we read the initial state as well, since the app might startup as maximized.
   $scope.window = {
+    isMinimized: $window.chrome.app.window.current().isMinimized(),
     isMaximized: $window.chrome.app.window.current().isMaximized(),
+    isFullscreen: $window.chrome.app.window.current().isFullscreen(),
     isFocused: $window.document.hasFocus()
   };
 
   var changeWindow = function (focus) {
+    $scope.window.isMinimized = $window.chrome.app.window.current().isMinimized();
     $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
     $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
+    $scope.window.isFullscreen = $window.chrome.app.window.current().isFullscreen();
     $scope.$apply();
   };
 
   $window.chrome.app.window.current().onMaximized.addListener(changeWindow);
   $window.chrome.app.window.current().onMinimized.addListener(changeWindow);
   $window.chrome.app.window.current().onRestored.addListener(changeWindow);
+  $window.chrome.app.window.current().onFullscreened.addListener(changeWindow);
+
   $window.addEventListener('focus', changeWindow.bind(this, true));
   $window.addEventListener('blur', changeWindow.bind(this, false));
 
