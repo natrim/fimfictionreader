@@ -259,48 +259,29 @@ angular.module('fictionReader.controllers', [])
     });
   };
 
-  var scrollTop = {
-    can: false,
-    query: false
-  };
-  $scope.canTop = function () {
-    if (!webviewLoaded || scrollTop.query) {
-      return webviewLoaded && scrollTop.can;
+  var scrollTopCan = false;
+  $window.addEventListener('message', function () {
+    if (event && event.data && event.data.command && event.data.command === 'scroll') {
+      //console.log('received scroll: ' + event.data.value);
+      if (event.data.value > 100) {
+        scrollTopCan = true;
+      } else {
+        scrollTopCan = false;
+      }
+      $scope.$apply();
     }
-
-    scrollTop.query = true;
-    webview.executeScript({
-      code: 'window.scrollY'
-    }, function (result) {
-      if (chrome.runtime.lastError) {
-        scrollTop.query = false;
-        return;
-      }
-      if (result && result[0]) {
-        if (result[0] > 100) {
-          scrollTop.can = true;
-          $scope.$apply(); //apply here to prevent loop
-          scrollTop.query = false;
-          return;
-        }
-      }
-
-      scrollTop.can = false;
-      $scope.$apply(); //apply here to prevent loop
-      scrollTop.query = false;
-    });
-
-    return webviewLoaded && scrollTop.can;
+  });
+  $scope.canTop = function () {
+    return webviewLoaded && scrollTopCan;
   };
 
   $scope.top = function () {
     if (!webviewLoaded) {
       return false;
     }
-    var source = 'if(typeof jQuery !== \'undefined\')jQuery(\'html, body\').animate({scrollTop : 0}, 800); else window.scrollTo(0, 0);';
-    webview.executeScript({
-      code: 'var script=document.createElement(\'script\');script.textContent="' + source + '";(document.head||document.documentElement).appendChild(script);script.parentNode.removeChild(script);'
-    });
+    webview.contentWindow.postMessage({
+      command: 'scrollTop'
+    }, '*');
   };
 }])
 
@@ -308,6 +289,15 @@ angular.module('fictionReader.controllers', [])
   var webview = $window.document.getElementById('fimfiction');
   var indicator = $window.document.querySelector('.loading-indicator');
   var loading = document.querySelector('#loading');
+
+  webview.addContentScripts([{
+    name: 'rule',
+    matches: ['http://*/*', 'https://*/*'],
+    js: {
+      files: ['scripts/webview_inject.js']
+    },
+    run_at: 'document_start'
+  }]);
 
   //TODO: load last url from storage
   //for now go home
@@ -328,6 +318,19 @@ angular.module('fictionReader.controllers', [])
       loading.style.display = 'none';
       webviewFirstLoading = false;
     }
+    //inject js
+
+    //shake hands to send this app id to web
+    var handshake = function (event) {
+      if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
+        console.log('webview handshake received');
+        $window.removeEventListener('message', handshake);
+      }
+    };
+    $window.addEventListener('message', handshake);
+    webview.contentWindow.postMessage({
+      command: 'handshake'
+    }, '*');
     $scope.$apply();
   });
 
