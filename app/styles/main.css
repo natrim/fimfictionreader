@@ -96,7 +96,7 @@ md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
 md-fab-actions.ng-hide {
   opacity: 0;
 }
-.md-button:not([disabled]).md-focused {
+.md-toolbar-tools .md-button:not([disabled]).md-focused {
   background-color: rgb(158,158,158)!important;
   background-color: rgba(158,158,158,0.5)!important;
 }
