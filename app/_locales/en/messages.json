@@ -70,25 +70,19 @@
     "message": "Minimize"
   },
   "MinimizeMore": {
-    "message": "Minimize to toolbar"
+    "message": "Minimize window"
   },
   "Maximize": {
     "message": "Maximize"
   },
   "MaximizeMore": {
-    "message": "Maximize to view"
-  },
-  "Restore": {
-    "message": "Restore size"
-  },
-  "RestoreMore": {
-    "message": "Restore to previous size"
+    "message": "Maximize window"
   },
   "Close": {
     "message": "Close"
   },
   "CloseMore": {
-    "message": "Close"
+    "message": "Close app"
   },
 
 

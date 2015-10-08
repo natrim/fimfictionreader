@@ -1,24 +1,20 @@
 <div class="trim full" layout="column">
-  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}">
+  <md-toolbar ng-controller="ToolbarCtrl" class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}">
     <div class="md-toolbar-tools" ng-if="os === 'mac'">
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
-        <md-icon>close</md-icon>
+        <md-icon>cancel</md-icon>
       </md-button>
 
       <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
-        <md-icon>keyboard_arrow_down</md-icon>
+        <md-icon>remove_circle</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="window.isMaximized">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
-        <md-icon>zoom_in</md-icon>
-      </md-button>
-
-      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="window.isMaximized">
-        <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
-        <md-icon>zoom_out</md-icon>
+        <md-icon ng-hide="window.isMaximized">add_circle</md-icon>
+        <md-icon ng-show="window.isMaximized">add_circle_outline</md-icon>
       </md-button>
 
       <span flex></span>
@@ -40,17 +36,12 @@
 
       <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
-        <md-icon>keyboard_arrow_down</md-icon>
+        <md-icon>remove</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Restore')}}" class="md-small-button" ng-click="restore()" ng-show="window.isMaximized">
-        <md-tooltip md-autohide="true">{{l('RestoreMore')}}</md-tooltip>
-        <md-icon>zoom_out</md-icon>
-      </md-button>
-
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()" ng-hide="window.isMaximized">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
-        <md-icon>zoom_in</md-icon>
+        <md-icon>check_box_outline_blank</md-icon>
       </md-button>
 
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">

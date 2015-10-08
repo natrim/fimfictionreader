@@ -7,12 +7,6 @@ var webviewLoaded = false;
 angular.module('fictionReader.controllers', [])
 
 .controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', '$mdMedia', function ($scope, $window, $mdToast, $timeout, $mdMedia) {
-  $scope.os = 'linux';
-  $window.chrome.runtime.getPlatformInfo(function (info) {
-    $scope.os = info.os;
-    $scope.$apply();
-  });
-
   // translations
   $scope.l = function (key) {
     return $window.chrome.i18n.getMessage(key);
@@ -48,43 +42,7 @@ angular.module('fictionReader.controllers', [])
   //check update right now (almost)
   $timeout(checkUpdate, 5000);
 
-  // Make sure we read the initial state as well, since the app might startup as maximized.
-  $scope.window = {
-    isMaximized: $window.chrome.app.window.current().isMaximized(),
-    isFocused: $window.document.hasFocus()
-  };
-
-  var maximize = function () {
-    $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
-    $scope.$apply();
-  };
-
-  $window.chrome.app.window.current().onMaximized.addListener(maximize);
-  $window.chrome.app.window.current().onMinimized.addListener(maximize);
-  $window.chrome.app.window.current().onRestored.addListener(maximize);
-
-  var onfocus = function (focus) {
-    $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
-    $scope.$apply();
-  };
-  $window.addEventListener('focus', onfocus.bind(null, true));
-  $window.addEventListener('blur', onfocus.bind(null, false));
-
-  $scope.minimize = function () {
-    $window.chrome.app.window.current().minimize();
-  };
-
-  $scope.maximize = function () {
-    $window.chrome.app.window.current().maximize();
-  };
-
-  $scope.restore = function () {
-    $window.chrome.app.window.current().restore();
-  };
-
-  $scope.close = function () {
-    $window.chrome.app.window.current().close();
-  };
+  //settings
 
   $scope.settings = {};
   $scope.settings.menuPosition = 'bottom-right';
@@ -169,19 +127,47 @@ angular.module('fictionReader.controllers', [])
   //$window.addEventListener('offline', updateOnlineStatus);
 }])
 
-/*
-.controller('StoriesCtrl', ['$scope', 'storiesStorage', function ($scope, storiesStorage) {
-  storiesStorage.then(function (store) {
-    $scope.stories = store.getAll();
+.controller('ToolbarCtrl', ['$scope', '$window', function ($scope, $window) {
+  $scope.os = 'linux';
+  $window.chrome.runtime.getPlatformInfo(function (info) {
+    $scope.os = info.os;
+    $scope.$apply();
   });
-}])
 
-.controller('StoryCtrl', ['$scope', '$stateParams', 'storiesStorage', function ($scope, $stateParams, storiesStorage) {
-  storiesStorage.then(function (store) {
-    $scope.story = store.get(parseInt($stateParams.storyId));
-  });
+  // Make sure we read the initial state as well, since the app might startup as maximized.
+  $scope.window = {
+    isMaximized: $window.chrome.app.window.current().isMaximized(),
+    isFocused: $window.document.hasFocus()
+  };
+
+  var changeWindow = function (focus) {
+    $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
+    $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
+    $scope.$apply();
+  };
+
+  $window.chrome.app.window.current().onMaximized.addListener(changeWindow);
+  $window.chrome.app.window.current().onMinimized.addListener(changeWindow);
+  $window.chrome.app.window.current().onRestored.addListener(changeWindow);
+  $window.addEventListener('focus', changeWindow.bind(this, true));
+  $window.addEventListener('blur', changeWindow.bind(this, false));
+
+  $scope.minimize = function () {
+    $window.chrome.app.window.current().minimize();
+  };
+
+  $scope.maximize = function () {
+    if ($window.chrome.app.window.current().isMaximized()) {
+      $window.chrome.app.window.current().restore();
+    } else {
+      $window.chrome.app.window.current().maximize();
+    }
+  };
+
+  $scope.close = function () {
+    $window.chrome.app.window.current().close();
+  };
 }])
-*/
 
 .controller('SettingsCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
   $scope.open = function () {
@@ -296,7 +282,7 @@ angular.module('fictionReader.controllers', [])
     js: {
       files: ['scripts/webview_inject.js']
     },
-    run_at: 'document_start'
+    'run_at': 'document_start'
   }]);
 
   //TODO: load last url from storage
@@ -407,5 +393,19 @@ angular.module('fictionReader.controllers', [])
       });
   });
 }])
+
+/*
+.controller('StoriesCtrl', ['$scope', 'storiesStorage', function ($scope, storiesStorage) {
+  storiesStorage.then(function (store) {
+    $scope.stories = store.getAll();
+  });
+}])
+
+.controller('StoryCtrl', ['$scope', '$stateParams', 'storiesStorage', function ($scope, $stateParams, storiesStorage) {
+  storiesStorage.then(function (store) {
+    $scope.story = store.get(parseInt($stateParams.storyId));
+  });
+}])
+*/
 
 ;

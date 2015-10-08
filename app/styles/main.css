@@ -39,9 +39,9 @@
   max-height: 24px;
 }
 .md-small md-icon {
-  width: 24px;
-  height: 24px;
-  font-size: 24px;
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
 }
 .md-small-button {
   margin: 0 6px;
@@ -87,6 +87,10 @@ md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
 }
 md-fab-actions.ng-hide {
   opacity: 0;
+}
+.md-button:not([disabled]).md-focused {
+  background-color: rgb(158,158,158)!important;
+  background-color: rgba(158,158,158,0.5)!important;
 }
 .md-button[disabled] {
   color: rgb(0, 0, 0)!important;
