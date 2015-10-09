@@ -6,7 +6,7 @@ var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', '$mdMedia', function ($scope, $window, $mdToast, $timeout, $mdMedia) {
+.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', function ($scope, settings, $window, $mdToast, $timeout) {
   // translations
   $scope.l = function (key) {
     return $window.chrome.i18n.getMessage(key);
@@ -43,72 +43,31 @@ angular.module('fictionReader.controllers', [])
   $timeout(checkUpdate, 5000);
 
   //settings
+  settings.load();
+  $scope.settings = settings;
 
-  $scope.settings = {};
-  $scope.settings.menuPosition = 'bottom-right';
-  $scope.settings.menuOpenDirection = 'left';
-  $scope.settings.menuOpenOnHover = false;
-  $scope.$watch('settings.menuPosition', function (newValue) {
-    if ($mdMedia('sm')) {
-      $scope.settings.menuOpenDirection = newValue.split('-').shift() === 'top' ? 'down' : 'up';
-    } else {
-      $scope.settings.menuOpenDirection = newValue.split('-').pop() === 'left' ? 'right' : 'left';
+  //change menu open direction on small display
+  var resizeTimer = null;
+  $window.addEventListener('resize', function () {
+    if (resizeTimer) {
+      $timeout.cancel(resizeTimer);
+      resizeTimer = null;
     }
-  });
-  $scope.$watch(function () {
-    return $mdMedia('sm');
-  }, function (small) {
-    if (small) {
-      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
-    } else {
-      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
-    }
-  });
-
-  var loadDone = false;
-  $window.chrome.storage.local.get('settings', function (items) {
-    var error = $window.chrome.runtime.lastError;
-
-    if (error) {
-      console.log('load settings failed: ' + error.message);
-    } else if (items.settings) {
-      console.log('load settings');
-      var keys = Object.keys(items.settings);
-      for (var i in keys) {
-        var key = keys[i];
-        $scope.settings[key] = items.settings[key];
+    resizeTimer = $timeout(function () {
+      resizeTimer = null;
+      var direction;
+      if ($window.innerWidth <= 600) {
+        direction = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
+      } else {
+        direction = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
       }
-      $scope.$apply();
-    }
-    loadDone = true;
-  });
 
-  var reverting = false;
-  $scope.$watch('settings', function (newValue, oldValue) {
-    if (loadDone && !reverting) {
-      $window.chrome.storage.local.set({
-        'settings': $scope.settings
-      }, function () {
-        var error = $window.chrome.runtime.lastError;
-        if (error) {
-          $mdToast.show($mdToast.simple().hideDelay(8000).content($scope.l('SettingsSaveFailed')).action($scope.l('Close')));
-          console.log('save settings failed: ' + error.message);
-          reverting = true;
-          var keys = Object.keys(oldValue);
-          for (var i in keys) {
-            var key = keys[i];
-            $scope.settings[key] = oldValue[key];
-          }
-          $timeout(function () {
-            reverting = false;
-          });
-        } else {
-          $mdToast.show($mdToast.simple().content($scope.l('SettingsSaved')).action($scope.l('Close')));
-          console.log('save settings');
-        }
-      });
-    }
-  }, true);
+      if (direction !== $scope.settings.menuOpenDirection) {
+        $scope.settings.menuOpenDirection = direction;
+        $scope.settings.save(true);
+      }
+    }, 100);
+  });
 
   $scope.menu = {
     open: false,
@@ -175,13 +134,21 @@ angular.module('fictionReader.controllers', [])
   };
 }])
 
-.controller('SettingsCtrl', ['$scope', '$mdSidenav', function ($scope, $mdSidenav) {
+.controller('SettingsCtrl', ['$scope', '$mdSidenav', '$window', function ($scope, $mdSidenav, $window) {
   $scope.open = function () {
     $mdSidenav('settings').toggle();
   };
 
   $scope.close = function () {
     $mdSidenav('settings').close();
+  };
+
+  $scope.changeMenuPosition = function () {
+    if ($window.innerWidth <= 600) {
+      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
+    } else {
+      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
+    }
   };
 
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
