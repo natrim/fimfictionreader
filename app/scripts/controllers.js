@@ -262,6 +262,9 @@ angular.module('fictionReader.controllers', [])
   //for now go home
   webview.src = homeUrl;
 
+  webview.addEventListener('close', function () {
+    webview.src = 'about:blank';
+  });
   webview.addEventListener('loadstart', function () {
     webviewLoaded = false;
     indicator.style.display = 'block';
@@ -277,8 +280,10 @@ angular.module('fictionReader.controllers', [])
       loading.style.display = 'none';
       webviewFirstLoading = false;
     }
-    //inject js
+    $scope.$apply();
+  });
 
+  webview.addEventListener('contentload', function () {
     //shake hands to send this app id to web
     var handshake = function (event) {
       if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
@@ -290,7 +295,6 @@ angular.module('fictionReader.controllers', [])
     webview.contentWindow.postMessage({
       command: 'handshake'
     }, '*');
-    $scope.$apply();
   });
 
   //show browser controls
