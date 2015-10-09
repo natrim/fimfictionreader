@@ -42,7 +42,8 @@
 
       <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
-        <md-icon>check_box_outline_blank</md-icon>
+        <md-icon ng-hide="window.isMaximized">check_box_outline_blank</md-icon>
+        <md-icon ng-show="window.isMaximized">filter_none</md-icon>
       </md-button>
 
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
