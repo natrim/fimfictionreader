@@ -1,12 +1,25 @@
 'use strict';
 
 var homeUrl = 'https://www.fimfiction.net/';
+var webviewDomainLimit = 'fimfiction.net';
+var webview;
 var webviewFirstLoading = true;
 var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
 .controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', function ($scope, settings, $window, $mdToast, $timeout) {
+  var updateContentSize = function () {
+    var content = $window.document.getElementById('main');
+    if (content) {
+      content.style.height = $window.document.documentElement.clientHeight + 'px';
+      content.style.width = $window.document.documentElement.clientWidth + 'px';
+    }
+  };
+
+  //fire now
+  updateContentSize();
+
   // translations
   $scope.l = function (key) {
     return $window.chrome.i18n.getMessage(key);
@@ -46,7 +59,6 @@ angular.module('fictionReader.controllers', [])
   settings.load();
   $scope.settings = settings;
 
-  //change menu open direction on small display
   var resizeTimer = null;
   $window.addEventListener('resize', function () {
     if (resizeTimer) {
@@ -56,17 +68,22 @@ angular.module('fictionReader.controllers', [])
     resizeTimer = $timeout(function () {
       resizeTimer = null;
       var direction;
+
       if ($window.innerWidth <= 600) {
         direction = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
       } else {
         direction = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
       }
 
+      //change menu open direction on small display
       if (direction !== $scope.settings.menuOpenDirection) {
         $scope.settings.menuOpenDirection = direction;
         $scope.settings.save(true);
       }
-    }, 100);
+
+      //update content size
+      updateContentSize();
+    }, 10);
   });
 
   $scope.menu = {
@@ -155,8 +172,6 @@ angular.module('fictionReader.controllers', [])
 }])
 
 .controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function ($scope, $window, $mdDialog, $mdSidenav) {
-  var webview = $window.document.getElementById('fimfiction');
-
   $scope.openSettings = function () {
     $mdSidenav('settings').toggle();
   };
@@ -245,7 +260,7 @@ angular.module('fictionReader.controllers', [])
 }])
 
 .controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
-  var webview = $window.document.getElementById('fimfiction');
+  webview = $window.document.getElementById('fimfiction');
   var indicator = $window.document.querySelector('.loading-indicator');
   var loading = document.querySelector('#loading');
 
@@ -265,7 +280,17 @@ angular.module('fictionReader.controllers', [])
   webview.addEventListener('close', function () {
     webview.src = 'about:blank';
   });
-  webview.addEventListener('loadstart', function () {
+  webview.addEventListener('loadstart', function (e) {
+    if (e.isTopLevel && (e.url.search(webviewDomainLimit) === -1 && e.url.search('about:blank') === -1)) {
+      webview.stop();
+      $mdDialog.show($mdDialog.alert({
+        title: $scope.l('Alert'),
+        content: $scope.l('block_url') + '<br>' + e.url,
+        ok: $scope.l('Ok')
+      }));
+      return false;
+    }
+
     webviewLoaded = false;
     indicator.style.display = 'block';
     if (webviewFirstLoading) {
@@ -301,18 +326,24 @@ angular.module('fictionReader.controllers', [])
   $scope.menu.browser = true;
 
   // fimfiction does not use new windows (only ads), so no handling
-  /*webview.addEventListener('newwindow', function (e) {
-    if (e.windowOpenDisposition === 'save_to_disk') {
+  webview.addEventListener('newwindow', function (e) {
+    /*if (e.targetUrl.search(webviewDomainLimit) !== -1) {
       e.preventDefault();
       $window.open(e.targetUrl); //open in chrome
-    } else {
+    } else*/
+    {
       e.window.discard();
+      $mdDialog.show($mdDialog.alert({
+        title: $scope.l('Alert'),
+        content: $scope.l('block_window') + '<br>' + e.targetUrl,
+        ok: $scope.l('Ok')
+      }));
     }
-  });*/
+  });
 
   //TODO: catch the request and save to app archive
   webview.addEventListener('permissionrequest', function (e) {
-    if (e.permission === 'download' && e.request.url.search('fimfiction.net') !== -1) {
+    if (e.permission === 'download' && e.request.url.search(webviewDomainLimit) !== -1) {
       e.request.allow();
     }
   });

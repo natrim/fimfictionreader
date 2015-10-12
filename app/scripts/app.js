@@ -1,25 +1,5 @@
 'use strict';
 
-//to make it right size window
-function updateContentSize() {
-  var content = window.document.getElementById('main');
-  content.style.height = window.document.documentElement.clientHeight + 'px';
-  content.style.width = window.document.documentElement.clientWidth + 'px';
-}
-
-onload = updateContentSize;
-var sizeTimer = null;
-window.onresize = function () {
-  if (sizeTimer) {
-    clearTimeout(sizeTimer);
-    sizeTimer = null;
-  }
-  sizeTimer = setTimeout(function () {
-    sizeTimer = null;
-    updateContentSize();
-  }, 10);
-};
-
 angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services' /*, 'fictionReader.storiesStorage'*/ , 'ui.router', 'ngMaterial'], ['$provide', function ($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.

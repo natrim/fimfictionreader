@@ -65,6 +65,14 @@
     "message": "All cookies and cached pages removed!"
   },
 
+  "block_window": {
+    "message": "Window popup blocked! Tried to open:"
+  },
+
+  "block_url": {
+    "message": "Url blocked! Tried to open:"
+  },
+
   "Minimize": {
     "message": "Minimize"
   },
