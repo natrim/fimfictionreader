@@ -59,6 +59,24 @@ angular.module('fictionReader.controllers', [])
   settings.load();
   $scope.settings = settings;
 
+  var updateMenuPosition = function () {
+    var direction;
+
+    if ($window.innerWidth <= 600) {
+      direction = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
+    } else {
+      direction = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
+    }
+
+    if (direction !== $scope.settings.menuOpenDirection) {
+      $scope.settings.menuOpenDirection = direction;
+      $scope.settings.save(true);
+    }
+  };
+
+  //fire now
+  updateMenuPosition();
+
   var resizeTimer = null;
   $window.addEventListener('resize', function () {
     if (resizeTimer) {
@@ -67,20 +85,9 @@ angular.module('fictionReader.controllers', [])
     }
     resizeTimer = $timeout(function () {
       resizeTimer = null;
-      var direction;
-
-      if ($window.innerWidth <= 600) {
-        direction = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
-      } else {
-        direction = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
-      }
 
       //change menu open direction on small display
-      if (direction !== $scope.settings.menuOpenDirection) {
-        $scope.settings.menuOpenDirection = direction;
-        $scope.settings.save(true);
-      }
-
+      updateMenuPosition();
       //update content size
       updateContentSize();
     }, 10);
