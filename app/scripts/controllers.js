@@ -134,8 +134,21 @@ angular.module('fictionReader.controllers', [])
   $window.addEventListener('focus', changeWindow.bind(this, true));
   $window.addEventListener('blur', changeWindow.bind(this, false));
 
+  function flushFocus() {
+    var elements = $window.document.querySelectorAll('.md-focused');
+    if (elements) {
+      for (var i in elements) {
+        var el = elements[i];
+        if (el.blur) {
+          el.blur();
+        }
+      }
+    }
+  }
+
   $scope.minimize = function () {
     $window.chrome.app.window.current().minimize();
+    flushFocus(); //not trigering normally on minimize
   };
 
   $scope.maximize = function () {
@@ -262,7 +275,7 @@ angular.module('fictionReader.controllers', [])
 .controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
   webview = $window.document.getElementById('fimfiction');
   var indicator = $window.document.querySelector('.loading-indicator');
-  var loading = document.querySelector('#loading');
+  var loading = $window.document.querySelector('#loading');
 
   webview.addContentScripts([{
     name: 'rule',
