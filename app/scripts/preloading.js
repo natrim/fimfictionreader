@@ -4,7 +4,7 @@
 // default, it is visible on the screen; but, once the application loads, we'll
 // fade it out and remove it from the DOM.
 angular.module('fictionReader').directive(
-  'mAppLoading', ['$animate', function ($animate) {
+  'mAppLoading', ['$animate', function mAppLoading($animate) {
     // I bind the JavaScript events to the scope.
     function link(scope, element, attributes) {
       // Due to the way AngularJS prevents animation during the bootstrap

@@ -8,8 +8,8 @@ var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', function ($scope, settings, $window, $mdToast, $timeout) {
-  var updateContentSize = function () {
+.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', function AppCtrl($scope, settings, $window, $mdToast, $timeout) {
+  var updateContentSize = function updateContentSize() {
     var content = $window.document.getElementById('main');
     if (content) {
       content.style.height = $window.document.documentElement.clientHeight + 'px';
@@ -21,13 +21,13 @@ angular.module('fictionReader.controllers', [])
   updateContentSize();
 
   // translations
-  $scope.l = function (key) {
+  $scope.l = function translate(key) {
     return $window.chrome.i18n.getMessage(key);
   };
 
   // update box
-  $window.chrome.runtime.onUpdateAvailable.addListener(function (details) {
-    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function (val) {
+  $window.chrome.runtime.onUpdateAvailable.addListener(function onUpdateAvailable(details) {
+    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function onUpdateAvailableDone(val) {
       if (val === 'ok') {
         $window.chrome.runtime.reload();
       }
@@ -35,8 +35,8 @@ angular.module('fictionReader.controllers', [])
   });
 
   var updateTime = 60000 * 60 * 2; //every two hours
-  var checkUpdate = function () {
-    $window.chrome.runtime.requestUpdateCheck(function (status) {
+  var checkUpdate = function checkUpdate() {
+    $window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status) {
       if (status === 'update_available') {
         console.log('update pending...');
         //stop checking we just need to wait for user to close the app
@@ -59,7 +59,7 @@ angular.module('fictionReader.controllers', [])
   settings.load();
   $scope.settings = settings;
 
-  var updateMenuPosition = function () {
+  var updateMenuPosition = function updateMenuPosition() {
     var direction;
 
     if ($window.innerWidth <= 600) {
@@ -78,12 +78,12 @@ angular.module('fictionReader.controllers', [])
   updateMenuPosition();
 
   var resizeTimer = null;
-  $window.addEventListener('resize', function () {
+  $window.addEventListener('resize', function resizeWindow() {
     if (resizeTimer) {
       $timeout.cancel(resizeTimer);
       resizeTimer = null;
     }
-    resizeTimer = $timeout(function () {
+    resizeTimer = $timeout(function resizeTimerTimeout() {
       resizeTimer = null;
 
       //change menu open direction on small display
@@ -99,7 +99,7 @@ angular.module('fictionReader.controllers', [])
     browser: false
   };
 
-  $scope.toggleHoverMenu = function (open) {
+  $scope.toggleHoverMenu = function toggleHoverMenu(open) {
     if ($scope.settings.menuOpenOnHover) {
       $scope.menu.open = open;
     }
@@ -110,9 +110,9 @@ angular.module('fictionReader.controllers', [])
   //$window.addEventListener('offline', updateOnlineStatus);
 }])
 
-.controller('ToolbarCtrl', ['$scope', '$window', function ($scope, $window) {
+.controller('ToolbarCtrl', ['$scope', '$window', function ToolbarCtrl($scope, $window) {
   $scope.os = 'linux';
-  $window.chrome.runtime.getPlatformInfo(function (info) {
+  $window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
     $scope.os = info.os;
     $scope.$apply();
   });
@@ -125,7 +125,7 @@ angular.module('fictionReader.controllers', [])
     isFocused: $window.document.hasFocus()
   };
 
-  var changeWindow = function (focus) {
+  var changeWindow = function changeWindow(focus) {
     $scope.window.isMinimized = $window.chrome.app.window.current().isMinimized();
     $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
     $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
@@ -141,7 +141,7 @@ angular.module('fictionReader.controllers', [])
   $window.addEventListener('focus', changeWindow.bind(this, true));
   $window.addEventListener('blur', changeWindow.bind(this, false));
 
-  function flushFocus() {
+  var flushFocus = function flushFocus() {
     var elements = $window.document.querySelectorAll('.md-focused');
     if (elements) {
       for (var i in elements) {
@@ -151,14 +151,14 @@ angular.module('fictionReader.controllers', [])
         }
       }
     }
-  }
+  };
 
-  $scope.minimize = function () {
+  $scope.minimize = function minimizeWindow() {
     $window.chrome.app.window.current().minimize();
     flushFocus(); //not trigering normally on minimize
   };
 
-  $scope.maximize = function () {
+  $scope.maximize = function maximizeWindow() {
     if ($window.chrome.app.window.current().isMaximized()) {
       $window.chrome.app.window.current().restore();
     } else {
@@ -166,21 +166,21 @@ angular.module('fictionReader.controllers', [])
     }
   };
 
-  $scope.close = function () {
+  $scope.close = function closeWindow() {
     $window.chrome.app.window.current().close();
   };
 }])
 
-.controller('SettingsCtrl', ['$scope', '$mdSidenav', '$window', function ($scope, $mdSidenav, $window) {
-  $scope.open = function () {
+.controller('SettingsCtrl', ['$scope', '$mdSidenav', '$window', function SettingsCtrl($scope, $mdSidenav, $window) {
+  $scope.open = function openSettings() {
     $mdSidenav('settings').toggle();
   };
 
-  $scope.close = function () {
+  $scope.close = function closeSettings() {
     $mdSidenav('settings').close();
   };
 
-  $scope.changeMenuPosition = function () {
+  $scope.changeMenuPosition = function changeMenuPositionTrigger() {
     if ($window.innerWidth <= 600) {
       $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
     } else {
@@ -191,58 +191,58 @@ angular.module('fictionReader.controllers', [])
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
 }])
 
-.controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function ($scope, $window, $mdDialog, $mdSidenav) {
-  $scope.openSettings = function () {
+.controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function MenuCtrl($scope, $window, $mdDialog, $mdSidenav) {
+  $scope.openSettings = function openSettings() {
     $mdSidenav('settings').toggle();
   };
 
-  $scope.canBack = function () {
+  $scope.canBack = function canGoBack() {
     return !webviewFirstLoading && webview.canGoBack();
   };
 
-  $scope.back = function () {
+  $scope.back = function goBack() {
     if (webview.canGoBack()) {
       webview.back();
     }
   };
 
-  $scope.canForward = function () {
+  $scope.canForward = function canGoForward() {
     return !webviewFirstLoading && webview.canGoForward();
   };
 
-  $scope.forward = function () {
+  $scope.forward = function goForward() {
     if (webview.canGoForward()) {
       webview.forward();
     }
   };
 
-  $scope.canReload = function () {
+  $scope.canReload = function canReloadPage() {
     return true; //reload anytime
   };
 
-  $scope.reload = function () {
+  $scope.reload = function reloadPage() {
     webview.reload();
   };
 
-  $scope.canHome = function () {
+  $scope.canHome = function canGoHome() {
     return !webviewFirstLoading && webview.src !== homeUrl;
   };
 
-  $scope.home = function () {
+  $scope.home = function goHome() {
     webview.src = homeUrl;
   };
 
-  $scope.resetWebData = function () {
+  $scope.resetWebData = function resetWebData() {
     $mdDialog.show($mdDialog.confirm({
       title: $scope.l('Confirm'),
       content: $scope.l('ConfirmResetData'),
       ok: $scope.l('Reset'),
       cancel: $scope.l('Cancel')
-    })).then(function () {
+    })).then(function resetWebDataOk() {
       webview.clearData({}, {
         'appcache': true,
         'cookies': true
-      }, function () {
+      }, function resetWebDataDone() {
         $mdDialog.show($mdDialog.alert({
           title: $scope.l('Alert'),
           content: $scope.l('clear_data'),
@@ -254,7 +254,7 @@ angular.module('fictionReader.controllers', [])
   };
 
   var scrollTopCan = false;
-  $window.addEventListener('message', function () {
+  $window.addEventListener('message', function onMessage() {
     if (event && event.data && event.data.command && event.data.command === 'scroll') {
       //console.log('received scroll: ' + event.data.value);
       if (event.data.value > 100) {
@@ -265,11 +265,11 @@ angular.module('fictionReader.controllers', [])
       $scope.$apply();
     }
   });
-  $scope.canTop = function () {
+  $scope.canTop = function canGoTop() {
     return webviewLoaded && scrollTopCan;
   };
 
-  $scope.top = function () {
+  $scope.top = function goTop() {
     if (!webviewLoaded) {
       return false;
     }
@@ -279,7 +279,7 @@ angular.module('fictionReader.controllers', [])
   };
 }])
 
-.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function ($scope, $window, $mdDialog) {
+.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function OnlineCtrl($scope, $window, $mdDialog) {
   webview = $window.document.getElementById('fimfiction');
   var indicator = $window.document.querySelector('.loading-indicator');
   var loading = $window.document.querySelector('#loading');
@@ -288,7 +288,7 @@ angular.module('fictionReader.controllers', [])
     name: 'rule',
     matches: ['http://*/*', 'https://*/*'],
     js: {
-      files: ['scripts/webview_inject.js']
+      files: ['scripts/inject/init.js', 'scripts/inject/scroll.js']
     },
     'run_at': 'document_start'
   }]);
@@ -297,10 +297,10 @@ angular.module('fictionReader.controllers', [])
   //for now go home
   webview.src = homeUrl;
 
-  webview.addEventListener('close', function () {
+  webview.addEventListener('close', function onCloseWebview() {
     webview.src = 'about:blank';
   });
-  webview.addEventListener('loadstart', function (e) {
+  webview.addEventListener('loadstart', function onStartWebview(e) {
     if (e.isTopLevel && (e.url.search(webviewDomainLimit) === -1 && e.url.search('about:blank') === -1)) {
       webview.stop();
       $mdDialog.show($mdDialog.alert({
@@ -318,7 +318,7 @@ angular.module('fictionReader.controllers', [])
     }
     $scope.$apply();
   });
-  webview.addEventListener('loadstop', function () {
+  webview.addEventListener('loadstop', function onStopWebview() {
     webviewLoaded = true;
     indicator.style.display = 'none';
     if (webviewFirstLoading) {
@@ -328,9 +328,9 @@ angular.module('fictionReader.controllers', [])
     $scope.$apply();
   });
 
-  webview.addEventListener('contentload', function () {
+  webview.addEventListener('contentload', function onLoadWebview() {
     //shake hands to send this app id to web
-    var handshake = function (event) {
+    var handshake = function handshake(event) {
       if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
         console.log('webview handshake received');
         $window.removeEventListener('message', handshake);
@@ -346,7 +346,7 @@ angular.module('fictionReader.controllers', [])
   $scope.menu.browser = true;
 
   // fimfiction does not use new windows (only ads), so no handling
-  webview.addEventListener('newwindow', function (e) {
+  webview.addEventListener('newwindow', function onNewWindowWebview(e) {
     /*if (e.targetUrl.search(webviewDomainLimit) !== -1) {
       e.preventDefault();
       $window.open(e.targetUrl); //open in chrome
@@ -362,14 +362,14 @@ angular.module('fictionReader.controllers', [])
   });
 
   //TODO: catch the request and save to app archive
-  webview.addEventListener('permissionrequest', function (e) {
+  webview.addEventListener('permissionrequest', function onPermissionWebview(e) {
     if (e.permission === 'download' && e.request.url.search(webviewDomainLimit) !== -1) {
       e.request.allow();
     }
   });
 
   // capture and handle confirm and alert dialogs
-  webview.addEventListener('dialog', function (e) {
+  webview.addEventListener('dialog', function onDialogWebview(e) {
     e.preventDefault();
 
     var returnDialog = e.dialog;
@@ -402,7 +402,7 @@ angular.module('fictionReader.controllers', [])
     }
     $mdDialog
       .show(dialog)
-      .then(function () {
+      .then(function dialogDone() {
         if (returnDialog) {
           if (typeof returnDialog.ok === 'function') {
             returnDialog.ok();
@@ -412,7 +412,7 @@ angular.module('fictionReader.controllers', [])
           returnDialog = undefined;
         }
       })
-      .finally(function () {
+      .finally(function dialogGone() {
         dialog = undefined;
         if (returnDialog) {
           returnDialog.cancel();
@@ -421,19 +421,5 @@ angular.module('fictionReader.controllers', [])
       });
   });
 }])
-
-/*
-.controller('StoriesCtrl', ['$scope', 'storiesStorage', function ($scope, storiesStorage) {
-  storiesStorage.then(function (store) {
-    $scope.stories = store.getAll();
-  });
-}])
-
-.controller('StoryCtrl', ['$scope', '$stateParams', 'storiesStorage', function ($scope, $stateParams, storiesStorage) {
-  storiesStorage.then(function (store) {
-    $scope.story = store.get(parseInt($stateParams.storyId));
-  });
-}])
-*/
 
 ;

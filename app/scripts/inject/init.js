@@ -1,5 +1,7 @@
 'use strict';
 
+/*jshint unused: false*/
+
 var appWindow = null,
   appOrigin = null;
 
@@ -26,32 +28,6 @@ function _receiveMessage(event) {
       command: 'handshakereply'
     });
   }
-
-  if (event && event.data && event.data.command) {
-    var command = event.data.command;
-    if (command === 'scrollTop') {
-      runScript('if(typeof jQuery !== \'undefined\')jQuery(\'html, body\').animate({scrollTop : 0}, 800); else window.scrollTo(0, 0);');
-    }
-  }
 }
 
 window.addEventListener('message', _receiveMessage);
-
-var scrollSender = null;
-window.addEventListener('scroll', function () {
-  if (scrollSender) {
-    clearTimeout(scrollSender);
-    scrollSender = null;
-  }
-
-  scrollSender = setTimeout(function () {
-    scrollSender = null;
-    if (appWindow && appOrigin) {
-      _sendMessage({
-        command: 'scroll',
-        value: window.scrollY
-      });
-    }
-  }, 100);
-
-});

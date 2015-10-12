@@ -1,7 +1,7 @@
 'use strict';
 
 // Listens for the app launching then creates the window
-chrome.app.runtime.onLaunched.addListener(function () {
+chrome.app.runtime.onLaunched.addListener(function onAppLaunch() {
   var width = 1280;
   var height = 800;
 

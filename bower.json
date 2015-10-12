@@ -1,6 +1,7 @@
 {
   "name": "FimFiction",
-  "version": "1.0.0",
+  "private": "0.0.0",
+  "private": true,
   "dependencies": {
     "angular": "~1.4.7",
     "angular-material": "~0.11.1",

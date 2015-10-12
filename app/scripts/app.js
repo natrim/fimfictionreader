@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services' /*, 'fictionReader.storiesStorage'*/ , 'ui.router', 'ngMaterial'], ['$provide', function ($provide) {
+angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services' /*, 'fictionReader.storiesStorage'*/ , 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.
   $provide.decorator('$window', ['$delegate', function ($delegate) {
@@ -9,7 +9,7 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.ser
   }]);
 }])
 
-.config(['$mdThemingProvider', function ($mdThemingProvider) {
+.config(['$mdThemingProvider', function setTheme($mdThemingProvider) {
   $mdThemingProvider.theme('default')
     .backgroundPalette('grey')
     .primaryPalette('blue-grey')
@@ -17,7 +17,7 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.ser
     .warnPalette('red');
 }])
 
-.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $urlRouterProvider) {
+.config(['$stateProvider', '$urlRouterProvider', function setRoutes($stateProvider, $urlRouterProvider) {
   $stateProvider
 
     .state('app', {

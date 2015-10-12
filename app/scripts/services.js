@@ -3,7 +3,7 @@
 angular.module('fictionReader.services', [])
 
 .factory('settings', ['$window', '$mdToast', '$timeout',
-  function ($window, $mdToast, $timeout) {
+  function SettingsFactory($window, $mdToast, $timeout) {
     var useCloud = false;
 
     function Settings() {
@@ -13,9 +13,9 @@ angular.module('fictionReader.services', [])
     }
 
     var loadDone = false;
-    Settings.prototype.load = function () {
+    Settings.prototype.load = function loadSettings() {
       $window.chrome.storage[useCloud ? 'sync' : 'local'].get('settings', function (items) {
-        $timeout(function () { //set done in next cycle to prevent imeddiate save
+        $timeout(function timeoutLoad() { //set done in next cycle to prevent imeddiate save
           loadDone = true;
         });
 
@@ -33,12 +33,12 @@ angular.module('fictionReader.services', [])
       }.bind(this));
     };
 
-    Settings.prototype.save = function (skipMessage) {
+    Settings.prototype.save = function saveSettings(skipMessage) {
       skipMessage = skipMessage || false;
       if (loadDone) {
         $window.chrome.storage[useCloud ? 'sync' : 'local'].set({
           'settings': this
-        }, function () {
+        }, function saveSettingsDone() {
           var error = $window.chrome.runtime.lastError;
           if (error) {
             if (!skipMessage) {
