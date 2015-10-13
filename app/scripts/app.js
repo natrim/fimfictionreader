@@ -1,6 +1,12 @@
 'use strict';
 
-angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services', 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
+//underscore.js define
+var underscore = angular.module('underscore', []);
+underscore.factory('_', function () {
+  return window._; //Underscore should be loaded on the page
+});
+
+angular.module('fictionReader', ['underscore', 'fictionReader.controllers', 'fictionReader.services', 'ui.router', 'ngMaterial', 'appWindow'], ['$provide', function fixHistory($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.
   $provide.decorator('$window', ['$delegate', function ($delegate) {

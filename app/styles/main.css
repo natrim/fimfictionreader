@@ -5,13 +5,9 @@
   -webkit-app-region: drag;
   height: 32px;
 }
-#page_toolbar.ng-hide-add, #page_toolbar.ng-hide-remove {
-  transition: all linear 0.5s;
-}
 #page_toolbar.ng-hide {
   height:0;
 }
-
 #page_toolbar button, #page_toolbar md-button {
   -webkit-app-region: no-drag;
 }
@@ -35,6 +31,9 @@
 }
 .md-blur {
   background-color: grey!important;
+}
+.md-full {
+  display: none!important;
 }
 .md-small {
   height: 24px;

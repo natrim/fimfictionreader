@@ -1,21 +1,20 @@
 <div class="trim full" layout="column">
-  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !window.isFocused, 'md-max': window.isMaximized}" ng-controller="ToolbarCtrl" ng-hide="window.isFullscreen">
+  <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !appWindow.isFocused, 'md-max': appWindow.isMaximized, 'md-min': appWindow.isMinimized, 'md-full': appWindow.isFullscreen}" ng-controller="ToolbarCtrl">
     <div class="md-toolbar-tools" ng-if="os === 'mac'">
-      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
+      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="appWindow.close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
         <md-icon>cancel</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
+      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="appWindow.minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
-        <md-icon ng-hide="window.isMinimized">remove_circle</md-icon>
-        <md-icon ng-show="window.isMinimized">remove_circle_outline</md-icon>
+        <md-icon>remove_circle</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="appWindow.maximize()">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
-        <md-icon ng-hide="window.isMaximized">add_circle</md-icon>
-        <md-icon ng-show="window.isMaximized">add_circle_outline</md-icon>
+        <md-icon ng-hide="appWindow.isMaximized">add_circle</md-icon>
+        <md-icon ng-show="appWindow.isMaximized">add_circle_outline</md-icon>
       </md-button>
 
       <span flex></span>
@@ -35,18 +34,18 @@
 
       <span flex></span>
 
-      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="minimize()">
+      <md-button aria-label="{{l('Minimize')}}" class="md-small-button" ng-click="appWindow.minimize()">
         <md-tooltip md-autohide="true">{{l('MinimizeMore')}}</md-tooltip>
         <md-icon>remove</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="maximize()">
+      <md-button aria-label="{{l('Maximize')}}" class="md-small-button" ng-click="appWindow.maximize()">
         <md-tooltip md-autohide="true">{{l('MaximizeMore')}}</md-tooltip>
-        <md-icon ng-hide="window.isMaximized">check_box_outline_blank</md-icon>
-        <md-icon ng-show="window.isMaximized">filter_none</md-icon>
+        <md-icon ng-hide="appWindow.isMaximized">check_box_outline_blank</md-icon>
+        <md-icon ng-show="appWindow.isMaximized">filter_none</md-icon>
       </md-button>
 
-      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="close()">
+      <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="appWindow.close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
         <md-icon>close</md-icon>
       </md-button>

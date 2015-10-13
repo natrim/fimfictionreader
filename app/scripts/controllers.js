@@ -8,17 +8,10 @@ var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', function AppCtrl($scope, settings, $window, $mdToast, $timeout) {
-  var updateContentSize = function updateContentSize() {
-    var content = $window.document.getElementById('main');
-    if (content) {
-      content.style.height = $window.document.documentElement.clientHeight + 'px';
-      content.style.width = $window.document.documentElement.clientWidth + 'px';
-    }
-  };
+.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', 'appWindow', '_', function AppCtrl($scope, settings, $window, $mdToast, $timeout, appWindow, _) {
 
-  //fire now
-  updateContentSize();
+  //bind to resizing the main content to window
+  appWindow.updateContentSize('#main');
 
   // translations
   $scope.l = function translate(key) {
@@ -76,22 +69,7 @@ angular.module('fictionReader.controllers', [])
 
   //fire now
   updateMenuPosition();
-
-  var resizeTimer = null;
-  $window.addEventListener('resize', function resizeWindow() {
-    if (resizeTimer) {
-      $timeout.cancel(resizeTimer);
-      resizeTimer = null;
-    }
-    resizeTimer = $timeout(function resizeTimerTimeout() {
-      resizeTimer = null;
-
-      //change menu open direction on small display
-      updateMenuPosition();
-      //update content size
-      updateContentSize();
-    }, 10);
-  });
+  $window.addEventListener('resize', _.debounce(updateMenuPosition, 100));
 
   $scope.menu = {
     open: false,
@@ -110,65 +88,17 @@ angular.module('fictionReader.controllers', [])
   //$window.addEventListener('offline', updateOnlineStatus);
 }])
 
-.controller('ToolbarCtrl', ['$scope', '$window', function ToolbarCtrl($scope, $window) {
+.controller('ToolbarCtrl', ['$scope', 'appWindow', function ToolbarCtrl($scope, appWindow) {
   $scope.os = 'linux';
-  $window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
+  appWindow.window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
     $scope.os = info.os;
     $scope.$apply();
   });
 
-  // Make sure we read the initial state as well, since the app might startup as maximized.
-  $scope.window = {
-    isMinimized: $window.chrome.app.window.current().isMinimized(),
-    isMaximized: $window.chrome.app.window.current().isMaximized(),
-    isFullscreen: $window.chrome.app.window.current().isFullscreen(),
-    isFocused: $window.document.hasFocus()
-  };
-
-  var changeWindow = function changeWindow(focus) {
-    $scope.window.isMinimized = $window.chrome.app.window.current().isMinimized();
-    $scope.window.isMaximized = $window.chrome.app.window.current().isMaximized();
-    $scope.window.isFocused = (typeof focus === 'boolean' ? focus : $window.document.hasFocus());
-    $scope.window.isFullscreen = $window.chrome.app.window.current().isFullscreen();
+  $scope.appWindow = appWindow;
+  appWindow.addCallback(function () {
     $scope.$apply();
-  };
-
-  $window.chrome.app.window.current().onMaximized.addListener(changeWindow);
-  $window.chrome.app.window.current().onMinimized.addListener(changeWindow);
-  $window.chrome.app.window.current().onRestored.addListener(changeWindow);
-  $window.chrome.app.window.current().onFullscreened.addListener(changeWindow);
-
-  $window.addEventListener('focus', changeWindow.bind(this, true));
-  $window.addEventListener('blur', changeWindow.bind(this, false));
-
-  var flushFocus = function flushFocus() {
-    var elements = $window.document.querySelectorAll('.md-focused');
-    if (elements) {
-      for (var i in elements) {
-        var el = elements[i];
-        if (el.blur) {
-          el.blur();
-        }
-      }
-    }
-  };
-
-  $scope.minimize = function minimizeWindow() {
-    $window.chrome.app.window.current().minimize();
-    flushFocus(); //not trigering normally on minimize
-  };
-
-  $scope.maximize = function maximizeWindow() {
-    if ($window.chrome.app.window.current().isMaximized()) {
-      $window.chrome.app.window.current().restore();
-    } else {
-      $window.chrome.app.window.current().maximize();
-    }
-  };
-
-  $scope.close = function closeWindow() {
-    $window.chrome.app.window.current().close();
-  };
+  });
 }])
 
 .controller('SettingsCtrl', ['$scope', '$mdSidenav', '$window', function SettingsCtrl($scope, $mdSidenav, $window) {
