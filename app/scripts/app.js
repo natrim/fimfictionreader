@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services' /*, 'fictionReader.storiesStorage'*/ , 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
+angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.services', 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.
   $provide.decorator('$window', ['$delegate', function ($delegate) {
@@ -31,27 +31,6 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.ser
     }
   })
 
-  /*.state('app.stories', {
-    url: '/stories',
-    views: {
-      'content': {
-        templateUrl: 'templates/stories.html',
-        controller: 'StoriesCtrl'
-      }
-    }
-  })
-
-  .state('app.story', {
-    url: '/stories/:storyId',
-    views: {
-      'content': {
-        templateUrl: 'templates/story.html',
-        controller: 'StoryCtrl'
-      }
-    }
-  })
-*/
-
   .state('app.online', {
     url: '/online',
     views: {
@@ -64,9 +43,6 @@ angular.module('fictionReader', ['fictionReader.controllers', 'fictionReader.ser
 
   ;
 
-  //if (navigator.onLine) {
+
   $urlRouterProvider.otherwise('/app/online');
-  //} else {
-  //  $urlRouterProvider.otherwise('/app/stories');
-  //}
 }]);
