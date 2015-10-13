@@ -12,7 +12,7 @@ window.addEventListener('message', function (event) {
 });
 
 var scrollSender = null;
-window.addEventListener('scroll', function () {
+var scrollSend = function () {
   if (scrollSender) {
     clearTimeout(scrollSender);
     scrollSender = null;
@@ -26,4 +26,6 @@ window.addEventListener('scroll', function () {
     });
   }, 100);
 
-});
+};
+window.addEventListener('load', scrollSend);
+window.addEventListener('scroll', scrollSend);
