@@ -59,7 +59,7 @@
     </md-toolbar>
     <md-content layout-padding ng-controller="SettingsCtrl" ng-include="'templates/settings.html'"></md-content>
   </md-sidenav>
-  <md-fab-speed-dial class="md-fab-{{settings.menuPosition}}" md-direction="{{settings.menuOpenDirection}}" md-open="menu.open" ng-mouseenter="toggleHoverMenu(true)" ng-mouseleave="toggleHoverMenu(false)">
+  <md-fab-speed-dial class="md-fab-{{settings.menuPosition}}" md-direction="{{settings.menuOpenDirection}}" md-open="menu.open" ng-mouseenter="menu.toggleHoverMenu(true)" ng-mouseleave="menu.toggleHoverMenu(false)">
     <md-fab-trigger>
       <md-button aria-label="{l('Menu')}}" class="md-fab">
         <md-icon>menu</md-icon>

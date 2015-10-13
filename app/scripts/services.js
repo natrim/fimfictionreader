@@ -2,8 +2,8 @@
 
 angular.module('fictionReader.services', [])
 
-.factory('settings', ['$window', '$mdToast', '$timeout',
-  function SettingsFactory($window, $mdToast, $timeout) {
+.factory('settings', ['$window', '$mdToast', '$timeout', '_',
+  function SettingsFactory($window, $mdToast, $timeout, _) {
     var useCloud = false;
 
     function Settings() {
@@ -24,11 +24,9 @@ angular.module('fictionReader.services', [])
           console.log('load settings failed: ' + error.message);
         } else if (items.settings) {
           console.log('load settings');
-          var keys = Object.keys(items.settings);
-          for (var i in keys) {
-            var key = keys[i];
-            this[key] = items.settings[key];
-          }
+          _.each(items.settings, function (v, k) {
+            this[k] = v;
+          }, this);
         }
       }.bind(this));
     };
@@ -37,7 +35,10 @@ angular.module('fictionReader.services', [])
       skipMessage = skipMessage || false;
       if (loadDone) {
         $window.chrome.storage[useCloud ? 'sync' : 'local'].set({
-          'settings': this
+          'settings': _.pick(this, function (v) {
+            //save only settings
+            return typeof v === 'string' || typeof v === 'boolean' || typeof v === 'number';
+          })
         }, function saveSettingsDone() {
           var error = $window.chrome.runtime.lastError;
           if (error) {

@@ -52,7 +52,20 @@ angular.module('fictionReader.controllers', [])
   settings.load();
   $scope.settings = settings;
 
-  var updateMenuPosition = function updateMenuPosition() {
+  //menu
+  $scope.menu = {
+    open: false,
+    settings: true,
+    browser: false
+  };
+
+  $scope.menu.toggleHoverMenu = function toggleHoverMenu(open) {
+    if ($scope.settings.menuOpenOnHover) {
+      $scope.menu.open = open;
+    }
+  };
+
+  $scope.menu.changeMenuPosition = function changeMenuPositionTrigger(save) {
     var direction;
 
     if ($window.innerWidth <= 600) {
@@ -63,25 +76,19 @@ angular.module('fictionReader.controllers', [])
 
     if (direction !== $scope.settings.menuOpenDirection) {
       $scope.settings.menuOpenDirection = direction;
-      $scope.settings.save(true);
+      if (save) {
+        $scope.settings.save(true);
+      }
     }
   };
 
   //fire now
-  updateMenuPosition();
-  $window.addEventListener('resize', _.debounce(updateMenuPosition, 100));
+  $scope.menu.changeMenuPosition(true);
 
-  $scope.menu = {
-    open: false,
-    settings: true,
-    browser: false
-  };
-
-  $scope.toggleHoverMenu = function toggleHoverMenu(open) {
-    if ($scope.settings.menuOpenOnHover) {
-      $scope.menu.open = open;
-    }
-  };
+  $window.addEventListener('resize', _.debounce(function updateMenuPosition() {
+    $scope.menu.changeMenuPosition(true);
+    $scope.$apply();
+  }, 100));
 
   //TODO: online / offline auto mode switch, with confirm?
   //$window.addEventListener('online',  updateOnlineStatus);
@@ -101,68 +108,56 @@ angular.module('fictionReader.controllers', [])
   });
 }])
 
-.controller('SettingsCtrl', ['$scope', '$mdSidenav', '$window', function SettingsCtrl($scope, $mdSidenav, $window) {
-  $scope.open = function openSettings() {
-    $mdSidenav('settings').toggle();
-  };
-
-  $scope.close = function closeSettings() {
-    $mdSidenav('settings').close();
-  };
-
-  $scope.changeMenuPosition = function changeMenuPositionTrigger() {
-    if ($window.innerWidth <= 600) {
-      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').shift() === 'top' ? 'down' : 'up';
-    } else {
-      $scope.settings.menuOpenDirection = $scope.settings.menuPosition.split('-').pop() === 'left' ? 'right' : 'left';
-    }
-  };
-
+.controller('SettingsCtrl', ['$scope', function SettingsCtrl($scope) {
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
 }])
 
 .controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function MenuCtrl($scope, $window, $mdDialog, $mdSidenav) {
-  $scope.openSettings = function openSettings() {
+  $scope.menu.openSettings = function openSettings() {
     $mdSidenav('settings').toggle();
   };
 
-  $scope.canBack = function canGoBack() {
+  $scope.menu.closeSettings = function closeSettings() {
+    $mdSidenav('settings').close();
+  };
+
+  $scope.menu.canBack = function canGoBack() {
     return !webviewFirstLoading && webview.canGoBack();
   };
 
-  $scope.back = function goBack() {
+  $scope.menu.back = function goBack() {
     if (webview.canGoBack()) {
       webview.back();
     }
   };
 
-  $scope.canForward = function canGoForward() {
+  $scope.menu.canForward = function canGoForward() {
     return !webviewFirstLoading && webview.canGoForward();
   };
 
-  $scope.forward = function goForward() {
+  $scope.menu.forward = function goForward() {
     if (webview.canGoForward()) {
       webview.forward();
     }
   };
 
-  $scope.canReload = function canReloadPage() {
+  $scope.menu.canReload = function canReloadPage() {
     return true; //reload anytime
   };
 
-  $scope.reload = function reloadPage() {
+  $scope.menu.reload = function reloadPage() {
     webview.reload();
   };
 
-  $scope.canHome = function canGoHome() {
+  $scope.menu.canHome = function canGoHome() {
     return !webviewFirstLoading && webview.src !== homeUrl;
   };
 
-  $scope.home = function goHome() {
+  $scope.menu.home = function goHome() {
     webview.src = homeUrl;
   };
 
-  $scope.resetWebData = function resetWebData() {
+  $scope.menu.resetWebData = function resetWebData() {
     $mdDialog.show($mdDialog.confirm({
       title: $scope.l('Confirm'),
       content: $scope.l('ConfirmResetData'),
@@ -195,11 +190,11 @@ angular.module('fictionReader.controllers', [])
       $scope.$apply();
     }
   });
-  $scope.canTop = function canGoTop() {
+  $scope.menu.canTop = function canGoTop() {
     return webviewLoaded && scrollTopCan;
   };
 
-  $scope.top = function goTop() {
+  $scope.menu.top = function goTop() {
     if (!webviewLoaded) {
       return false;
     }

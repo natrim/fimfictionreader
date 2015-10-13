@@ -4,13 +4,13 @@
   <md-checkbox aria-label="{{l('OpenMenuOnHoverSetting')}}" ng-model="settings.menuOpenOnHover" ng-change="settings.save()">
     {{l('OpenMenuOnHoverSetting')}}
   </md-checkbox>
-  <md-radio-group ng-model="settings.menuPosition" ng-change="changeMenuPosition();settings.save()">
+  <md-radio-group ng-model="settings.menuPosition" ng-change="menu.changeMenuPosition();settings.save()">
     <label>{{l('MenuPositionSetting')}}:</label>
     <md-radio-button aria-label="{{d}}" ng-repeat="d in menuPositionPositions" ng-value="d">
       {{d}}
     </md-radio-button>
   </md-radio-group>
 </form>
-<md-button class="md-accent md-raised" ng-click="close()">
+<md-button class="md-accent md-raised" ng-click="menu.closeSettings()">
   {{l('Close')}}
 </md-button>
