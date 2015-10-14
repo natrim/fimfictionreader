@@ -25,7 +25,7 @@ angular.module('fictionReader.controllers', [])
 
   // update box
   $window.chrome.runtime.onUpdateAvailable.addListener(function onUpdateAvailable(details) {
-    $mdToast.show($mdToast.simple().hideDelay(60000).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function onUpdateAvailableDone(val) {
+    $mdToast.show($mdToast.simple().position(appWindow.os === 'mac' ? 'top right' : 'top left').hideDelay(0).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function onUpdateAvailableDone(val) {
       if (val === 'ok') {
         $window.chrome.runtime.reload();
       }
@@ -60,7 +60,7 @@ angular.module('fictionReader.controllers', [])
       if (err) {
         $mdToast.show($mdToast.simple().hideDelay(8000).content($scope.l('SettingsSaveFailed')).action($scope.l('Close')));
       } else {
-        $mdToast.show($mdToast.simple().content($scope.l('SettingsSaved')).action($scope.l('Close')));
+        $mdToast.show($mdToast.simple().hideDelay(3000).content($scope.l('SettingsSaved')).action($scope.l('Close')));
       }
     });
   };

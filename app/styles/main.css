@@ -50,6 +50,14 @@
   height: 20px;
   font-size: 18px;
 }
+/*move the elements under toolbar*/
+md-backdrop, md-sidenav, .md-sidenav-right, .md-sidenav-left {
+  top: 24px;
+}
+/*move the toast under toolbar + 8px space*/
+md-toast.md-top {
+  top: 32px;
+}
 .md-small-button {
   margin: 0 6px;
   height: 48px;
