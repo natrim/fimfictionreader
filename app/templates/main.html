@@ -1,6 +1,6 @@
 <div class="trim full" layout="column">
   <md-toolbar class="md-small" id="page_toolbar" ng-class="{'md-blur': !appWindow.isFocused, 'md-max': appWindow.isMaximized, 'md-min': appWindow.isMinimized, 'md-full': appWindow.isFullscreen}" ng-controller="ToolbarCtrl">
-    <div class="md-toolbar-tools" ng-if="os === 'mac'">
+    <div class="md-toolbar-tools" ng-if="appWindow.os === 'mac'">
       <md-button aria-label="{{l('Close')}}" class="md-small-button" ng-click="appWindow.close()">
         <md-tooltip md-autohide="true">{{l('CloseMore')}}</md-tooltip>
         <md-icon>cancel</md-icon>
@@ -25,7 +25,7 @@
 
       <img alt="icon" src="images/icon-32.png">
     </div>
-    <div class="md-toolbar-tools" ng-if="os !== 'mac'">
+    <div class="md-toolbar-tools" ng-if="appWindow.os !== 'mac'">
       <img alt="icon" src="images/icon-32.png">
 
       <span flex></span>

@@ -8,10 +8,15 @@ var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', 'settings', '$window', '$mdToast', '$timeout', 'appWindow', '_', function AppCtrl($scope, settings, $window, $mdToast, $timeout, appWindow, _) {
+.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', 'appWindow', 'appSettings', '_', function AppCtrl($scope, $window, $mdToast, $timeout, appWindow, settings, _) {
 
   //bind to resizing the main content to window
   appWindow.updateContentSize('#main');
+
+  //prevent context menu
+  /*$window.document.addEventListener('contextmenu', function (e) {
+    e.preventDefault();
+  });*/
 
   // translations
   $scope.l = function translate(key) {
@@ -50,6 +55,15 @@ angular.module('fictionReader.controllers', [])
 
   //settings
   settings.load();
+  settings.saveWithMessage = function saveWithMessage() {
+    settings.save(function saveCallback(err) {
+      if (err) {
+        $mdToast.show($mdToast.simple().hideDelay(8000).content($scope.l('SettingsSaveFailed')).action($scope.l('Close')));
+      } else {
+        $mdToast.show($mdToast.simple().content($scope.l('SettingsSaved')).action($scope.l('Close')));
+      }
+    });
+  };
   $scope.settings = settings;
 
   //menu
@@ -77,7 +91,7 @@ angular.module('fictionReader.controllers', [])
     if (direction !== $scope.settings.menuOpenDirection) {
       $scope.settings.menuOpenDirection = direction;
       if (save) {
-        $scope.settings.save(true);
+        $scope.settings.save();
       }
     }
   };
@@ -96,14 +110,8 @@ angular.module('fictionReader.controllers', [])
 }])
 
 .controller('ToolbarCtrl', ['$scope', 'appWindow', function ToolbarCtrl($scope, appWindow) {
-  $scope.os = 'linux';
-  appWindow.window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
-    $scope.os = info.os;
-    $scope.$apply();
-  });
-
   $scope.appWindow = appWindow;
-  appWindow.addCallback(function () {
+  appWindow.addChangeCallback(function () {
     $scope.$apply();
   });
 }])
