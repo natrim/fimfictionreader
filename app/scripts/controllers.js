@@ -84,18 +84,7 @@ angular.module('fictionReader.controllers', [])
   });
 }])
 
-.controller('SettingsCtrl', ['$scope' /*, '$window', '_'*/ , function SettingsCtrl($scope /*, $window, _*/ ) {
-  /*var enabledCommands = [];
-  $window.chrome.commands.getAll(function (commands) {
-    _.each(commands, function (val) {
-      if (val.shortcut) {
-        enabledCommands.push(val);
-      }
-    });
-    $scope.$apply();
-  });
-
-  $scope.enabledCommands = enabledCommands;*/
+.controller('SettingsCtrl', ['$scope', function SettingsCtrl($scope) {
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
 }])
 
