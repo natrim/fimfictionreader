@@ -8,10 +8,10 @@ var webviewLoaded = false;
 
 angular.module('fictionReader.controllers', [])
 
-.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', 'appWindow', 'appSettings', '_', function AppCtrl($scope, $window, $mdToast, $timeout, appWindow, settings, _) {
+.controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', 'appWindow', 'appSettings', 'appUpdate', '_', function AppCtrl($scope, $window, $mdToast, $timeout, appWindow, settings, update, _) {
 
   //bind to resizing the main content to window
-  appWindow.updateContentSize('#main');
+  appWindow.bindContent('#main');
 
   //prevent context menu
   /*$window.document.addEventListener('contextmenu', function (e) {
@@ -23,35 +23,14 @@ angular.module('fictionReader.controllers', [])
     return $window.chrome.i18n.getMessage(key);
   };
 
-  // update box
-  $window.chrome.runtime.onUpdateAvailable.addListener(function onUpdateAvailable(details) {
+  // update checks
+  update.bind(function updateMsg(details) {
     $mdToast.show($mdToast.simple().position(appWindow.os === 'mac' ? 'top right' : 'top left').hideDelay(0).highlightAction(true).action($scope.l('Restart')).content($scope.l('newVersionAvailable') + ': ' + details.version)).then(function onUpdateAvailableDone(val) {
       if (val === 'ok') {
-        $window.chrome.runtime.reload();
+        update.update();
       }
     });
   });
-
-  var updateTime = 60000 * 60 * 2; //every two hours
-  var checkUpdate = function checkUpdate() {
-    $window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status) {
-      if (status === 'update_available') {
-        console.log('update pending...');
-        //stop checking we just need to wait for user to close the app
-        //$timeout(checkUpdate, updateTime);
-      } else if (status === 'no_update') {
-        console.log('no update found');
-        $timeout(checkUpdate, updateTime);
-      } else if (status === 'throttled') {
-        console.log('wait more time for update...');
-        updateTime += (60000 * 5); //add five minutes to check
-        $timeout(checkUpdate, updateTime);
-      }
-    });
-  };
-
-  //check update right now (almost)
-  $timeout(checkUpdate, 5000);
 
   //settings
   settings.load();

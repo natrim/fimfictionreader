@@ -60,6 +60,8 @@ function newWindow(window, _) {
     }
   };
 
+  AppWindow.prototype.bindContent = AppWindow.prototype.updateContentSize;
+
   AppWindow.prototype.changeWindow = function changeWindow(type, focus) {
     this.isMinimized = window.chrome.app.window.current().isMinimized();
     this.isMaximized = window.chrome.app.window.current().isMaximized();
