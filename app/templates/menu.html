@@ -1,24 +1,24 @@
-<md-button ng-if="menu.browser" aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!menu.canTop()" ng-click="$event.stopImmediatePropagation();menu.top();menu.open=false;">
+<md-button ng-if="menu.browser" aria-label="{{l('BrowserTop')}}" class="md-fab md-accent" ng-disabled="!menu.browser.canTop()" ng-click="$event.stopImmediatePropagation();menu.browser.top();menu.open=false;">
   <md-tooltip md-direction="top">{{l('BrowserTop')}}</md-tooltip>
   <md-icon>expand_less</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!menu.canBack()" ng-click="$event.stopImmediatePropagation();menu.back();menu.open=true;">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserBack')}}" class="md-fab" ng-disabled="!menu.browser.canBack()" ng-click="$event.stopImmediatePropagation();menu.browser.back();menu.open=true;">
   <md-tooltip md-direction="top">{{l('BrowserBack')}}</md-tooltip>
   <md-icon>chevron_left</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-disabled="!menu.canReload()" ng-click="$event.stopImmediatePropagation();menu.reload();menu.open=false;">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserReload')}}" class="md-fab" ng-disabled="!menu.browser.canReload()" ng-click="$event.stopImmediatePropagation();menu.browser.reload();menu.open=false;">
   <md-tooltip md-direction="top">{{l('BrowserReload')}}</md-tooltip>
   <md-icon>refresh</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!menu.canForward()" ng-click="$event.stopImmediatePropagation();menu.forward();menu.open=true;">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserForward')}}" class="md-fab" ng-disabled="!menu.browser.canForward()" ng-click="$event.stopImmediatePropagation();menu.browser.forward();menu.open=true;">
   <md-tooltip md-direction="top">{{l('BrowserForward')}}</md-tooltip>
   <md-icon>chevron_right</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!menu.canHome()" ng-click="$event.stopImmediatePropagation();menu.home();menu.open=false;">
+<md-button ng-if="menu.browser" aria-label="{l('BrowserHome')}}" class="md-fab" ng-disabled="!menu.browser.canHome()" ng-click="$event.stopImmediatePropagation();menu.browser.home();menu.open=false;">
   <md-tooltip md-direction="top">{{l('BrowserHome')}}</md-tooltip>
   <md-icon>home</md-icon>
 </md-button>
-<md-button ng-if="menu.browser" aria-label="{l('ResetData')}}" class="md-fab" ng-click="$event.stopImmediatePropagation();menu.resetWebData();menu.open=false;">
+<md-button ng-if="menu.browser" aria-label="{l('ResetData')}}" class="md-fab" ng-click="$event.stopImmediatePropagation();menu.clearBrowserData();menu.open=false;">
   <md-tooltip md-direction="top">{{l('ResetData')}}</md-tooltip>
   <md-icon>layers_clear</md-icon>
 </md-button>

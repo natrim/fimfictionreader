@@ -7,7 +7,7 @@ underscore.factory('_', ['$window', function ($window) {
 }]);
 
 //app define
-angular.module('fictionReader', ['underscore', 'fictionReader.controllers', 'appWindow', 'appSettings', 'appUpdate', 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
+angular.module('fictionReader', ['underscore', 'fictionReader.controllers', 'appWindow', 'appSettings', 'appUpdate', 'browser', 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
   // Prevent Angular from sniffing for the history API
   // since it's not supported in packaged apps.
   $provide.decorator('$window', ['$delegate', function ($delegate) {

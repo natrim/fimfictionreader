@@ -1,22 +1,11 @@
 'use strict';
 
-var homeUrl = 'https://www.fimfiction.net/';
-var webviewDomainLimit = 'fimfiction.net';
-var webview;
-var webviewFirstLoading = true;
-var webviewLoaded = false;
-
 angular.module('fictionReader.controllers', [])
 
 .controller('AppCtrl', ['$scope', '$window', '$mdToast', '$timeout', 'appWindow', 'appSettings', 'appUpdate', '_', function AppCtrl($scope, $window, $mdToast, $timeout, appWindow, settings, update, _) {
 
   //bind to resizing the main content to window
   appWindow.bindContent('#main');
-
-  //prevent context menu
-  /*$window.document.addEventListener('contextmenu', function (e) {
-    e.preventDefault();
-  });*/
 
   // translations
   $scope.l = function translate(key) {
@@ -99,7 +88,7 @@ angular.module('fictionReader.controllers', [])
   $scope.menuPositionPositions = ['bottom-right', 'bottom-left', 'top-right', 'top-left'];
 }])
 
-.controller('MenuCtrl', ['$scope', '$window', '$mdDialog', '$mdSidenav', function MenuCtrl($scope, $window, $mdDialog, $mdSidenav) {
+.controller('MenuCtrl', ['$scope', '$mdSidenav', '$mdDialog', 'browser', function MenuCtrl($scope, $mdSidenav, $mdDialog, browser) {
   $scope.menu.openSettings = function openSettings() {
     $mdSidenav('settings').toggle();
   };
@@ -108,230 +97,130 @@ angular.module('fictionReader.controllers', [])
     $mdSidenav('settings').close();
   };
 
-  $scope.menu.canBack = function canGoBack() {
-    return !webviewFirstLoading && webview.canGoBack();
-  };
-
-  $scope.menu.back = function goBack() {
-    if (webview.canGoBack()) {
-      webview.back();
+  $scope.menu.browser = browser.getControls();
+  $scope.menu.browser.addChangeCallback(function (type) {
+    if (type === 'scroll') {
+      $scope.$apply();
     }
-  };
-
-  $scope.menu.canForward = function canGoForward() {
-    return !webviewFirstLoading && webview.canGoForward();
-  };
-
-  $scope.menu.forward = function goForward() {
-    if (webview.canGoForward()) {
-      webview.forward();
-    }
-  };
-
-  $scope.menu.canReload = function canReloadPage() {
-    return true; //reload anytime
-  };
-
-  $scope.menu.reload = function reloadPage() {
-    webview.reload();
-  };
-
-  $scope.menu.canHome = function canGoHome() {
-    return !webviewFirstLoading && webview.src !== homeUrl;
-  };
-
-  $scope.menu.home = function goHome() {
-    webview.src = homeUrl;
-  };
-
-  $scope.menu.resetWebData = function resetWebData() {
+  });
+  $scope.menu.clearBrowserData = function clearBrowserData() {
     $mdDialog.show($mdDialog.confirm({
       title: $scope.l('Confirm'),
       content: $scope.l('ConfirmResetData'),
       ok: $scope.l('Reset'),
       cancel: $scope.l('Cancel')
     })).then(function resetWebDataOk() {
-      webview.clearData({}, {
-        'appcache': true,
-        'cookies': true
-      }, function resetWebDataDone() {
-        $mdDialog.show($mdDialog.alert({
-          title: $scope.l('Alert'),
-          content: $scope.l('clear_data'),
-          ok: $scope.l('Ok')
-        }));
-        $scope.home();
+      $scope.menu.browser.clearData(function resetWebDataDone(ok) {
+        if (ok) {
+          $mdDialog.show($mdDialog.alert({
+            title: $scope.l('Alert'),
+            content: $scope.l('clear_data'),
+            ok: $scope.l('Ok')
+          }));
+        }
       });
     });
   };
+}])
 
-  var scrollTopCan = false;
-  $window.addEventListener('message', function onMessage() {
-    if (event && event.data && event.data.command && event.data.command === 'scroll') {
-      //console.log('received scroll: ' + event.data.value);
-      if (event.data.value > 100) {
-        scrollTopCan = true;
-      } else {
-        scrollTopCan = false;
+.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', 'browser', function OnlineCtrl($scope, $window, $mdDialog, browser) {
+  browser.bindWebview('#fimfiction');
+  browser.setHome('https://www.fimfiction.net/');
+  browser.setDomainLimit('fimfiction.net');
+  //browser.allowNewWindows(true);
+  browser.allowDownloadFrom('fimfiction.net');
+
+  var webviewFirstLoading = true;
+  var indicator = $window.document.querySelector('.loading-indicator');
+  var loadingWindow = $window.document.querySelector('#loading');
+  browser.addChangeCallback(function (type, err) {
+    if (type === 'loadstart') {
+      if (err) {
+        $mdDialog.show($mdDialog.alert({
+          title: $scope.l('Alert'),
+          content: $scope.l('block_url') + '<br>' + err.message,
+          ok: $scope.l('Ok')
+        }));
       }
+      indicator.style.display = 'block';
+      if (webviewFirstLoading) {
+        loadingWindow.style.display = 'block';
+      }
+    } else if (type === 'loadstop') {
+      indicator.style.display = 'none';
+      if (webviewFirstLoading) {
+        webviewFirstLoading = false;
+        loadingWindow.style.display = 'none';
+      }
+    } else if (type === 'newwindow') {
+      if (err) {
+        $mdDialog.show($mdDialog.alert({
+          title: $scope.l('Alert'),
+          content: $scope.l('block_window') + '<br>' + err.message,
+          ok: $scope.l('Ok')
+        }));
+      }
+    } else if (type === 'dialog') {
+      var e = err,
+        dialog, returnDialog = e.dialog;
+      e.preventDefault(); //block guest process
+      if (e.messageType === 'confirm') {
+        dialog = $mdDialog.confirm({
+          title: $scope.l('Confirm'),
+          content: e.messageText,
+          ok: $scope.l('Ok'),
+          cancel: $scope.l('Cancel')
+        });
+      } else if (e.messageType === 'prompt') {
+        /*dialog = $mdDialog.prompt({
+          title: $scope.l('Prompt'),
+          content: e.messageText,
+          ok: $scope.l('Ok'),
+          cancel: $scope.l('Cancel')
+        });*/
+        dialog = $mdDialog.alert({
+          title: $scope.l('Alert'),
+          content: 'Prompt dialog not handled, yet!',
+          ok: $scope.l('Close')
+        });
+      } else {
+        dialog = $mdDialog.alert({
+          title: $scope.l('Alert'),
+          content: e.messageText,
+          ok: $scope.l('Close')
+        });
+      }
+      $mdDialog
+        .show(dialog)
+        .then(function dialogDone() {
+          if (returnDialog) {
+            if (typeof returnDialog.ok === 'function') {
+              returnDialog.ok();
+            } else {
+              returnDialog.cancel();
+            }
+            returnDialog = undefined;
+          }
+        })
+        .finally(function dialogGone() {
+          dialog = undefined;
+          if (returnDialog) {
+            returnDialog.cancel();
+            returnDialog = undefined;
+          }
+        });
+    }
+
+    if (type === 'loadstart' || type === 'loadstop') { //renew the display on start and stop
       $scope.$apply();
     }
   });
-  $scope.menu.canTop = function canGoTop() {
-    return webviewLoaded && scrollTopCan;
-  };
 
-  $scope.menu.top = function goTop() {
-    if (!webviewLoaded) {
-      return false;
-    }
-    webview.contentWindow.postMessage({
-      command: 'scrollTop'
-    }, '*');
-  };
-}])
-
-.controller('OnlineCtrl', ['$scope', '$window', '$mdDialog', function OnlineCtrl($scope, $window, $mdDialog) {
-  webview = $window.document.getElementById('fimfiction');
-  var indicator = $window.document.querySelector('.loading-indicator');
-  var loading = $window.document.querySelector('#loading');
-
-  webview.addContentScripts([{
-    name: 'rule',
-    matches: ['http://*/*', 'https://*/*'],
-    js: {
-      files: ['scripts/inject/init.js', 'scripts/inject/scroll.js']
-    },
-    'run_at': 'document_start'
-  }]);
-
-  //TODO: load last url from storage
-  //for now go home
-  webview.src = homeUrl;
-
-  webview.addEventListener('close', function onCloseWebview() {
-    webview.src = 'about:blank';
-  });
-  webview.addEventListener('loadstart', function onStartWebview(e) {
-    if (e.isTopLevel && (e.url.search(webviewDomainLimit) === -1 && e.url.search('about:blank') === -1)) {
-      webview.stop();
-      $mdDialog.show($mdDialog.alert({
-        title: $scope.l('Alert'),
-        content: $scope.l('block_url') + '<br>' + e.url,
-        ok: $scope.l('Ok')
-      }));
-      return false;
-    }
-
-    webviewLoaded = false;
-    indicator.style.display = 'block';
-    if (webviewFirstLoading) {
-      loading.style.display = 'block';
-    }
-    $scope.$apply();
-  });
-  webview.addEventListener('loadstop', function onStopWebview() {
-    webviewLoaded = true;
-    indicator.style.display = 'none';
-    if (webviewFirstLoading) {
-      loading.style.display = 'none';
-      webviewFirstLoading = false;
-    }
-    $scope.$apply();
-  });
-
-  webview.addEventListener('contentload', function onLoadWebview() {
-    //shake hands to send this app id to web
-    var handshake = function handshake(event) {
-      if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
-        console.log('webview handshake received');
-        $window.removeEventListener('message', handshake);
-      }
-    };
-    $window.addEventListener('message', handshake);
-    webview.contentWindow.postMessage({
-      command: 'handshake'
-    }, '*');
-  });
+  //start the browser loading
+  browser.start();
 
   //show browser controls
   $scope.menu.browser = true;
-
-  // fimfiction does not use new windows (only ads), so no handling
-  webview.addEventListener('newwindow', function onNewWindowWebview(e) {
-    /*if (e.targetUrl.search(webviewDomainLimit) !== -1) {
-      e.preventDefault();
-      $window.open(e.targetUrl); //open in chrome
-    } else*/
-    {
-      e.window.discard();
-      $mdDialog.show($mdDialog.alert({
-        title: $scope.l('Alert'),
-        content: $scope.l('block_window') + '<br>' + e.targetUrl,
-        ok: $scope.l('Ok')
-      }));
-    }
-  });
-
-  //TODO: catch the request and save to app archive
-  webview.addEventListener('permissionrequest', function onPermissionWebview(e) {
-    if (e.permission === 'download' && e.request.url.search(webviewDomainLimit) !== -1) {
-      e.request.allow();
-    }
-  });
-
-  // capture and handle confirm and alert dialogs
-  webview.addEventListener('dialog', function onDialogWebview(e) {
-    e.preventDefault();
-
-    var returnDialog = e.dialog;
-    var dialog;
-    if (e.messageType === 'confirm') {
-      dialog = $mdDialog.confirm({
-        title: $scope.l('Confirm'),
-        content: e.messageText,
-        ok: $scope.l('Ok'),
-        cancel: $scope.l('Cancel')
-      });
-    } else if (e.messageType === 'prompt') {
-      /*dialog = $mdDialog.prompt({
-        title: $scope.l('Prompt'),
-        content: e.messageText,
-        ok: $scope.l('Ok'),
-        cancel: $scope.l('Cancel')
-      });*/
-      dialog = $mdDialog.alert({
-        title: $scope.l('Alert'),
-        content: 'Prompt dialog not handled, yet!',
-        ok: $scope.l('Close')
-      });
-    } else {
-      dialog = $mdDialog.alert({
-        title: $scope.l('Alert'),
-        content: e.messageText,
-        ok: $scope.l('Close')
-      });
-    }
-    $mdDialog
-      .show(dialog)
-      .then(function dialogDone() {
-        if (returnDialog) {
-          if (typeof returnDialog.ok === 'function') {
-            returnDialog.ok();
-          } else {
-            returnDialog.cancel();
-          }
-          returnDialog = undefined;
-        }
-      })
-      .finally(function dialogGone() {
-        dialog = undefined;
-        if (returnDialog) {
-          returnDialog.cancel();
-          returnDialog = undefined;
-        }
-      });
-  });
 }])
 
 ;
