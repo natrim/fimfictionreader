@@ -32,5 +32,41 @@
             ],
             "persistent": false
         }
+    },
+    "commands": {
+      "browser-reload": {
+        "suggested_key": {
+          "default": "Ctrl+R",
+          "mac": "Command+R"
+        },
+        "description": "__MSG_BrowserReload__"
+      },
+      "browser-home": {
+        "suggested_key": {
+          "default": "Ctrl+H",
+          "mac": "Command+H"
+        },
+        "description": "__MSG_BrowserHome__"
+      },
+      "browser-back": {
+        "suggested_key": {
+          "default": "Ctrl+B",
+          "mac": "Command+B"
+        },
+        "description": "__MSG_BrowserBack__"
+      },
+      "browser-forward": {
+        "description": "__MSG_BrowserForward__"
+      },
+      "browser-top": {
+        "suggested_key": {
+          "default": "Ctrl+G",
+          "mac": "Command+G"
+        },
+        "description": "__MSG_BrowserTop__"
+      },
+      "app-settings": {
+        "description": "__MSG_Settings__"
+      }
     }
 }

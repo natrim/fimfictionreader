@@ -112,6 +112,9 @@
   "Settings": {
     "message": "Settings"
   },
+  "Shortcuts": {
+    "message": "Shortcuts"
+  },
   "BrowserHome": {
     "message": "Go to Home page"
   },
