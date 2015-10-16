@@ -51,10 +51,10 @@ function newWindow(window, _) {
     this.changeWindow();
   }
 
-  AppWindow.prototype.updateContentSize = function updateContentSize(contentSelector) {
+  AppWindow.prototype.updateContentSize = function updateContentSize(contentSelector, minusSelector) {
     if (contentSelector) {
       if (!this._contentSelector) {
-        window.addEventListener('resize', _.debounce(this.updateContentSize, 10).bind(this, ''));
+        window.addEventListener('resize', _.debounce(this.updateContentSize, 10).bind(this, '', ''));
       }
 
       this._contentSelector = contentSelector;
@@ -62,11 +62,18 @@ function newWindow(window, _) {
     if (!this._contentSelector) {
       throw new Error('No content selecter provided! You need to provide it at least once!');
     }
+    if (minusSelector) {
+      this._minusSelector = minusSelector;
+    }
 
     var content = window.document.querySelector(this._contentSelector);
     if (content) {
       content.style.height = window.document.documentElement.clientHeight + 'px';
       content.style.width = window.document.documentElement.clientWidth + 'px';
+      var minus = window.document.querySelector(this._minusSelector);
+      if (minus) {
+        content.style.height = (window.document.documentElement.clientHeight - minus.clientHeight) + 'px';
+      }
     }
   };
 

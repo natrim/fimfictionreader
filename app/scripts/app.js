@@ -2,6 +2,8 @@
 
 var appWindow = window.newWindow(window);
 
+appWindow.updateContentSize('.window_content', '.window_toolbar');
+
 var closeTrigger = function () {
   window.close();
 };
@@ -60,12 +62,23 @@ window.addEventListener('load', function () {
     });
   });
 
+  //browser
+  var browser = window.newBrowser(window);
+
+  browser.bindWebview('#fimfiction');
+  browser.setHome('https://www.fimfiction.net/');
+  browser.setDomainLimit('fimfiction.net');
+  //browser.allowNewWindows(true);
+  browser.allowDownloadFrom('fimfiction.net');
+
   //the main app
   new Vue({
     el: '#app',
     ready: function () {
       //remove splash
       jQuery('#splash').dimmer('hide');
+      //start the browser loading
+      browser.start();
     },
     data: {},
     methods: {}
