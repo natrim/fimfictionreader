@@ -11,11 +11,11 @@
     isLiteral: true,
     priority: 999999999,
     bind: function () {
-      this.el.setAttribute(this.expression, chrome.i18n.getMessage(this.el.getAttribute(this.expression)));
+      this.el.setAttribute(this.expression, window.chrome.i18n.getMessage(this.el.getAttribute(this.expression)));
     }
   });
 
   Vue.filter('l', function (value) {
-    return chrome.i18n.getMessage(value);
+    return window.chrome.i18n.getMessage(value);
   });
 })();

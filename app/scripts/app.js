@@ -2,7 +2,7 @@
 
 var appWindow = window.newWindow(window);
 
-var closeTrigger = function(){
+var closeTrigger = function () {
   window.close();
 };
 
@@ -14,16 +14,51 @@ new Vue({
   data: {
     appWindow: appWindow
   },
-  ready: function() {
+  ready: function () {
     window.document.querySelector('#default-close-button').removeEventListener('click', closeTrigger);
     closeTrigger = null;
   }
 });
 
+function l(value) {
+  return window.chrome.i18n.getMessage(value);
+}
 
 window.addEventListener('load', function () {
   //tooltips
   jQuery('[data-content]').popup();
+
+  //set toast's
+  window.toastr.options = {
+    'closeButton': true,
+    'debug': false,
+    'newestOnTop': false,
+    'progressBar': true,
+    'positionClass': 'toast-top-right',
+    'preventDuplicates': true,
+    'onclick': null,
+    'showDuration': '300',
+    'hideDuration': '1000',
+    'timeOut': '5000',
+    'extendedTimeOut': '1000',
+    'showEasing': 'swing',
+    'hideEasing': 'linear',
+    'showMethod': 'fadeIn',
+    'hideMethod': 'fadeOut'
+  };
+
+  // update checks
+  var update = window.newUpdater(window);
+
+  update.bind(function updateMsg(details) {
+    window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
+      'closeButton': true,
+      'onclick': update.update.bind(update),
+      'positionClass': 'toast-top-' + (appWindow.isMac ? 'right' : 'left'),
+      'timeOut': '60000',
+      'extendedTimeOut': '30000'
+    });
+  });
 
   //the main app
   new Vue({

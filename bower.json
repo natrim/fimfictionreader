@@ -5,6 +5,7 @@
     "underscore": "~1.8.3",
     "vue": "csp",
     "jquery": "~2.1.4",
+    "toastr": "~2.1.2",
     "semantic-ui-reset": "~2.1.4",
     "semantic-ui-site": "~2.1.4",
     "semantic-ui-container": "git://github.com/Semantic-Org/UI-Container.git#~2.1.4",

@@ -11,8 +11,11 @@
     "description": "The description of the application"
   },
 
-  "newVersionAvailable": {
-    "message": "New version available"
+  "Update": {
+    "message": "Press to Update"
+  },
+  "newVersion": {
+    "message": "New version"
   },
   "Restart": {
     "message": "Restart"
