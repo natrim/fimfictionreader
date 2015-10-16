@@ -15,11 +15,8 @@
   min-height: 1.786em;
   max-height: 1.786em;
 }
-.window_toolbar .ui.mini.image {
-  width: 32px;
-  max-width: 32px;
-  height: 32px;
-  max-height: 32px;
+.menu.blured {
+  background-color: rgba(0,0,0,0.5)!important;
 }
 .window_toolbar.mac .menu.left .item {
   margin-left: 0.3em!important;

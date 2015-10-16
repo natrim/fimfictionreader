@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <title>FimFiction Reader</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-
+  <style type="text/css">[v-cloak] { display: none!important; }</style>
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
   <link rel="stylesheet" href="bower_components/semantic-ui-reset/reset.css" />
@@ -15,7 +15,6 @@
   <link rel="stylesheet" href="bower_components/semantic-ui-icon/icon.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-menu/menu.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-transition/transition.css" />
-  <link rel="stylesheet" href="bower_components/semantic-ui-image/image.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-dimmer/dimmer.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-loader/loader.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
@@ -27,8 +26,8 @@
   <!-- endbuild -->
 </head>
 
-<body>
-  <div class="window_toolbar ui three item menu" v-class="inverted: appWindow.isFocused, mac: appWindow.isMac" id="toolbar">
+<body style="background-color: rgba(0,0,0,0.5)">
+  <div class="window_toolbar ui three item menu trim inverted" v-class="blured: !appWindow.isFocused, mac: appWindow.isMac" id="toolbar">
     <div class="left menu" v-if="!appWindow.isMac">
       <div class="item">
       </div>
@@ -57,27 +56,29 @@
       </div>
     </div>
     <div class="right menu" v-if="!appWindow.isMac">
-      <div class="item">
+      <div class="item" v-cloak>
         <i class="minus icon link" v-class="square: appWindow.isMinimized" v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
       </div>
-      <div class="item">
+      <div class="item" v-cloak>
         <i class="add icon link" v-class="square: appWindow.isMaximized" v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
       </div>
       <div class="item">
-        <i class="close outline icon link" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <i class="close outline icon link" id="default-close-button" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
       </div>
     </div>
 
   </div>
 
-  <div class="window_content ui full fluid container trim" id="app">
-    <div id="splash" class="ui active dimmer">
+  <div class="window_content ui full fluid container trim dimmable dimmed">
+    <div id="splash" class="ui dimmer active">
       <div class="content">
         <div class="center">
           <div class="ui colorized big loader"></div>
           <img alt="splash" src="images/icon-128.png" class="ui centered image">
         </div>
       </div>
+    </div>
+    <div class="full trim ui container fluid" id="app">
     </div>
   </div>
 

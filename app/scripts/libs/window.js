@@ -20,16 +20,22 @@ function newWindow(window, _) {
     this.isMac = false;
     this.isLinux = false;
     this.isWindows = false;
-    window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
-      this.isMac = info.os === 'mac';
-      this.isLinux = info.os === 'linux';
-      this.isWindows = info.os === 'windows';
-      if (this._callbacks.length > 0) {
-        _.each(this._callbacks, function (v) {
-          v('os', this);
-        }, this);
-      }
-    }.bind(this));
+    if (window.chrome && window.chrome.runtime && window.chrome.runtime.getPlatformInfo) {
+      window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
+        this.isMac = info.os === 'mac';
+        this.isLinux = info.os === 'linux';
+        this.isWindows = info.os === 'windows';
+        if (this._callbacks.length > 0) {
+          _.each(this._callbacks, function (v) {
+            v('os', this);
+          }, this);
+        }
+      }.bind(this));
+    } else if (navigator) {
+      this.isMac = navigator.appVersion.indexOf('Mac') !== -1;
+      this.isLinux = navigator.appVersion.indexOf('Linux') !== -1;
+      this.isWindows = navigator.appVersion.indexOf('Win') !== -1;
+    }
 
     var throttled = _.debounce(this.changeWindow, 100); //because some events fire right after another
 
