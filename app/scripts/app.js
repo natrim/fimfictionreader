@@ -75,8 +75,31 @@ window.addEventListener('load', function () {
   new Vue({
     el: '#app',
     ready: function () {
-      //remove splash
-      jQuery('#splash').dimmer('hide');
+      var firstBrowserLoad = true;
+      var loadBrowserTimer = null;
+      browser.addChangeCallback(function (type, err, e) {
+        if (e.isTopLevel && type === 'loadstart') {
+          window.document.querySelector('#loading').className += ' active';
+        } else if (type === 'loadstop') {
+          window.document.querySelector('#loading').className = window.document.querySelector('#loading').className.replace(' active', '');
+        }
+
+        if (firstBrowserLoad && type === 'loadstart') {
+          //remove splash on first load
+          loadBrowserTimer = window._.delay(function () {
+            loadBrowserTimer = null;
+            firstBrowserLoad = false;
+            jQuery('#splash').dimmer('hide');
+          }, 5000);
+        } else if (firstBrowserLoad && type === 'loadstop') {
+          if (loadBrowserTimer) {
+            clearTimeout(loadBrowserTimer);
+            loadBrowserTimer = null;
+          }
+          firstBrowserLoad = false;
+          jQuery('#splash').dimmer('hide');
+        }
+      });
       //start the browser loading
       browser.start();
     },

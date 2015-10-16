@@ -5,9 +5,14 @@
   <meta charset="utf-8">
   <title>FimFiction Reader</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <style type="text/css">[v-cloak] { display: none!important; }</style>
+  <style type="text/css">
+    [v-cloak] {
+      display: none!important;
+    }
+  </style>
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-reset/reset.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-site/site-nofont.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-container/container.css" />
@@ -18,7 +23,6 @@
   <link rel="stylesheet" href="bower_components/semantic-ui-dimmer/dimmer.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-loader/loader.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
-  <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -70,11 +74,13 @@
 
   </div>
 
+  <div class="ui colorized loader" id="loading"></div>
+
   <div class="window_content ui full fluid container trim dimmable dimmed">
     <div id="splash" class="ui dimmer active">
+      <div class="ui colorized big loader"></div>
       <div class="content">
         <div class="center">
-          <div class="ui colorized big loader"></div>
           <img alt="splash" src="images/icon-128.png" class="ui centered image">
         </div>
       </div>

@@ -200,7 +200,7 @@ function newBrowser(window, _, timeout) {
         webview.stop();
         if (this._callbacks.length > 0) {
           _.each(this._callbacks, function (v) {
-            v('loadstart', new Error(e.url), this);
+            v('loadstart', new Error(e.url), e, this);
           }, this);
         }
         return;
@@ -209,21 +209,21 @@ function newBrowser(window, _, timeout) {
       webviewLoaded = false;
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('loadstart', null, this);
+          v('loadstart', null, e, this);
         }, this);
       }
     }.bind(this));
 
-    webview.addEventListener('loadstop', function onStopWebview() {
+    webview.addEventListener('loadstop', function onStopWebview(e) {
       webviewLoaded = true;
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('loadstop', null, this);
+          v('loadstop', null, e, this);
         }, this);
       }
     }.bind(this));
 
-    webview.addEventListener('contentload', function onLoadWebview() {
+    webview.addEventListener('contentload', function onLoadWebview(e) {
       //shake hands to send this app id to web
       var handshake = function handshake(event) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
@@ -238,7 +238,7 @@ function newBrowser(window, _, timeout) {
 
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('contentload', null, this);
+          v('contentload', null, e, this);
         }, this);
       }
     }.bind(this));
@@ -249,14 +249,14 @@ function newBrowser(window, _, timeout) {
         window.open(e.targetUrl); //open in chrome
         if (this._callbacks.length > 0) {
           _.each(this._callbacks, function (v) {
-            v('newwindow', null, this);
+            v('newwindow', null, e, this);
           }, this);
         }
       } else {
         e.window.discard();
         if (this._callbacks.length > 0) {
           _.each(this._callbacks, function (v) {
-            v('newwindow', new Error(e.targetUrl), this);
+            v('newwindow', new Error(e.targetUrl), e, this);
           }, this);
         }
       }
@@ -268,7 +268,7 @@ function newBrowser(window, _, timeout) {
       }
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('permissionrequest', null, this);
+          v('permissionrequest', null, e, this);
         }, this);
       }
     }.bind(this));
@@ -276,7 +276,7 @@ function newBrowser(window, _, timeout) {
     webview.addEventListener('dialog', function onDialogWebview(e) {
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('dialog', e, this);
+          v('dialog', null, e, this);
         }, this);
       }
     }.bind(this));
