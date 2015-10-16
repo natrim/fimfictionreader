@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="fictionReader">
+<html>
 
 <head>
   <meta charset="utf-8">
@@ -8,53 +8,101 @@
 
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/angular-material/angular-material.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-reset/reset.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-site/site-nofont.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-container/container.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-header/header.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-icon/icon.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-menu/menu.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-transition/transition.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-image/image.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-dimmer/dimmer.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-loader/loader.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
   <!-- build:css styles/main.css -->
-  <link rel="stylesheet" href="styles/fonts.css">
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild -->
 </head>
 
 <body>
-  <div class="m-app-loading" ng-animate-children>
-    <style type="text/css">div.m-app-loading{position:fixed}div.m-app-loading div.animated-container{bottom:0;left:0;opacity:1;position:fixed;right:0;top:0;z-index:999999}div.m-app-loading div.animated-container.ng-leave{opacity:1;transition:all linear 200ms;-webkit-transition:all linear 200ms}div.m-app-loading div.animated-container.ng-leave-active{opacity:0}div.m-app-loading div.messaging{font-family:monospace;left:0;margin-top:-140px;position:absolute;right:0;text-align:center;top:50%}div.m-app-loading h1{font-size:26px;line-height:35px;margin:0 0 20px}div.m-app-loading p{font-size:18px;line-height:14px;margin:0}</style>
-    <div class="animated-container">
-      <div class="messaging">
-        <h1>
-          App is Loading
-        </h1>
-        <img src="images/icon-128.png" alt="fimfiction">
-        <p>
-          Please stand by ...
-        </p>
+  <div class="window_toolbar ui three item menu" v-class="inverted: appWindow.isFocused, mac: appWindow.isMac" id="toolbar">
+    <div class="left menu" v-if="!appWindow.isMac">
+      <div class="item">
+      </div>
+      <div class="item">
+        &nbsp;
+        <img alt="logo" src="images/icon-32.png">
+      </div>
+    </div>
+    <div class="left menu" v-if="appWindow.isMac" v-cloak>
+      <div class="item">
+        <i class="close outline icon link" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+      <div class="item">
+        <i class="add icon link" v-class="square: appWindow.isMaximized" v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+      <div class="item">
+        <i class="minus icon link" v-class="square: appWindow.isMinimized" v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+    </div>
+    <div class="header item">
+      <l>appName</l>
+    </div>
+    <div class="right menu" v-if="appWindow.isMac" v-cloak>
+      <div class="item">
+        <img alt="logo" src="images/icon-32.png">
+      </div>
+    </div>
+    <div class="right menu" v-if="!appWindow.isMac">
+      <div class="item">
+        <i class="minus icon link" v-class="square: appWindow.isMinimized" v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+      <div class="item">
+        <i class="add icon link" v-class="square: appWindow.isMaximized" v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+      <div class="item">
+        <i class="close outline icon link" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="window_content ui full fluid container trim" id="app">
+    <div id="splash" class="ui active dimmer">
+      <div class="content">
+        <div class="center">
+          <div class="ui colorized big loader"></div>
+          <img alt="splash" src="images/icon-128.png" class="ui centered image">
+        </div>
       </div>
     </div>
   </div>
 
-  <div ui-view="main" class="trim full" id="main"></div>
-
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
+  <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/underscore/underscore.js"></script>
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-animate/angular-animate.js"></script>
-  <script src="bower_components/angular-aria/angular-aria.js"></script>
-  <script src="bower_components/angular-material/angular-material.js"></script>
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/vue/dist/vue.js"></script>
   <!-- endbower -->
+  <script src="bower_components/semantic-ui-site/site.js"></script>
+  <script src="bower_components/semantic-ui-transition/transition.js"></script>
+  <script src="bower_components/semantic-ui-dimmer/dimmer.js"></script>
+  <script src="bower_components/semantic-ui-popup/popup.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/main.js -->
-  <script src="scripts/app.js"></script>
-  <script src="scripts/preloading.js"></script>
-  <script src="scripts/controllers.js"></script>
   <script src="scripts/libs/window.js"></script>
+  <script src="scripts/helpers.js"></script>
+  <script src="scripts/app.js"></script>
+  <!--
+  <script src="scripts/controllers.js"></script>
   <script src="scripts/libs/settings.js"></script>
   <script src="scripts/libs/update.js"></script>
   <script src="scripts/libs/browser.js"></script>
+  -->
   <!-- endbuild -->
 </body>
 

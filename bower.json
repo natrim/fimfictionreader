@@ -2,10 +2,20 @@
   "name": "FimFiction",
   "private": true,
   "dependencies": {
-    "angular": "~1.4.7",
-    "angular-material": "~0.11.1",
-    "angular-ui-router": "~0.2.15",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "vue": "csp",
+    "jquery": "~2.1.4",
+    "semantic-ui-reset": "~2.1.4",
+    "semantic-ui-site": "~2.1.4",
+    "semantic-ui-container": "git://github.com/Semantic-Org/UI-Container.git#~2.1.4",
+    "semantic-ui-header": "~2.1.4",
+    "semantic-ui-icon": "~2.1.4",
+    "semantic-ui-menu": "~2.1.4",
+    "semantic-ui-transition": "~2.1.4",
+    "semantic-ui-image": "~2.1.4",
+    "semantic-ui-dimmer": "~2.1.4",
+    "semantic-ui-loader": "~2.1.4",
+    "semantic-ui-popup": "~2.1.4"
   },
   "devDependencies": {}
 }

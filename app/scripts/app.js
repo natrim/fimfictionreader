@@ -1,55 +1,26 @@
 'use strict';
 
-//underscore.js define
-var underscore = angular.module('underscore', []);
-underscore.factory('_', ['$window', function ($window) {
-  return $window._; //Underscore should be loaded on the page
-}]);
-
-//app define
-angular.module('fictionReader', ['underscore', 'fictionReader.controllers', 'appWindow', 'appSettings', 'appUpdate', 'browser', 'ui.router', 'ngMaterial'], ['$provide', function fixHistory($provide) {
-  // Prevent Angular from sniffing for the history API
-  // since it's not supported in packaged apps.
-  $provide.decorator('$window', ['$delegate', function ($delegate) {
-    $delegate.history = null;
-    return $delegate;
-  }]);
-}])
-
-.config(['$mdThemingProvider', function setTheme($mdThemingProvider) {
-  $mdThemingProvider.theme('default')
-    .backgroundPalette('grey')
-    .primaryPalette('blue-grey')
-    .accentPalette('light-blue')
-    .warnPalette('red');
-}])
-
-.config(['$stateProvider', '$urlRouterProvider', function setRoutes($stateProvider, $urlRouterProvider) {
-  $stateProvider
-
-    .state('app', {
-    url: '/app',
-    abstract: true,
-    views: {
-      'main': {
-        templateUrl: 'templates/main.html',
-        controller: 'AppCtrl'
-      },
-    }
-  })
-
-  .state('app.online', {
-    url: '/online',
-    views: {
-      'content': {
-        templateUrl: 'templates/online.html',
-        controller: 'OnlineCtrl'
-      }
-    }
-  })
-
-  ;
+//fire toolbar right away - the DOM should be usable by now
+new Vue({
+  el: '#toolbar',
+  data: {
+    appWindow: window.newWindow(window)
+  }
+});
 
 
-  $urlRouterProvider.otherwise('/app/online');
-}]);
+window.addEventListener('load', function () {
+  //tooltips
+  jQuery('[data-content]').popup();
+
+  //the main app
+  new Vue({
+    el: '#app',
+    ready: function () {
+      //remove splash
+      document.querySelector('#splash').remove();
+    },
+    data: {},
+    methods: {}
+  });
+});

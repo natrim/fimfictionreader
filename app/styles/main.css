@@ -1,122 +1,52 @@
-#content {
-  overflow: hidden;
-}
-#page_toolbar {
-  -webkit-app-region: drag;
-  height: 32px;
-}
-#page_toolbar.ng-hide {
-  height:0;
-}
-#page_toolbar button, #page_toolbar md-button {
-  -webkit-app-region: no-drag;
-}
-#page_toolbar h2 {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 0;
-  margin-right: -7%;
-}
-#page_toolbar img {
-  vertical-align: middle;
-  border: 0;
-  padding: 1px 5px;
-}
-#page_toolbar h2.os-mac {
-  margin-left: -7%;
-  margin-right: 0;
+[v-cloak] {
+  display: none;
 }
 ::-webkit-scrollbar-thumb {
   display: none;
 }
-.md-blur {
-  background-color: grey!important;
+.window_toolbar {
+  -webkit-app-region: drag;
 }
-.md-full {
-  display: none!important;
+.window_toolbar button, .window_toolbar a {
+  -webkit-app-region: no-drag;
 }
-.md-small {
-  height: 24px;
-  min-height: 24px;
-  max-height: 24px;
+/*limit toolbar size*/
+.ui.window_toolbar {
+  min-height: 1.786em;
+  max-height: 1.786em;
 }
-.md-small .md-toolbar-tools {
-  height: 24px;
-  min-height: 24px;
-  max-height: 24px;
+.window_toolbar .ui.mini.image {
+  width: 32px;
+  max-width: 32px;
+  height: 32px;
+  max-height: 32px;
 }
-.md-small md-icon {
-  width: 20px;
-  height: 20px;
-  font-size: 18px;
+.window_toolbar.mac .menu.left .item {
+  margin-left: 0.3em!important;
 }
-/*move the elements under toolbar*/
-md-backdrop, md-sidenav, .md-sidenav-right, .md-sidenav-left {
-  top: 24px;
+.window_toolbar:not(.mac) .menu.right .item {
+  padding-right: 0.3em!important;
 }
-/*move the toast under toolbar + 8px space*/
-md-toast.md-top {
-  top: 32px;
-}
-.md-small-button {
-  margin: 0 6px;
-  height: 48px;
-  min-width: 0;
-  line-height: 48px;
-  padding-left: 0;
-  padding-right: 0;
-  width: 48px;
-}
-.md-small .md-small-button {
-  height: 24px;
-  min-height: 24px;
-  min-width: 24px;
-  line-height: 24px;
-  width: 24px;
-  margin: 0 3px;
-}
-.trim {
-  margin: 0;
-  padding: 0;
-  border: 0;
+.window_content {
+  overflow: hidden;
+  position: relative;
 }
 .full {
   width: 100%;
   height: 100%;
 }
-.loading-indicator {
-  position: absolute;
-  z-index: 9999;
+.trim {
+  margin: 0!important;
+  padding: 0!important;
+  border: 0!important;
 }
-md-fab-speed-dial {
-  z-index: 10;
+/*create bigger loader*/
+.ui.inverted.dimmer .ui.loader.big,
+.ui.loader.big {
+  width: 2.2714em;
+  height: 2.2714em;
+  font-size: 5.14285714em;
 }
-md-fab-speed-dial.md-fab-top-left, md-fab-speed-dial.md-fab-top-right {
-  top: 36px;
-}
-md-fab-actions {
-  opacity: 1;
-}
-md-fab-actions.ng-hide-add, md-fab-actions.ng-hide-remove {
-  transition: all ease-in-out 0.5s;
-}
-md-fab-actions.ng-hide {
-  opacity: 0;
-}
-.md-toolbar-tools .md-button:not([disabled]).md-focused {
-  background-color: rgb(158,158,158)!important;
-  background-color: rgba(158,158,158,0.5)!important;
-}
-.md-button[disabled] {
-  color: rgb(0, 0, 0)!important;
-  color: rgba(0, 0, 0, 0.8)!important;
-  background-color: rgb(200, 200, 200)!important;
-  background-color: rgba(200, 200, 200, 0.8)!important;
-}
-.md-button[disabled] md-icon {
-  color: rgb(0, 0, 0)!important;
-  color: rgba(0, 0, 0, 0.8)!important;
-}
-md-toast {
-  opacity: 0.9;
+.ui.loader.colorized:after, .ui.dimmer .ui.loader.colorized:after {
+  border-color: rgb(55,100,212) transparent;
 }

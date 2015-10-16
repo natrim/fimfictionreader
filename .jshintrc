@@ -20,15 +20,7 @@
     "smarttabs": true,
     "globals" : {
         "chrome": true,
-        "angular": true,
-        "mocha": true,
-        "chai": true,
-        "expect": true,
-        "describe": true,
-        "it": true,
-        "before": true,
-        "beforeEach": true,
-        "after": true,
-        "afterEach": true
+        "Vue": true,
+        "jQuery": true
     }
 }

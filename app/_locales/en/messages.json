@@ -77,19 +77,19 @@
     "message": "Minimize"
   },
   "MinimizeMore": {
-    "message": "Minimize window"
+    "message": "Minimize app"
   },
   "Maximize": {
     "message": "Maximize"
   },
   "MaximizeMore": {
-    "message": "Maximize window"
+    "message": "Maximize app"
   },
   "Close": {
     "message": "Close"
   },
   "CloseMore": {
-    "message": "Close"
+    "message": "Close app"
   },
 
 

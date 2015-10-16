@@ -17,9 +17,13 @@ function newWindow(window, _) {
     this.isFullscreen = false;
     this._callbacks = [];
 
-    this.os = 'linux';
+    this.isMac = false;
+    this.isLinux = false;
+    this.isWindows = false;
     window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
-      this.os = info.os;
+      this.isMac = info.os === 'mac';
+      this.isLinux = info.os === 'linux';
+      this.isWindows = info.os === 'windows';
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
           v('os', this);
