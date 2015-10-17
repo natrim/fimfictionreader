@@ -8,7 +8,6 @@
     "toastr": "~2.1.2",
     "semantic-ui-reset": "~2.1.4",
     "semantic-ui-site": "~2.1.4",
-    "semantic-ui-container": "git://github.com/Semantic-Org/UI-Container.git#~2.1.4",
     "semantic-ui-header": "~2.1.4",
     "semantic-ui-icon": "~2.1.4",
     "semantic-ui-menu": "~2.1.4",
