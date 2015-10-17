@@ -2,12 +2,13 @@
 
 var appWindow = window.newWindow(window);
 
+//bind content resizing
 appWindow.updateContentSize('.window_content', '.window_toolbar');
 
+//fallback closer
 var closeTrigger = function () {
   window.close();
 };
-
 window.document.querySelector('#default-close-button').addEventListener('click', closeTrigger);
 
 //fire toolbar right away - the DOM should be usable by now
@@ -27,27 +28,7 @@ function l(value) {
 }
 
 window.addEventListener('load', function () {
-  //tooltips
-  jQuery('[data-content]').popup();
-
-  //set toast's
-  window.toastr.options = {
-    'closeButton': true,
-    'debug': false,
-    'newestOnTop': false,
-    'progressBar': true,
-    'positionClass': 'toast-top-right',
-    'preventDuplicates': true,
-    'onclick': null,
-    'showDuration': '300',
-    'hideDuration': '1000',
-    'timeOut': '5000',
-    'extendedTimeOut': '1000',
-    'showEasing': 'swing',
-    'hideEasing': 'linear',
-    'showMethod': 'fadeIn',
-    'hideMethod': 'fadeOut'
-  };
+  window.helpers.onLoad();
 
   // update checks
   var update = window.newUpdater(window);
@@ -58,7 +39,7 @@ window.addEventListener('load', function () {
       'onclick': update.update.bind(update),
       'positionClass': 'toast-top-' + (appWindow.isMac ? 'right' : 'left'),
       'timeOut': '60000',
-      'extendedTimeOut': '30000'
+      'extendedTimeOut': '10000'
     });
   });
 
@@ -77,10 +58,33 @@ window.addEventListener('load', function () {
     ready: function () {
       var loading = jQuery('#loading');
       var loadingBrowserTimer = null;
-      loading.attr('v-cloak', null); //enable - manually cause it's outside of app
+      window._.defer(function () {
+        loading.attr('v-cloak', null); //enable - manually cause it's outside of app
+      });
       var firstBrowserLoad = true;
       var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function (type, err, e) {
+        if (err && type === 'loadstart') {
+          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message, false);
+          jQuery('#dialog').modal('show');
+        } else if (err && type === 'newwindow') {
+          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message, false);
+          jQuery('#dialog').modal('show');
+        } else if (type === 'dialog') {
+          e.preventDefault();
+
+          if (e.messageType === 'confirm') {
+            window.helpers.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
+            jQuery('#dialog').modal('show');
+          } else if (e.messageType === 'prompt') {
+            window.helpers.modal('#dialog', l('Alert'), 'Prompt dialog not handled, yet!', false, e.dialog);
+            jQuery('#dialog').modal('show');
+          } else {
+            window.helpers.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
+            jQuery('#dialog').modal('show');
+          }
+        }
+
         //show small circle to indicate page loading
         if (e.isTopLevel && type === 'loadstart') {
           loading.addClass('active');

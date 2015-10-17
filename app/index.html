@@ -23,6 +23,8 @@
   <link rel="stylesheet" href="bower_components/semantic-ui-dimmer/dimmer.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-loader/loader.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-modal/modal.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-button/button.css" />
   <!-- endbower -->
   <!-- endbuild -->
 
@@ -71,11 +73,12 @@
         <i class="close outline icon link" id="default-close-button" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
       </div>
     </div>
-
   </div>
+
   <div class="ui colorized image loader" id="loading" v-cloak>
     <img alt="logo" src="images/icon-32.png">
   </div>
+
   <div class="window_content ui full fluid container trim dimmable dimmed">
     <div id="splash" class="ui dimmer active">
       <div class="ui colorized big loader"></div>
@@ -90,6 +93,30 @@
     </div>
   </div>
 
+  <div class="ui small modal" id="dialog">
+    <i class="close icon"></i>
+    <div class="header">
+      <l>Alert</l>
+    </div>
+    <div class="content">
+      <div class="description">
+        <p>
+          ...
+        </p>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui negative button">
+        <i class="remove icon"></i>
+        <l>Cancel</l>
+      </div>
+      <div class="ui positive button">
+        <i class="checkmark icon"></i>
+        <l>Ok</l>
+      </div>
+    </div>
+  </div>
+
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -101,6 +128,7 @@
   <script src="bower_components/semantic-ui-transition/transition.js"></script>
   <script src="bower_components/semantic-ui-dimmer/dimmer.js"></script>
   <script src="bower_components/semantic-ui-popup/popup.js"></script>
+  <script src="bower_components/semantic-ui-modal/modal.js"></script>
   <!-- endbuild -->
 
   <!-- build:js scripts/main.js -->
