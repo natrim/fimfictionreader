@@ -38,13 +38,6 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      templates: {
-        files: ['<%= config.app %>/templates/{,*/}*.html'],
-        tasks: [],
-        options: {
-          livereload: true
-        }
-      },
       gruntfile: {
         files: ['Gruntfile.js']
       },
