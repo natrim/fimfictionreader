@@ -58,7 +58,7 @@
   },
 
   "Ok": {
-    "message": "ok"
+    "message": "Ok"
   },
   "Cancel": {
     "message": "Cancel"
@@ -118,19 +118,34 @@
   "Shortcuts": {
     "message": "Shortcuts"
   },
-  "BrowserHome": {
+  "Home" :{
+    "message": "Home"
+  },
+  "HomeMore": {
     "message": "Go to Home page"
   },
-  "BrowserBack": {
+  "Back" :{
+    "message": "Back"
+  },
+  "BackMore": {
     "message": "Go Back by one page"
   },
-  "BrowserForward": {
+  "Forward" :{
+    "message": "Forward"
+  },
+  "ForwardMore": {
     "message": "Go Forward by on page"
   },
-  "BrowserReload": {
+  "Reload" :{
+    "message": "Reload"
+  },
+  "ReloadMore": {
     "message": "Reload page"
   },
-  "BrowserTop": {
+  "Top" :{
+    "message": "Top"
+  },
+  "TopMore": {
     "message": "Go to top of page"
   }
 }

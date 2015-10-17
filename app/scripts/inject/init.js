@@ -31,3 +31,10 @@ function _receiveMessage(event) {
 }
 
 window.addEventListener('message', _receiveMessage);
+
+//disable contextmenu
+document.addEventListener('contextmenu', function (e) {
+  if (!e.altKey) { // ALT Right Click => Standard Context Menu
+    e.preventDefault();
+  }
+});

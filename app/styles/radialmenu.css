@@ -1,0 +1,138 @@
+.radialmenu {
+  position: absolute;
+  top: 150px;
+  left: 150px;
+  opacity: 0;
+  display: none;
+}
+.radialmenu.paused {
+  opacity: 1;
+  display: inline;
+}
+.radial ul {
+  list-style: none;
+  position: absolute;
+}
+.radial ul li a {
+  border-radius: 33px;
+  text-align: center;
+  height: 60px;
+  line-height: 58px;
+  color: white;
+  width: 60px;
+  border: 2px solid white;
+  background: black;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  box-shadow: 2px 3px 5px white;
+  -webkit-transition: top .5s ease, left .5s ease, opacity .5s ease;
+}
+.radial ul li > div {
+  position: absolute;
+}
+.radial ul li a:hover {
+  background: white;
+}
+.radial ul.paused li a {
+  opacity: 1;
+}
+.radial ul.paused > li div ul li a {
+  opacity: 0;
+  -webkit-transition: top .5s ease, left .5s ease, opacity .5s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  display: none;
+  background: black;
+}
+.radial ul.paused > li div ul li a:hover {
+  background: white;
+}
+.radial ul.paused > li:hover > div > ul a {
+  opacity: 1;
+  display: block;
+}
+
+/*This needs work to fade out others*/
+
+.radial > ul.paused > li > a:not(:hover) {
+  opacity: .7;
+}
+.sector {
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0 40px 80px 40px;
+  border-color: transparent transparent black transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 0 0 90px 90px;
+  -moz-border-radius: 0 0 90px 90px;
+  -webkit-border-radius: 0 0 90px 90px;
+}
+.sector.selected {
+  border-bottom-color: white;
+}
+.sector.disabled {
+  border-bottom-color: gray;
+}
+.sectorlabel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  vertical-align: bottom;
+  text-align: center;
+}
+.sectorlabel a {
+  text-decoration: none;
+  color: white;
+  cursor: default;
+}
+.sectorlabel.selected a {
+  color: black;
+}
+.sectorlabel.disabled a {
+  color: darkgray;
+}
+.sectors, .sectorlabels, .vertex {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.vertex {
+  height: 25px;
+  width: 25px;
+  font-size: 20px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: helvetica;
+  color: white;
+  border-radius: 20px;
+  background: black;
+  border: 1px solid white;
+  z-index: 100;
+  position: absolute;
+  top: -5px;
+  left: 0;
+  margin-top: -8px;
+  margin-left: -8px;
+  cursor: default;
+}
+.selvertex {
+  border: 1px solid black;
+  background: white;
+  color: black;
+}
+
+/*
+.trajectory {
+    color:gray;
+    opacity:0.5;
+    width:5px;
+    position:absolute;
+}
+*/

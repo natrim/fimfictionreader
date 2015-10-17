@@ -23,6 +23,25 @@ new Vue({
   }
 });
 
+//browser
+var browser = window.newBrowser(window);
+
+new Vue({
+  el: '#dialog'
+});
+
+var controls = browser.getControls();
+
+new Vue({
+  el: '#radial',
+  data: {
+    controls: controls
+  },
+  ready: function () {
+    window.radialMenu(controls.check.bind(controls));
+  }
+});
+
 function l(value) {
   return window.chrome.i18n.getMessage(value);
 }
@@ -42,9 +61,6 @@ window.addEventListener('load', function () {
       'extendedTimeOut': '10000'
     });
   });
-
-  //browser
-  var browser = window.newBrowser(window);
 
   browser.bindWebview('#fimfiction');
   browser.setHome('https://www.fimfiction.net/');
@@ -118,8 +134,6 @@ window.addEventListener('load', function () {
       });
       //start the browser loading
       browser.start();
-    },
-    data: {},
-    methods: {}
+    }
   });
 });

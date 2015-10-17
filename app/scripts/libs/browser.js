@@ -31,6 +31,12 @@ function newBrowser(window, _, timeout) {
   function BrowserControls() {
     this._callbacks = [];
 
+    this.isHome = false;
+    this.isBack = false;
+    this.isForward = false;
+    this.isTop = false;
+    this.isReload = false;
+
     this.scrollTopCan = false;
     window.addEventListener('message', function onMessage() {
       if (event && event.data && event.data.command && event.data.command === 'scroll') {
@@ -57,56 +63,62 @@ function newBrowser(window, _, timeout) {
   };
 
   BrowserControls.prototype.canBack = function canGoBack() {
-    if (!webview) {
-      return false;
+    if (webview) {
+      this.isBack = webview.canGoBack();
+    } else {
+      this.isBack = false;
     }
-    return webview.canGoBack();
+
+    return this.isBack;
   };
 
   BrowserControls.prototype.back = function goBack() {
-    if (!webview) {
+    if (!this.canBack()) {
       return;
     }
-    if (webview.canGoBack()) {
-      webview.back();
-    }
+    webview.back();
   };
 
   BrowserControls.prototype.canForward = function canGoForward() {
-    if (!webview) {
-      return false;
+    if (webview) {
+      this.isForward = webview.canGoForward();
+    } else {
+      this.isForward = false;
     }
-    return webview.canGoForward();
+
+    return this.isForward;
   };
 
   BrowserControls.prototype.forward = function goForward() {
-    if (!webview) {
+    if (!this.canForward()) {
       return;
     }
-    if (webview.canGoForward()) {
-      webview.forward();
-    }
+    webview.forward();
   };
 
   BrowserControls.prototype.canReload = function canReloadPage() {
-    if (!webview) {
-      return false;
+    if (webview) {
+      this.isReload = true;
+    } else {
+      this.isReload = false;
     }
-    return true; //reload anytime
+    return this.isReload;
   };
 
   BrowserControls.prototype.reload = function reloadPage() {
-    if (!webview) {
+    if (!this.canReload()) {
       return;
     }
     webview.reload();
   };
 
   BrowserControls.prototype.canHome = function canGoHome() {
-    if (!webview) {
-      return false;
+    if (webview) {
+      this.isHome = webview.src !== homeUrl;
+    } else {
+      this.isHome = false;
     }
-    return webview.src !== homeUrl;
+    return this.isHome;
   };
 
   BrowserControls.prototype.home = function goHome() {
@@ -131,10 +143,12 @@ function newBrowser(window, _, timeout) {
   };
 
   BrowserControls.prototype.canTop = function canGoTop() {
-    if (!webview) {
-      return false;
+    if (webview) {
+      this.isTop = webviewLoaded && this.scrollTopCan;
+    } else {
+      this.isTop = false;
     }
-    return webviewLoaded && this.scrollTopCan;
+    return this.isTop;
   };
 
   BrowserControls.prototype.top = function goTop() {
@@ -149,6 +163,13 @@ function newBrowser(window, _, timeout) {
     }, '*');
   };
 
+  BrowserControls.prototype.check = function () {
+    this.canReload();
+    this.canHome();
+    this.canTop();
+    this.canBack();
+    this.canForward();
+  };
 
   function Browser() {
     this._callbacks = [];
