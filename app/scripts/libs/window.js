@@ -70,9 +70,11 @@ function newWindow(window, _) {
     if (content) {
       content.style.height = window.document.documentElement.clientHeight + 'px';
       content.style.width = window.document.documentElement.clientWidth + 'px';
-      var minus = window.document.querySelector(this._minusSelector);
-      if (minus) {
-        content.style.height = (window.document.documentElement.clientHeight - minus.clientHeight) + 'px';
+      if (this._minusSelector) {
+        var minus = window.document.querySelector(this._minusSelector);
+        if (minus) {
+          content.style.height = (window.document.documentElement.clientHeight - minus.clientHeight) + 'px';
+        }
       }
     }
   };

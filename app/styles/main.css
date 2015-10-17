@@ -47,3 +47,28 @@
 .ui.loader.colorized:after, .ui.dimmer .ui.loader.colorized:after {
   border-color: rgb(55,100,212) transparent;
 }
+.ui.image.loader {
+    min-width: 2.2585em;
+}
+/*fix toastr top postitions*/
+.toast-top-center {
+	top: 1.786em;
+	right: 0;
+	width: 100%;
+}
+
+.toast-top-full-width {
+	top: 1.786em;
+	right: 0;
+	width: 100%;
+}
+
+.toast-top-left {
+	top: 2.2em;
+	left: 1.7em;
+}
+
+.toast-top-right {
+	top: 2.2em;
+	right: 1.7em;
+}

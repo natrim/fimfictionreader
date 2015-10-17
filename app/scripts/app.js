@@ -75,29 +75,41 @@ window.addEventListener('load', function () {
   new Vue({
     el: '#app',
     ready: function () {
+      var loading = jQuery('#loading');
+      var loadingBrowserTimer = null;
+      loading.attr('v-cloak', null); //enable - manually cause it's outside of app
       var firstBrowserLoad = true;
-      var loadBrowserTimer = null;
+      var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function (type, err, e) {
+        //show small circle to indicate page loading
         if (e.isTopLevel && type === 'loadstart') {
-          window.document.querySelector('#loading').className += ' active';
+          loading.addClass('active');
+          loadingBrowserTimer = window._.delay(function () {
+            loadingBrowserTimer = null;
+            loading.removeClass('active');
+          }, 5000);
         } else if (type === 'loadstop') {
-          window.document.querySelector('#loading').className = window.document.querySelector('#loading').className.replace(' active', '');
+          if (loadingBrowserTimer) {
+            clearTimeout(loadingBrowserTimer);
+            loadingBrowserTimer = null;
+            loading.removeClass('active');
+          }
         }
 
         if (firstBrowserLoad && type === 'loadstart') {
           //remove splash on first load
-          loadBrowserTimer = window._.delay(function () {
-            loadBrowserTimer = null;
+          firstLoadBrowserTimer = window._.delay(function () {
+            firstLoadBrowserTimer = null;
             firstBrowserLoad = false;
-            jQuery('#splash').dimmer('hide');
+            jQuery('#splash').dimmer('hide').remove();
           }, 5000);
         } else if (firstBrowserLoad && type === 'loadstop') {
-          if (loadBrowserTimer) {
-            clearTimeout(loadBrowserTimer);
-            loadBrowserTimer = null;
+          if (firstLoadBrowserTimer) {
+            clearTimeout(firstLoadBrowserTimer);
+            firstLoadBrowserTimer = null;
+            jQuery('#splash').dimmer('hide').remove();
           }
           firstBrowserLoad = false;
-          jQuery('#splash').dimmer('hide');
         }
       });
       //start the browser loading
