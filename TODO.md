@@ -1,6 +1,6 @@
 ##### TODO'S
 - offline mode (saving the stories and reading them without internet)
-- remember page and scroll (inject code to page to send messages back to app)
+- remember and renew pagescroll?
 - allow changing position of toolbar (really?)
 - maybe completely remove toolbar and put the window controls to menu?
 
