@@ -168,7 +168,7 @@
       return new Array(num + 1).join(this);
     };
 
-    $('.radial').parent().append('<div class="radialmenu">' + '<div class="sectors"></div>' + '<div class="sectorlabels"></div>' + '<div class="vertex" title="Hold Alt to see system context menu">x</div>' + '<div class="trajectory"></div>' + '</div>');
+    $('.radial').parent().append('<div class="radialmenu">' + '<div class="sectors"></div>' + '<div class="sectorlabels"></div>' + '<div class="vertex">x</div>' + '<div class="trajectory"></div>' + '</div>');
     var n = $('.radial ul').children().length;
     var radian = 2 * Math.PI;
     //var ia = radian / n;
