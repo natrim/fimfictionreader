@@ -128,6 +128,13 @@ function newBrowser(window, _, timeout) {
     webview.src = homeUrl;
   };
 
+  BrowserControls.prototype.go = function goToPage(page) {
+    if (!webview) {
+      return;
+    }
+    webview.src = page;
+  };
+
   BrowserControls.prototype.clearData = function clearData(callback) {
     if (!webview) {
       callback(false);
@@ -249,9 +256,14 @@ function newBrowser(window, _, timeout) {
       var handshake = function handshake(event) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
           console.log('webview handshake received');
+          if (event.data.url) {
+            window.chrome.storage.local.set({
+              'lastUrl': event.data.url
+            });
+          }
           window.removeEventListener('message', handshake);
         }
-      };
+      }.bind(this);
       window.addEventListener('message', handshake);
       webview.contentWindow.postMessage({
         command: 'handshake'
@@ -324,9 +336,17 @@ function newBrowser(window, _, timeout) {
       throw new Error('Use \'setHome\' to set home page first!');
     }
 
-    //TODO: load last url from storage
-    //for now go home
-    webview.src = homeUrl;
+    window.chrome.storage.local.get('lastUrl', function getLastUrl(items) {
+      if (!window.chrome.runtime.lastError) {
+        if (items.lastUrl) {
+          webview.src = items.lastUrl;
+        } else {
+          webview.src = homeUrl;
+        }
+      } else {
+        webview.src = homeUrl;
+      }
+    });
   };
 
   return new Browser();

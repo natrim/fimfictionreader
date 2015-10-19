@@ -25,7 +25,8 @@ function _receiveMessage(event) {
     appOrigin = event.origin;
 
     _sendMessage({
-      command: 'handshakereply'
+      command: 'handshakereply',
+      url: window.location.href
     });
   }
 }
