@@ -21,22 +21,6 @@
     "message": "Restart"
   },
 
-  "OpenMenuOnHoverSetting": {
-    "message": "Open menu on hover?"
-  },
-  "MenuPositionSetting": {
-    "message": "Show menu at"
-  },
-  "SettingsSaved": {
-    "message": "Settings Saved!"
-  },
-  "SettingsSaveFailed": {
-    "message": "Settings save failed!"
-  },
-  "LocalSettings": {
-    "message": "Settings are stored on this computer only."
-  },
-
   "ResetData": {
     "message": "Clear browser data"
   },
@@ -95,29 +79,6 @@
     "message": "Close app"
   },
 
-
-  "Story": {
-    "message": "Story"
-  },
-  "NoStory": {
-    "message": "No story found!"
-  },
-  "Stories": {
-    "message": "Stories"
-  },
-
-  "online_loading": {
-    "message": "Loading online context"
-  },
-  "Menu": {
-    "message": "Menu"
-  },
-  "Settings": {
-    "message": "Settings"
-  },
-  "Shortcuts": {
-    "message": "Shortcuts"
-  },
   "Home" :{
     "message": "Home"
   },
