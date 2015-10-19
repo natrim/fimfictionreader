@@ -45,13 +45,13 @@
     </div>
     <div class="left menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <i class="remove circle icon link" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="remove circle icon link"></i></a>
       </div>
       <div class="item">
-        <i class="add circle icon link" v-class="square: appWindow.isMaximized" v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="add circle icon link" v-class="square: appWindow.isMaximized"></i></a>
       </div>
       <div class="item">
-        <i class="minus circle icon link" v-class="square: appWindow.isMinimized" v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="minus circle icon link" v-class="square: appWindow.isMinimized"></i></a>
       </div>
     </div>
     <div class="header item">
@@ -64,89 +64,92 @@
     </div>
     <div class="right menu" v-if="!appWindow.isMac">
       <div class="item" v-cloak>
-        <i class="minus icon link" v-class="square: appWindow.isMinimized" v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="minus icon link" v-class="square: appWindow.isMinimized"></i></a>
       </div>
       <div class="item" v-cloak>
-        <i class="add icon link" v-class="square: appWindow.isMaximized" v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="add icon link" v-class="square: appWindow.isMaximized"></i></a>
       </div>
       <div class="item">
-        <i class="close outline icon link" id="default-close-button" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"></i>
+        <a id="default-close-button" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="close outline icon link"></i></a>
       </div>
     </div>
   </div>
 
-  <div class="ui colorized image loader" id="loading" v-cloak>
-    <img alt="logo" src="images/icon-32.png">
-  </div>
+  <div id="app">
+    <div class="ui colorized image loader" id="loading" v-cloak>
+      <img alt="logo" src="images/icon-32.png">
+    </div>
 
-  <div class="window_content ui full trim dimmable dimmed">
-    <div id="splash" class="ui dimmer active">
-      <div class="ui colorized big loader"></div>
+    <div class="window_content ui full trim dimmable dimmed">
+      <div id="splash" class="ui dimmer active">
+        <div class="ui colorized big loader"></div>
+        <div class="content">
+          <div class="center">
+            <img alt="logo" src="images/icon-128.png">
+          </div>
+        </div>
+      </div>
+      <div class="full trim ui">
+        <webview allowtransparency="on" class="trim full" flex id="fimfiction" partition="persist:fimfictionreader" src=""></webview>
+      </div>
+    </div>
+
+    <div class="ui small modal" id="dialog">
+      <i class="close icon"></i>
+      <div class="header">
+        <l>Alert</l>
+      </div>
       <div class="content">
-        <div class="center">
-          <img alt="logo" src="images/icon-128.png">
+        <div class="description">
+          <p>
+            ...
+          </p>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui negative button">
+          <i class="remove icon"></i>
+          <l>Cancel</l>
+        </div>
+        <div class="ui positive button">
+          <i class="checkmark icon"></i>
+          <l>Ok</l>
         </div>
       </div>
     </div>
-    <div class="full trim ui" id="app">
-      <webview allowtransparency="on" class="trim full" flex id="fimfiction" partition="persist:fimfictionreader" src=""></webview>
-    </div>
-  </div>
 
-  <div class="ui small modal" id="dialog">
-    <i class="close icon"></i>
-    <div class="header">
-      <l>Alert</l>
-    </div>
-    <div class="content">
-      <div class="description">
-        <p>
-          ...
-        </p>
+    <div id="radial">
+      <div class="radial">
+        <ul>
+          <li>
+            <a v-on="click: controls.reload()" v-class="disabled: !controls.isReload" title="ReloadMore" v-l="title">
+              <l>Reload</l>
+            </a>
+          </li>
+          <li>
+            <a v-on="click: controls.back()" v-class="disabled: !controls.isBack" title="BackMore" v-l="title">
+              <l>Back</l>
+            </a>
+          </li>
+          <li>
+            <a v-on="click: controls.home()" v-class="disabled: !controls.isHome" title="HomeMore" v-l="title">
+              <l>Home</l>
+            </a>
+          </li>
+          <li>
+            <a v-on="click: controls.top()" v-class="disabled: !controls.isTop" title="TopMore" v-l="title">
+              <l>Top</l>
+            </a>
+          </li>
+          <li>
+            <a v-on="click: controls.forward()" v-class="disabled: !controls.isForward" title="ForwardMore" v-l="title">
+              <l>Forward</l>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div class="actions">
-      <div class="ui negative button">
-        <i class="remove icon"></i>
-        <l>Cancel</l>
-      </div>
-      <div class="ui positive button">
-        <i class="checkmark icon"></i>
-        <l>Ok</l>
-      </div>
-    </div>
-  </div>
 
-  <div id="radial">
-    <div class="radial">
-      <ul>
-        <li>
-          <a v-on="click: controls.reload()" v-class="disabled: !controls.isReload" title="ReloadMore" v-l="title">
-            <l>Reload</l>
-          </a>
-        </li>
-        <li>
-          <a v-on="click: controls.back()" v-class="disabled: !controls.isBack" title="BackMore" v-l="title">
-            <l>Back</l>
-          </a>
-        </li>
-        <li>
-          <a v-on="click: controls.home()" v-class="disabled: !controls.isHome" title="HomeMore" v-l="title">
-            <l>Home</l>
-          </a>
-        </li>
-        <li>
-          <a v-on="click: controls.top()" v-class="disabled: !controls.isTop" title="TopMore" v-l="title">
-            <l>Top</l>
-          </a>
-        </li>
-        <li>
-          <a v-on="click: controls.forward()" v-class="disabled: !controls.isForward" title="ForwardMore" v-l="title">
-            <l>Forward</l>
-          </a>
-        </li>
-      </ul>
-    </div>
   </div>
 
   <!-- build:js scripts/vendor.js -->

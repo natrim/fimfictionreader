@@ -25,22 +25,7 @@ new Vue({
 
 //browser
 var browser = window.newBrowser(window);
-
-new Vue({
-  el: '#dialog'
-});
-
 var controls = browser.getControls();
-
-new Vue({
-  el: '#radial',
-  data: {
-    controls: controls
-  },
-  ready: function () {
-    window.radialMenu(controls.check.bind(controls));
-  }
-});
 
 function l(value) {
   return window.chrome.i18n.getMessage(value);
@@ -71,11 +56,15 @@ window.addEventListener('load', function () {
   //the main app
   new Vue({
     el: '#app',
+    data: {
+      controls: controls
+    },
     ready: function () {
       var loading = jQuery('#loading');
       var loadingBrowserTimer = null;
       window._.defer(function () {
         loading.attr('v-cloak', null); //enable - manually cause it's outside of app
+        window.radialMenu(controls.check.bind(controls)); //browser radial menu
       });
       var firstBrowserLoad = true;
       var firstLoadBrowserTimer = null;
