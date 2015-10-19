@@ -6,7 +6,7 @@ var appWindow = window.newWindow(window);
 appWindow.updateContentSize('.window_content', '.window_toolbar');
 
 //fallback closer
-var closeTrigger = function () {
+var closeTrigger = function closeTrigger() {
   window.close();
 };
 window.document.querySelector('#default-close-button').addEventListener('click', closeTrigger);
@@ -17,7 +17,7 @@ new Vue({
   data: {
     appWindow: appWindow
   },
-  ready: function () {
+  ready: function toolbarReady() {
     window.document.querySelector('#default-close-button').removeEventListener('click', closeTrigger);
     closeTrigger = null;
   }
@@ -27,11 +27,12 @@ new Vue({
 var browser = window.newBrowser(window);
 var controls = browser.getControls();
 
+//translate
 function l(value) {
   return window.chrome.i18n.getMessage(value);
 }
 
-window.addEventListener('load', function () {
+window.addEventListener('load', function appLoadEvent() {
   window.helpers.onLoad();
 
   // update checks
@@ -59,16 +60,16 @@ window.addEventListener('load', function () {
     data: {
       controls: controls
     },
-    ready: function () {
+    ready: function appReady() {
       var loading = jQuery('#loading');
       var loadingBrowserTimer = null;
-      window._.defer(function () {
+      window._.defer(function menuDefer() {
         loading.attr('v-cloak', null); //enable - manually cause it's outside of app
         window.radialMenu(controls.check.bind(controls)); //browser radial menu
       });
       var firstBrowserLoad = true;
       var firstLoadBrowserTimer = null;
-      browser.addChangeCallback(function (type, err, e) {
+      browser.addChangeCallback(function changeCallback(type, err, e) {
         if (err && type === 'loadstart') {
           window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message, false);
           jQuery('#dialog').modal('show');
@@ -93,7 +94,7 @@ window.addEventListener('load', function () {
         //show small circle to indicate page loading
         if (e.isTopLevel && type === 'loadstart') {
           loading.addClass('active');
-          loadingBrowserTimer = window._.delay(function () {
+          loadingBrowserTimer = window._.delay(function loadBrowserTimerDelay() {
             loadingBrowserTimer = null;
             loading.removeClass('active');
           }, 5000);
@@ -107,7 +108,7 @@ window.addEventListener('load', function () {
 
         if (firstBrowserLoad && type === 'loadstart') {
           //remove splash on first load
-          firstLoadBrowserTimer = window._.delay(function () {
+          firstLoadBrowserTimer = window._.delay(function firstLoadBrowserTimerDelay() {
             firstLoadBrowserTimer = null;
             firstBrowserLoad = false;
             jQuery('#splash').dimmer('hide').remove();
@@ -121,6 +122,7 @@ window.addEventListener('load', function () {
           firstBrowserLoad = false;
         }
       });
+
       //start the browser loading
       browser.start();
     }
