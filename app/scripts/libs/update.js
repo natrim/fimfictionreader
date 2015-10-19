@@ -58,8 +58,3 @@ function newUpdater(window, _, timeout) {
 if (typeof module !== 'undefined') {
   module.export.new = newUpdater;
 }
-
-if (typeof angular !== 'undefined') {
-  angular.module('appUpdate', [])
-    .factory('appUpdate', ['$window', '_', '$timeout', newUpdater]);
-}

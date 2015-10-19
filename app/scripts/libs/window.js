@@ -131,8 +131,3 @@ function newWindow(window, _) {
 if (typeof module !== 'undefined') {
   module.export.new = newWindow;
 }
-
-if (typeof angular !== 'undefined') {
-  angular.module('appWindow', [])
-    .factory('appWindow', ['$window', '_', newWindow]);
-}

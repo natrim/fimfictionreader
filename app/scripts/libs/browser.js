@@ -355,8 +355,3 @@ function newBrowser(window, _, timeout) {
 if (typeof module !== 'undefined') {
   module.export.new = newBrowser;
 }
-
-if (typeof angular !== 'undefined') {
-  angular.module('browser', [])
-    .factory('browser', ['$window', '_', '$timeout', newBrowser]);
-}
