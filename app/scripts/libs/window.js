@@ -43,6 +43,7 @@ function newWindow(window, _) {
     window.chrome.app.window.current().onMinimized.addListener(throttled.bind(this, 'minimize'));
     window.chrome.app.window.current().onRestored.addListener(throttled.bind(this, 'restore'));
     window.chrome.app.window.current().onFullscreened.addListener(throttled.bind(this, 'fullscreen'));
+    window.chrome.app.window.current().onBoundsChanged.addListener(throttled.bind(this, 'resize'));
 
     window.addEventListener('focus', throttled.bind(this, 'focus', true));
     window.addEventListener('blur', throttled.bind(this, 'blur', false));
