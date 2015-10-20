@@ -1,28 +1,5 @@
 'use strict';
 
-var appWindow = window.newWindow(window);
-
-//bind content resizing
-appWindow.updateContentSize('.window_content', '.window_toolbar');
-
-//fallback closer
-var closeTrigger = function closeTrigger() {
-  window.close();
-};
-window.document.querySelector('#default-close-button').addEventListener('click', closeTrigger);
-
-//fire toolbar right away - the DOM should be usable by now
-new Vue({
-  el: '#toolbar',
-  data: {
-    appWindow: appWindow
-  },
-  ready: function toolbarReady() {
-    window.document.querySelector('#default-close-button').removeEventListener('click', closeTrigger);
-    closeTrigger = null;
-  }
-});
-
 //browser
 var browser = window.newBrowser(window);
 var controls = browser.getControls();
@@ -42,7 +19,7 @@ window.addEventListener('load', function appLoadEvent() {
     window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
       'closeButton': true,
       'onclick': update.update.bind(update),
-      'positionClass': 'toast-top-' + (appWindow.isMac ? 'right' : 'left'),
+      'positionClass': 'toast-top-right',
       'timeOut': '60000',
       'extendedTimeOut': '10000'
     });
