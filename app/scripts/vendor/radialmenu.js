@@ -84,18 +84,22 @@
           }
 
           setTimeout(function () {
+            //limit menu
             $.each($('.sectorlabel'), function (index, child) {
               if ($(child).find('a').hasClass('disabled')) {
                 $('#sector' + index).addClass('disabled');
                 $('#sectorlabel' + index).addClass('disabled');
               }
             });
-          }, 0);
 
-          $('.radialmenu').addClass('paused');
+            //show menu
+            $('.radialmenu').addClass('paused');
+          }, 0);
         } else {
           canMove = true;
-          $('.radialmenu').removeClass('paused');
+          setTimeout(function () {
+            $('.radialmenu').removeClass('paused');
+          }, 0);
         }
         return false;
       }
