@@ -13,7 +13,7 @@
       canMove = !canMove;
     });*/
 
-    $(document).on('mouseup', function (e) {
+    $(document).off('mouseup.radialMenu').on('mouseup.radialMenu', function (e) {
       mouseX = e.pageX;
       mouseY = e.pageY;
       if (!canMove) {
@@ -69,7 +69,7 @@
       }
     });
 
-    $(document).on('contextmenu', function (e) {
+    $(document).off('contextmenu.radialMenu').on('contextmenu.radialMenu', function (e) {
       if (!e.altKey) { // ALT Right Click => Standard Context Menu
         e.preventDefault();
         e.stopPropagation();
@@ -77,7 +77,7 @@
       }
     });
 
-    $(document).on('mousedown', function (e) {
+    $(document).off('mousedown.radialMenu').on('mousedown.radialMenu', function (e) {
       var isRightMB;
       e = e || window.event;
       if ('which' in e) {
@@ -86,7 +86,7 @@
         isRightMB = e.button === 2;
       }
 
-      if (isRightMB) {
+      if (isRightMB && !e.altKey) {
         if (canMove) {
           canMove = false;
           $('.sector').removeClass('selected');
@@ -121,7 +121,7 @@
       }
     });
 
-    function awesome(e) {
+    function menuMove(e) {
       mouseX = e.pageX;
       mouseY = e.pageY;
       if (canMove) {
@@ -182,7 +182,7 @@
       }
     }
 
-    $(document).bind('mousemove', awesome);
+    $(document).off('mousemove.radialMenu').on('mousemove.radialMenu', menuMove);
 
     String.prototype.repeat = function (num) {
       return new Array(num + 1).join(this);
