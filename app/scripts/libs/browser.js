@@ -224,7 +224,7 @@ function newBrowser(window, _, timeout) {
     }.bind(this));
 
     webview.addEventListener('loadstart', function onStartWebview(e) {
-      if (e.isTopLevel && webviewDomainLimit && (e.url.search(webviewDomainLimit) === -1 && e.url.search('about:blank') === -1 && e.url.search('data:text/html,chromewebdata') === -1)) {        
+      if (e.isTopLevel && webviewDomainLimit && (e.url.search(webviewDomainLimit) === -1 && e.url !== 'about:blank' && e.url !== 'data:text/html,chromewebdata')) {
         webview.stop();
         if (this._callbacks.length > 0) {
           _.each(this._callbacks, function (v) {
