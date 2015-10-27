@@ -109,13 +109,13 @@
             });
 
             //show menu
-            $('.radialmenu').addClass('paused');
-          }, 0);
+            setTimeout(function () {
+              $('.radialmenu').addClass('paused');
+            }, 10);
+          }, 10);
         } else {
           canMove = true;
-          setTimeout(function () {
-            $('.radialmenu').removeClass('paused');
-          }, 0);
+          $('.radialmenu').removeClass('paused');
         }
         return false;
       }
