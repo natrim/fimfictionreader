@@ -8,10 +8,12 @@
   });
 
   Vue.directive('l', {
-    isLiteral: true,
     priority: 999999999,
-    bind: function () {
-      this.el.setAttribute(this.expression, window.chrome.i18n.getMessage(this.el.getAttribute(this.expression)));
+    update: function (value) {
+      var values = value.split(',');
+      for (var i in values) {
+        this.el.setAttribute(values[i].trim(), window.chrome.i18n.getMessage(this.el.getAttribute(values[i].trim())));
+      }
     }
   });
 

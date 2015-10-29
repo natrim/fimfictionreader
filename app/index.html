@@ -35,7 +35,7 @@
 
 <body style="background-color: rgba(0,0,0,0.5)">
   <!-- TOOLBAR BEGIN -->
-  <div class="window_toolbar ui three item menu trim inverted" v-class="blured: !appWindow.isFocused, mac: appWindow.isMac" id="toolbar">
+  <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, mac: appWindow.isMac}" id="toolbar">
     <div class="left menu" v-if="!appWindow.isMac">
       <div class="item">
       </div>
@@ -46,13 +46,13 @@
     </div>
     <div class="left menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <a v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="remove circle icon link"></i></a>
+        <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="remove circle icon link"></i></a>
       </div>
       <div class="item">
-        <a v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="add circle icon link" v-class="square: appWindow.isMaximized"></i></a>
+        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
-        <a v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="minus circle icon link" v-class="square: appWindow.isMinimized"></i></a>
+        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
     </div>
     <div class="header item" v-cloak>
@@ -65,13 +65,13 @@
     </div>
     <div class="right menu" v-if="!appWindow.isMac">
       <div class="item" v-cloak>
-        <a v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="minus icon link" v-class="square: appWindow.isMinimized"></i></a>
+        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
       <div class="item" v-cloak>
-        <a v-on="click: appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="add icon link" v-class="square: appWindow.isMaximized"></i></a>
+        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
-        <a id="default-close-button" v-on="click: appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="close outline icon link"></i></a>
+        <a id="default-close-button" v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="close outline icon link"></i></a>
       </div>
     </div>
   </div>
@@ -126,27 +126,27 @@
     <!-- RADIAL MENU BEGIN -->
     <ul class="radial">
       <li>
-        <a v-on="click: controls.reload()" v-class="disabled: !controls.isReload" title="ReloadMore" v-l="title">
+        <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l.literal="title">
           <l>Reload</l>
         </a>
       </li>
       <li>
-        <a v-on="click: controls.back()" v-class="disabled: !controls.isBack" title="BackMore" v-l="title">
+        <a v-on:click="controls.back()" v-bind:class="{disabled: !controls.isBack}" title="BackMore" v-l.literal="title">
           <l>Back</l>
         </a>
       </li>
       <li>
-        <a v-on="click: controls.home()" v-class="disabled: !controls.isHome" title="HomeMore" v-l="title">
+        <a v-on:click="controls.home()" v-bind:class="{disabled: !controls.isHome}" title="HomeMore" v-l.literal="title">
           <l>Home</l>
         </a>
       </li>
       <li>
-        <a v-on="click: controls.top()" v-class="disabled: !controls.isTop" title="TopMore" v-l="title">
+        <a v-on:click="controls.top()" v-bind:class="{disabled: !controls.isTop}" title="TopMore" v-l.literal="title">
           <l>Top</l>
         </a>
       </li>
       <li>
-        <a v-on="click: controls.forward()" v-class="disabled: !controls.isForward" title="ForwardMore" v-l="title">
+        <a v-on:click="controls.forward()" v-bind:class="{disabled: !controls.isForward}" title="ForwardMore" v-l.literal="title">
           <l>Forward</l>
         </a>
       </li>
