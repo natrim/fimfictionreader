@@ -1,5 +1,24 @@
 'use strict';
 
+var settingsType = 'local'; //local or sync
+var settings = {
+  saveLastPage: true,
+  lastUrl: ''
+};
+
+//load settings
+window.chrome.storage[settingsType].get(Object.keys(settings), function getSettings(items) {
+  if (!window.chrome.runtime.lastError) {
+    window._.each(Object.keys(settings), function (v) {
+      if (typeof items[v] !== 'undefined') {
+        settings[v] = items[v];
+      }
+    });
+  }
+});
+
+//console.log(settings);
+
 //browser
 var browser = window.newBrowser(window);
 var controls = browser.getControls();
@@ -41,7 +60,6 @@ window.addEventListener('load', function appLoadEvent() {
       var loading = jQuery('#loading');
       var loadingBrowserTimer = null;
       window._.defer(function menuDefer() {
-        loading.attr('v-cloak', null); //enable - manually cause it's outside of app
         window.radialMenu(controls.check.bind(controls)); //browser radial menu
       });
       var firstBrowserLoad = true;
@@ -101,7 +119,85 @@ window.addEventListener('load', function appLoadEvent() {
       });
 
       //start the browser loading
-      browser.start();
+      browser.start(function startBrowsing(webview, done) {
+        if (settings.saveLastPage) {
+          webview.src = settings.lastUrl;
+        }
+        done();
+      });
+
+      //save last browser url
+      browser.addChangeCallback(function saveLastUrl(type, err, e) {
+        if (type === 'handshake') {
+          window.chrome.storage[settingsType].set({
+            'lastUrl': e.data.url
+          });
+        }
+      });
+    }
+  });
+
+  //settings
+  new Vue({
+    el: '#settings',
+    data: settings,
+    methods: {
+      clearBrowser: function () {
+        var resetDialog = function resetDialog() {};
+        resetDialog.ok = function () {
+          browser.getControls().clearData(function (ok) {
+            if (ok) {
+              window.toastr.success(l('clear_data'), l('Settings'), {
+                'progressBar': false,
+                'preventDuplicates': false,
+                'closeButton': false,
+                'positionClass': 'toast-bottom-left',
+                'timeOut': '5000',
+                'extendedTimeOut': '1000'
+              });
+            } else {
+              window.toastr.error(l('clear_data_fail'), l('Settings'), {
+                'progressBar': false,
+                'preventDuplicates': false,
+                'closeButton': false,
+                'positionClass': 'toast-bottom-left',
+                'timeOut': '5000',
+                'extendedTimeOut': '1000'
+              });
+            }
+          });
+        };
+        resetDialog.cancel = function () {};
+        window.helpers.modal('#dialog', l('Confirm'), l('ConfirmResetData'), true, resetDialog);
+        jQuery('#dialog').modal('show');
+      },
+      save: function saveSetting(event) {
+        var $this = jQuery(event.target);
+        var set = {};
+        set[$this.attr('name')] = $this.is(':checked');
+        window.chrome.storage[settingsType].set(set, function () {
+          if (window.chrome.runtime.lastError) {
+            settings[$this.attr('name')] = !settings[$this.attr('name')];
+            window.toastr.error(l('SettingsSaveFailed'), l('Settings'), {
+              'progressBar': false,
+              'preventDuplicates': false,
+              'closeButton': false,
+              'positionClass': 'toast-bottom-left',
+              'timeOut': '5000',
+              'extendedTimeOut': '1000'
+            });
+          } else {
+            window.toastr.success(l('SettingsSaved'), l('Settings'), {
+              'progressBar': false,
+              'preventDuplicates': false,
+              'closeButton': false,
+              'positionClass': 'toast-bottom-left',
+              'timeOut': '3000',
+              'extendedTimeOut': '1000'
+            });
+          }
+        });
+      }
     }
   });
 });

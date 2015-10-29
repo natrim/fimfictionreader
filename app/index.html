@@ -24,6 +24,7 @@
   <link rel="stylesheet" href="bower_components/semantic-ui-popup/popup.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-modal/modal.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-button/button.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-checkbox/checkbox.css" />
   <!-- endbower -->
   <link rel="stylesheet" href="styles/radialmenu.css">
   <!-- endbuild -->
@@ -41,7 +42,9 @@
       </div>
       <div class="item">
         &nbsp;
-        <img alt="logo" src="images/icon-32.png">
+        <a v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l.literal="aria-label, data-content">
+          <i class="settings link icon"></i>
+        </a>
       </div>
     </div>
     <div class="left menu" v-if="appWindow.isMac" v-cloak>
@@ -60,7 +63,9 @@
     </div>
     <div class="right menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <img alt="logo" src="images/icon-32.png">
+        <a v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l.literal="aria-label, data-content">
+          <i class="settings link icon"></i>
+        </a>
       </div>
     </div>
     <div class="right menu" v-if="!appWindow.isMac">
@@ -156,6 +161,43 @@
   </div>
   <!-- APP END -->
 
+  <!-- SETTINGS START -->
+  <div id="settings" v-cloak>
+    <div class="ui modal" id="settingsDialog">
+      <i class="close icon"></i>
+      <div class="header">
+        <l>Settings</l>
+      </div>
+      <div class="content">
+        <div class="description">
+
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="saveLastPage" v-model="saveLastPage" v-on:click="save">
+            <label>
+              <l>saveLastPage</l>
+            </label>
+          </div>
+          <p>
+          </p>
+          <hr>
+          <p>
+          </p>
+          <p>
+            <button class="ui red button" v-on:click="clearBrowser">
+              <l>ResetData</l>
+            </button>
+          </p>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui black ok button">
+          <l>Close</l>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- SETTINGS END -->
+
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -168,6 +210,7 @@
   <script src="bower_components/semantic-ui-dimmer/dimmer.js"></script>
   <script src="bower_components/semantic-ui-popup/popup.js"></script>
   <script src="bower_components/semantic-ui-modal/modal.js"></script>
+  <script src="bower_components/semantic-ui-checkbox/checkbox.js"></script>
   <script src="scripts/vendor/radialmenu.js"></script>
   <!-- endbuild -->
 

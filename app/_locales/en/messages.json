@@ -51,6 +51,9 @@
   "clear_data": {
     "message": "All cookies and cached pages removed!"
   },
+  "clear_data_fail": {
+    "message": "Browser clearing failed!"
+  },
 
   "block_window": {
     "message": "Window popup blocked! Tried to open:"
@@ -79,34 +82,51 @@
     "message": "Close app"
   },
 
-  "Home" :{
+  "Home": {
     "message": "Home"
   },
   "HomeMore": {
     "message": "Go to Home page"
   },
-  "Back" :{
+  "Back": {
     "message": "Back"
   },
   "BackMore": {
     "message": "Go Back by one page"
   },
-  "Forward" :{
+  "Forward": {
     "message": "Forward"
   },
   "ForwardMore": {
     "message": "Go Forward by on page"
   },
-  "Reload" :{
+  "Reload": {
     "message": "Reload"
   },
   "ReloadMore": {
     "message": "Reload page"
   },
-  "Top" :{
+  "Top": {
     "message": "Top"
   },
   "TopMore": {
     "message": "Go to top of page"
+  },
+
+
+  "Settings": {
+    "message": "Settings"
+  },
+  "SettingsMore": {
+    "message": "App settings"
+  },
+  "SettingsSaved": {
+    "message": "Settings Saved!"
+  },
+  "SettingsSaveFailed": {
+    "message": "Settings save failed!"
+  },
+  "saveLastPage": {
+    "message": "Go to last visited page on app start"
   }
 }

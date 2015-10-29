@@ -137,7 +137,9 @@ function newBrowser(window, _, timeout) {
 
   BrowserControls.prototype.clearData = function clearData(callback) {
     if (!webview) {
-      callback(false);
+      if (callback) {
+        callback(false);
+      }
       return;
     }
     webview.clearData({}, {
@@ -145,7 +147,9 @@ function newBrowser(window, _, timeout) {
       'cookies': true
     }, function clearDataDone() {
       this.home();
-      callback(true);
+      if (callback) {
+        callback(true);
+      }
     }.bind(this));
   };
 
@@ -214,11 +218,11 @@ function newBrowser(window, _, timeout) {
     }]);
 
     //on close
-    webview.addEventListener('close', function onCloseWebview() {
+    webview.addEventListener('close', function onCloseWebview(e) {
       webview.src = 'about:blank';
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
-          v('close', null, this);
+          v('close', null, e, this);
         }, this);
       }
     }.bind(this));
@@ -257,9 +261,11 @@ function newBrowser(window, _, timeout) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
           console.log('webview handshake received');
           if (event.data.url) {
-            window.chrome.storage.local.set({
-              'lastUrl': event.data.url
-            });
+            if (this._callbacks.length > 0) {
+              _.each(this._callbacks, function (v) {
+                v('handshake', null, event, this);
+              }, this);
+            }
           }
           window.removeEventListener('message', handshake);
         }
@@ -328,7 +334,7 @@ function newBrowser(window, _, timeout) {
     }
   };
 
-  Browser.prototype.start = function startBrowser() {
+  Browser.prototype.start = function startBrowser(callback) {
     if (!webview) {
       throw new Error('Use \'bindWebview\' to set webview selector first!');
     }
@@ -336,17 +342,17 @@ function newBrowser(window, _, timeout) {
       throw new Error('Use \'setHome\' to set home page first!');
     }
 
-    window.chrome.storage.local.get('lastUrl', function getLastUrl(items) {
-      if (!window.chrome.runtime.lastError) {
-        if (items.lastUrl) {
-          webview.src = items.lastUrl;
-        } else {
-          webview.src = homeUrl;
-        }
-      } else {
+    var done = function done() {
+      if (webview.src === 'about:blank' || webview.src === '') {
         webview.src = homeUrl;
       }
-    });
+    };
+
+    if (callback) {
+      callback(webview, done);
+    } else {
+      done();
+    }
   };
 
   return new Browser();

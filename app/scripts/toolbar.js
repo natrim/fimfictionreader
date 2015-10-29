@@ -20,5 +20,10 @@ new Vue({
   ready: function toolbarReady() {
     window.document.querySelector('#default-close-button').removeEventListener('click', closeTrigger);
     closeTrigger = null;
+  },
+  methods: {
+    openSettings: function () {
+      jQuery('#settingsDialog').modal('show');
+    }
   }
 });
