@@ -34,6 +34,7 @@
 </head>
 
 <body style="background-color: rgba(0,0,0,0.5)">
+  <!-- TOOLBAR BEGIN -->
   <div class="window_toolbar ui three item menu trim inverted" v-class="blured: !appWindow.isFocused, mac: appWindow.isMac" id="toolbar">
     <div class="left menu" v-if="!appWindow.isMac">
       <div class="item">
@@ -54,7 +55,7 @@
         <a v-on="click: appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="aria-label, data-content"><i class="minus circle icon link" v-class="square: appWindow.isMinimized"></i></a>
       </div>
     </div>
-    <div class="header item">
+    <div class="header item" v-cloak>
       <l>appName</l>
     </div>
     <div class="right menu" v-if="appWindow.isMac" v-cloak>
@@ -74,7 +75,9 @@
       </div>
     </div>
   </div>
+  <!-- TOOLBAR END -->
 
+  <!-- APP BEGIN -->
   <div id="app">
     <div class="ui colorized image loader" id="loading" v-cloak>
       <img alt="logo" src="images/icon-32.png">
@@ -94,6 +97,7 @@
       </div>
     </div>
 
+    <!-- ALERT/CONFIRM BEGIN -->
     <div class="ui small modal" id="dialog">
       <i class="close icon"></i>
       <div class="header">
@@ -117,7 +121,9 @@
         </div>
       </div>
     </div>
+    <!-- ALERT/CONFIRM END -->
 
+    <!-- RADIAL MENU BEGIN -->
     <div id="radial">
       <div class="radial">
         <ul>
@@ -149,8 +155,10 @@
         </ul>
       </div>
     </div>
+    <!-- RADIAL MENU END -->
 
   </div>
+  <!-- APP END -->
 
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
