@@ -2,6 +2,13 @@
 
 (function ($, window, document) {
   function radialMenu(checkCallback) {
+    var radialSource = $('ul.radial');
+
+    if (radialSource.length <= 0) {
+      console.error('No menu source defined!');
+      return;
+    }
+
     var mouseX = 0;
     var mouseY = 0;
     var radialMidX = 0;
@@ -188,21 +195,21 @@
       return new Array(num + 1).join(this);
     };
 
-    $('.radial').parent().append('<div class="radialmenu">' + '<div class="sectors"></div>' + '<div class="sectorlabels"></div>' + '<div class="vertex">x</div>' + '<div class="trajectory"></div>' + '</div>');
-    var n = $('.radial ul').children().length;
+    var radialResult = $('<div class="radialmenu">' + '<div class="sectors"></div>' + '<div class="sectorlabels"></div>' + '<div class="vertex">x</div>' + '<div class="trajectory"></div>' + '</div>');
+    var n = radialSource.children().length;
     var radian = 2 * Math.PI;
     //var ia = radian / n;
     var oas = (Math.PI - (radian / n)) / 2;
     var c = 100; // constant hypothenuse length
     var h = c * Math.sin(oas);
     var w = Math.sqrt(Math.pow(c, 2) - Math.pow(h, 2));
-    $.each($('.radial ul').children(), function (index, child) {
-      $('.sectors').append('<div class="sector" id="sector' + index + '"></div>');
-      //$('.sectorlabels').append('<div class="sectorlabel" id="sectorlabel' + index + '"><div>' +child.innerHTML+ '</div></div>');
-      $('.sectorlabels').append('<div class="sectorlabel" id="sectorlabel' + index + '"><div></div></div>');
-      $(child).children().detach().appendTo('#sectorlabel' + index + ' div');
+    $.each(radialSource.children(), function (index, child) {
+      radialResult.find('.sectors').append('<div class="sector" id="sector' + index + '"></div>');
+      radialResult.find('.sectorlabels').append('<div class="sectorlabel" id="sectorlabel' + index + '"><div></div></div>');
+      $(child).children().detach().appendTo(radialResult.find('#sectorlabel' + index + ' div'));
     });
-    $('.radial').remove();
+
+    radialSource.replaceWith(radialResult);
 
     $('.sectorlabel').css('width', 2 * w + 'px');
     $('.sectorlabel').css('padding-top', (h - 30) + 'px');

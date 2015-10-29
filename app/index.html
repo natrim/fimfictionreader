@@ -124,37 +124,33 @@
     <!-- ALERT/CONFIRM END -->
 
     <!-- RADIAL MENU BEGIN -->
-    <div id="radial">
-      <div class="radial">
-        <ul>
-          <li>
-            <a v-on="click: controls.reload()" v-class="disabled: !controls.isReload" title="ReloadMore" v-l="title">
-              <l>Reload</l>
-            </a>
-          </li>
-          <li>
-            <a v-on="click: controls.back()" v-class="disabled: !controls.isBack" title="BackMore" v-l="title">
-              <l>Back</l>
-            </a>
-          </li>
-          <li>
-            <a v-on="click: controls.home()" v-class="disabled: !controls.isHome" title="HomeMore" v-l="title">
-              <l>Home</l>
-            </a>
-          </li>
-          <li>
-            <a v-on="click: controls.top()" v-class="disabled: !controls.isTop" title="TopMore" v-l="title">
-              <l>Top</l>
-            </a>
-          </li>
-          <li>
-            <a v-on="click: controls.forward()" v-class="disabled: !controls.isForward" title="ForwardMore" v-l="title">
-              <l>Forward</l>
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
+    <ul class="radial">
+      <li>
+        <a v-on="click: controls.reload()" v-class="disabled: !controls.isReload" title="ReloadMore" v-l="title">
+          <l>Reload</l>
+        </a>
+      </li>
+      <li>
+        <a v-on="click: controls.back()" v-class="disabled: !controls.isBack" title="BackMore" v-l="title">
+          <l>Back</l>
+        </a>
+      </li>
+      <li>
+        <a v-on="click: controls.home()" v-class="disabled: !controls.isHome" title="HomeMore" v-l="title">
+          <l>Home</l>
+        </a>
+      </li>
+      <li>
+        <a v-on="click: controls.top()" v-class="disabled: !controls.isTop" title="TopMore" v-l="title">
+          <l>Top</l>
+        </a>
+      </li>
+      <li>
+        <a v-on="click: controls.forward()" v-class="disabled: !controls.isForward" title="ForwardMore" v-l="title">
+          <l>Forward</l>
+        </a>
+      </li>
+    </ul>
     <!-- RADIAL MENU END -->
 
   </div>
