@@ -29,12 +29,12 @@ window.helpers.onLoad = function () {
 
   //set toast's
   window.toastr.options = {
-    'closeButton': true,
+    'closeButton': false,
     'debug': false,
     'newestOnTop': false,
-    'progressBar': true,
+    'progressBar': false,
     'positionClass': 'toast-bottom-left',
-    'preventDuplicates': true,
+    'preventDuplicates': false,
     'onclick': null,
     'showDuration': '300',
     'hideDuration': '1000',

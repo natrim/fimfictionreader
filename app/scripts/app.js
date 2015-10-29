@@ -37,6 +37,8 @@ window.addEventListener('load', function appLoadEvent() {
   update.bind(function updateMsg(details) {
     window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
       'closeButton': true,
+      'progressBar': true,
+      'preventDuplicates': true,
       'onclick': update.update.bind(update),
       'positionClass': 'toast-top-right',
       'timeOut': '60000',
@@ -148,8 +150,6 @@ window.addEventListener('load', function appLoadEvent() {
           browser.getControls().clearData(function (ok) {
             if (ok) {
               window.toastr.success(l('clear_data'), l('Settings'), {
-                'progressBar': false,
-                'preventDuplicates': false,
                 'closeButton': false,
                 'positionClass': 'toast-bottom-left',
                 'timeOut': '5000',
@@ -157,8 +157,6 @@ window.addEventListener('load', function appLoadEvent() {
               });
             } else {
               window.toastr.error(l('clear_data_fail'), l('Settings'), {
-                'progressBar': false,
-                'preventDuplicates': false,
                 'closeButton': false,
                 'positionClass': 'toast-bottom-left',
                 'timeOut': '5000',
@@ -179,8 +177,6 @@ window.addEventListener('load', function appLoadEvent() {
           if (window.chrome.runtime.lastError) {
             settings[$this.attr('name')] = !settings[$this.attr('name')];
             window.toastr.error(l('SettingsSaveFailed'), l('Settings'), {
-              'progressBar': false,
-              'preventDuplicates': false,
               'closeButton': false,
               'positionClass': 'toast-bottom-left',
               'timeOut': '5000',
@@ -188,8 +184,6 @@ window.addEventListener('load', function appLoadEvent() {
             });
           } else {
             window.toastr.success(l('SettingsSaved'), l('Settings'), {
-              'progressBar': false,
-              'preventDuplicates': false,
               'closeButton': false,
               'positionClass': 'toast-bottom-left',
               'timeOut': '3000',
