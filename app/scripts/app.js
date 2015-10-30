@@ -131,16 +131,14 @@ window.addEventListener('load', function appLoadEvent() {
       //save last browser url
       browser.addChangeCallback(function saveLastUrl(type, err, e) {
         if (type === 'handshake') {
-          window.chrome.storage[settingsType].set({
-            'lastUrl': e.data.url
-          });
+          settings.lastUrl = e.data.url;
         }
       });
     }
   });
 
   //settings
-  new Vue({
+  var settingVM = new Vue({
     el: '#settings',
     data: settings,
     methods: {
@@ -168,30 +166,40 @@ window.addEventListener('load', function appLoadEvent() {
         resetDialog.cancel = function () {};
         window.helpers.modal('#dialog', l('Confirm'), l('ConfirmResetData'), true, resetDialog);
         jQuery('#dialog').modal('show');
-      },
-      save: function saveSetting(event) {
-        var $this = jQuery(event.target);
-        var set = {};
-        set[$this.attr('name')] = $this.is(':checked');
-        window.chrome.storage[settingsType].set(set, function () {
-          if (window.chrome.runtime.lastError) {
-            settings[$this.attr('name')] = !settings[$this.attr('name')];
+      }
+    }
+  });
+
+  window._.each(settings, function (val, key) {
+    var rollback = false;
+    settingVM.$watch(key, function (newVal, oldVal) {
+      if (rollback) {
+        rollback = false;
+        return;
+      }
+      var set = {};
+      set[key] = newVal;
+      window.chrome.storage[settingsType].set(set, function () {
+        if (window.chrome.runtime.lastError) {
+          rollback = true;
+          settings[key] = oldVal;
+          if (key !== 'lastUrl') {
             window.toastr.error(l('SettingsSaveFailed'), l('Settings'), {
               'closeButton': false,
               'positionClass': 'toast-bottom-left',
               'timeOut': '5000',
               'extendedTimeOut': '1000'
             });
-          } else {
-            window.toastr.success(l('SettingsSaved'), l('Settings'), {
-              'closeButton': false,
-              'positionClass': 'toast-bottom-left',
-              'timeOut': '3000',
-              'extendedTimeOut': '1000'
-            });
           }
-        });
-      }
-    }
+        } else if (key !== 'lastUrl') {
+          window.toastr.success(l('SettingsSaved'), l('Settings'), {
+            'closeButton': false,
+            'positionClass': 'toast-bottom-left',
+            'timeOut': '3000',
+            'extendedTimeOut': '1000'
+          });
+        }
+      });
+    });
   });
 });
