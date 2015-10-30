@@ -1,6 +1,6 @@
 FimFiction Reader
 =================
-Opens fimfiction.net as app window and allows saving and offline stories browsing.
+Opens fimfiction.net as app window.
 
 NOTE: i write this app for me to read pony on chromebook, so some things may look weird, but you just have to deal with it
 
