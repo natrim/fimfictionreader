@@ -27,5 +27,8 @@ var scrollSend = function () {
   }, 100);
 
 };
-window.addEventListener('load', scrollSend);
-window.addEventListener('scroll', scrollSend);
+
+window.addEventListener('load', function () {
+  scrollSend();
+  window.addEventListener('scroll', scrollSend);
+});
