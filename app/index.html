@@ -177,11 +177,17 @@
               <l>saveLastPage</l>
             </label>
           </div>
-          <p>
-          </p>
+          <p></p>
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
+            <label>
+              <l>enableKeyboardShortcuts</l>
+            </label>
+          </div>
+
+          <p></p>
           <hr>
-          <p>
-          </p>
+          <p></p>
           <p>
             <button class="ui red button" v-on:click="clearBrowser">
               <l>ResetData</l>

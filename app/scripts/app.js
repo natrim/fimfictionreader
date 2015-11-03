@@ -9,6 +9,75 @@ function l(value) {
   return window.chrome.i18n.getMessage(value);
 }
 
+function bindKeyboard(settings) {
+  window.addEventListener('keydown', function shortcuts(e) {
+    if (!settings.enableKeyboardShortcuts) {
+      if (e.keyCode < 166 || e.keyCode > 168) { //media browser controls enabled anytime
+        return;
+      }
+    }
+    //166 back
+    //167 forward
+    //168 reload
+    //37 left arrow
+    //38 up arrow
+    //39 right arrow
+    //40 down arrow
+    //70 f
+    //80 p
+    //82 r
+    //188 ,
+    switch (e.keyCode) {
+    case 166:
+    case 37:
+      if (e.keyCode === 37 && !e.altKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.back();
+      break;
+    case 167:
+    case 39:
+      if (e.keyCode === 39 && !e.altKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.forward();
+      break;
+    case 38:
+      if (e.altKey || e.metaKey) {
+        e.preventDefault();
+        controls.top();
+      }
+      break;
+    case 168:
+    case 40:
+    case 82:
+      if (e.keyCode === 40 && !e.altKey && !e.metaKey) {
+        break;
+      } else if (e.keyCode === 82 && !e.ctrlKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.reload();
+      break;
+    case 80:
+    case 188:
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        jQuery('#settingsDialog').modal('toggle');
+      }
+      break;
+    case 70:
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+      }
+      break;
+    }
+  });
+}
+
 window.addEventListener('load', function appLoadEvent() {
   window.helpers.onLoad();
 
@@ -36,6 +105,7 @@ window.addEventListener('load', function appLoadEvent() {
   var settingsType = 'local'; //local or sync
   //default settings
   var settings = {
+    enableKeyboardShortcuts: true,
     saveLastPage: true,
     lastUrl: ''
   };
@@ -205,6 +275,7 @@ window.addEventListener('load', function appLoadEvent() {
           if (settings.saveLastPage) {
             webview.src = settings.lastUrl;
           }
+          bindKeyboard(settings);
           done();
         });
       });

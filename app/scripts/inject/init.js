@@ -16,7 +16,9 @@ function runScript(source) {
   var script = document.createElement('script');
   script.textContent = source;
   (document.head || document.documentElement).appendChild(script);
-  script.parentNode.removeChild(script);
+  setTimeout(function () {
+    script.parentNode.removeChild(script);
+  }, 0);
 }
 
 function _receiveMessage(event) {

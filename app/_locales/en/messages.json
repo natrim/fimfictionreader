@@ -128,5 +128,8 @@
   },
   "saveLastPage": {
     "message": "Go to last visited page on app start"
+  },
+  "enableKeyboardShortcuts": {
+    "message": "Enable keyboard shortcuts"
   }
 }

@@ -189,6 +189,20 @@ function newBrowser(window, _, timeout) {
     this.controls = new BrowserControls();
   }
 
+  Browser.prototype.exec = function exec(v) {
+    if (!webview) {
+      return;
+    }
+    if (!webviewLoaded) {
+      return;
+    }
+    webview.focus();
+    webview.contentWindow.postMessage({
+      command: 'execute',
+      value: v
+    }, '*');
+  };
+
   Browser.prototype.getControls = function getControls() {
     return this.controls;
   };
@@ -212,7 +226,7 @@ function newBrowser(window, _, timeout) {
       name: 'rule',
       matches: ['http://*/*', 'https://*/*'],
       js: {
-        files: ['scripts/inject/init.js', 'scripts/inject/scroll.js']
+        files: ['scripts/inject/init.js', 'scripts/inject/scroll.js', 'scripts/inject/exec.js']
       },
       'run_at': 'document_start'
     }]);
