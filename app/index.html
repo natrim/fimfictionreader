@@ -36,7 +36,7 @@
 
 <body style="background-color: rgba(0,0,0,0.5)">
   <!-- TOOLBAR BEGIN -->
-  <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, mac: appWindow.isMac}" id="toolbar">
+  <div class="window_toolbar ui three item menu trim inverted" v-show="!appWindow.isFullscreen" v-bind:class="{blured: !appWindow.isFocused, mac: appWindow.isMac}" id="toolbar">
     <div class="left menu" v-if="!appWindow.isMac">
       <div class="item">
       </div>

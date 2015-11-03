@@ -71,7 +71,11 @@ function bindKeyboard(settings) {
     case 70:
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+        if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
+          window.appWindow.fullscreen();
+        } else {
+          browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+        }
       }
       break;
     }

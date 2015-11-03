@@ -1,9 +1,8 @@
 ##### TODO'S
-- offline mode (saving the stories and reading them without internet)
-
-- settings for hiding toolbar on fullscreen (+ exit fulscreen button)
 - settings for keyboard shortcus
 - sync settings
+
+- offline mode (saving the stories and reading them without internet)
 
 ###### MAYBE'S
 - remember and renew pagescroll?

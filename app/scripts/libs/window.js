@@ -73,7 +73,7 @@ function newWindow(window, _) {
       content.style.width = window.document.documentElement.clientWidth + 'px';
       if (this._minusSelector) {
         var minus = window.document.querySelector(this._minusSelector);
-        if (minus) {
+        if (minus && !this.isFullscreen) {
           content.style.height = (window.document.documentElement.clientHeight - minus.clientHeight) + 'px';
         }
       }
@@ -88,10 +88,25 @@ function newWindow(window, _) {
     this.isFocused = (typeof focus === 'boolean' ? focus : window.document.hasFocus());
     this.isFullscreen = window.chrome.app.window.current().isFullscreen();
 
+    if (type === 'fullscreen' && this._contentSelector) { //forced content update
+      this.updateContentSize();
+    }
+
     if (this._callbacks.length > 0) {
       _.each(this._callbacks, function (v) {
         v(type, this);
       }, this);
+    }
+  };
+
+  AppWindow.prototype.fullscreen = function fullscreen(callback) {
+    if (this.isFullscreen) {
+      window.chrome.app.window.current().restore();
+    } else {
+      window.chrome.app.window.current().fullscreen();
+    }
+    if (typeof callback === 'function') {
+      callback(this);
     }
   };
 
