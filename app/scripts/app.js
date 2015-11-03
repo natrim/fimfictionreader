@@ -1,13 +1,28 @@
 'use strict';
 
-//browser
-var browser = window.newBrowser(window);
-var controls = browser.getControls();
-
 //translate
 function l(value) {
   return window.chrome.i18n.getMessage(value);
 }
+
+// update checks
+var update = window.newUpdater(window);
+
+update.bind(function updateMsg(details) {
+  window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
+    'closeButton': true,
+    'progressBar': true,
+    'preventDuplicates': true,
+    'onclick': update.update.bind(update),
+    'positionClass': 'toast-top-right',
+    'timeOut': '60000',
+    'extendedTimeOut': '10000'
+  });
+});
+
+//browser
+var browser = window.newBrowser(window);
+var controls = browser.getControls();
 
 function bindKeyboard(settings) {
   window.addEventListener('keydown', function shortcuts(e) {
@@ -84,21 +99,6 @@ function bindKeyboard(settings) {
 
 window.addEventListener('load', function appLoadEvent() {
   window.helpers.onLoad();
-
-  // update checks
-  var update = window.newUpdater(window);
-
-  update.bind(function updateMsg(details) {
-    window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
-      'closeButton': true,
-      'progressBar': true,
-      'preventDuplicates': true,
-      'onclick': update.update.bind(update),
-      'positionClass': 'toast-top-right',
-      'timeOut': '60000',
-      'extendedTimeOut': '10000'
-    });
-  });
 
   browser.bindWebview('#fimfiction');
   browser.setHome('https://www.fimfiction.net/');

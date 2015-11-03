@@ -24,32 +24,38 @@ function newUpdater(window, _, timeout) {
   }
 
   function AppUpdater() {
-
+    this.updateTime = 60000 * 60 * 2; //every two hours
+    this.timer = null;
+    this.checkUpdate = null;
   }
 
   AppUpdater.prototype.bind = function bindUpdater(callback) {
     window.chrome.runtime.onUpdateAvailable.addListener(callback);
+
+    if (this.timer) {
+      timeout.clear(this.timer);
+      this.timer = null;
+    }
+    this.checkUpdate = function checkUpdate() {
+      this.timer = null;
+      window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status) {
+        if (status === 'update_available') {
+          console.log('update pending...');
+          //stop checking we just need to wait for user to close the app
+          return;
+        }
+        console.log('no update found');
+        this.timer = timeout(this.checkUpdate, this.updateTime);
+      }.bind(this));
+    }.bind(this);
+
+    //check update right now (almost)
+    this.timer = timeout(this.checkUpdate, 5000);
   };
 
   AppUpdater.prototype.update = function update() {
     window.chrome.runtime.reload();
   };
-
-  var updateTime = 60000 * 60 * 2; //every two hours
-  var checkUpdate = function checkUpdate() {
-    window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status) {
-      if (status === 'update_available') {
-        console.log('update pending...');
-        //stop checking we just need to wait for user to close the app
-        return;
-      }
-      console.log('no update found');
-      timeout(checkUpdate, updateTime);
-    });
-  };
-
-  //check update right now (almost)
-  timeout(checkUpdate, 5000);
 
   return new AppUpdater();
 }
