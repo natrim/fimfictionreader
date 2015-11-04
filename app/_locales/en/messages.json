@@ -14,6 +14,9 @@
   "CheckUpdate": {
     "message": "Check for updates"
   },
+  "CheckUpdateMore": {
+    "message": "Check for updates on Chrome Web Store"
+  },
   "notificationUpdateAvailable": {
     "message": "Update available"
   },
@@ -42,6 +45,9 @@
 
   "ResetData": {
     "message": "Clear browser data"
+  },
+  "ResetDataMore": {
+    "message": "Clear's cookies and cached pages"
   },
   "ConfirmResetData": {
     "message": "Do you really want to clear browser data?<br>This will remove cookies and cached pages, meaning you will be logged out."
