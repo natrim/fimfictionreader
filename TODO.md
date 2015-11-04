@@ -1,5 +1,4 @@
 ##### TODO'S
-- setting homepage
 - settings for keyboard shortcus
 - sync settings
 
