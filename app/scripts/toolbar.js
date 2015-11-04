@@ -23,7 +23,7 @@ new Vue({
   },
   methods: {
     openSettings: function () {
-      jQuery('#settingsDialog').modal('show');
+      jQuery('#settingsDialog').modal('toggle');
     }
   }
 });

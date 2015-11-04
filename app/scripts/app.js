@@ -70,7 +70,7 @@ function bindKeyboard(settings) {
     case 188:
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        jQuery('#settingsDialog').modal('toggle');
+        jQuery('.settingsTrigger:visible').get(0).click();
       }
       break;
     case 70:
@@ -88,14 +88,6 @@ function bindKeyboard(settings) {
 }
 
 window.addEventListener('load', function appLoadEvent() {
-  //enable tooltips
-  jQuery('[data-content]').popup();
-
-  //settings dialog setting
-  jQuery('#settingsDialog').modal({
-    autofocus: false
-  });
-
   browser.bindWebview('#fimfiction');
   //home move to settings to allow settings custom home
   //browser.setHome('https://www.fimfiction.net/');
@@ -160,6 +152,13 @@ window.addEventListener('load', function appLoadEvent() {
           window.helpers.modal('#dialog', l('Confirm'), l('ConfirmResetData'), true, resetDialog);
           jQuery('#dialog').modal('show');
         }
+      },
+      ready: function settingsReady() {
+        jQuery('.settingsTrigger').show();
+        //settings dialog setting
+        jQuery('#settingsDialog').modal({
+          autofocus: false
+        });
       }
     });
 
@@ -316,5 +315,6 @@ window.addEventListener('load', function appLoadEvent() {
     }
   });
 
-
+  //enable tooltips
+  jQuery('[data-content]').popup();
 });

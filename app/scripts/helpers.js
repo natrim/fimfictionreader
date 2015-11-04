@@ -9,8 +9,7 @@
 
   Vue.directive('l', {
     priority: 999999999,
-    update: function (value) {
-      var values = value.split(',');
+    update: function (values) {
       for (var i in values) {
         this.el.setAttribute(values[i].trim(), window.chrome.i18n.getMessage(this.el.getAttribute(values[i].trim())));
       }

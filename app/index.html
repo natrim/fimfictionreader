@@ -9,7 +9,6 @@
     [v-cloak] {
       display: none!important;
     }
-
   </style>
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
@@ -43,20 +42,20 @@
       </div>
       <div class="item">
         &nbsp;
-        <a v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l.literal="aria-label, data-content">
+        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
     </div>
     <div class="left menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="remove circle icon link"></i></a>
+        <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="remove circle icon link"></i></a>
       </div>
       <div class="item">
-        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
-        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
+        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
     </div>
     <div class="header item" v-cloak>
@@ -64,20 +63,20 @@
     </div>
     <div class="right menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <a v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l.literal="aria-label, data-content">
+        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
     </div>
     <div class="right menu" v-if="!appWindow.isMac">
       <div class="item" v-cloak>
-        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
+        <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
       <div class="item" v-cloak>
-        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
-        <a id="default-close-button" v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="close outline icon link"></i></a>
+        <a id="default-close-button" v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>
       </div>
     </div>
   </div>
@@ -132,27 +131,27 @@
     <!-- RADIAL MENU BEGIN -->
     <ul class="radial">
       <li>
-        <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l.literal="title">
+        <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l="title">
           <l>Reload</l>
         </a>
       </li>
       <li>
-        <a v-on:click="controls.back()" v-bind:class="{disabled: !controls.isBack}" title="BackMore" v-l.literal="title">
+        <a v-on:click="controls.back()" v-bind:class="{disabled: !controls.isBack}" title="BackMore" v-l="title">
           <l>Back</l>
         </a>
       </li>
       <li>
-        <a v-on:click="controls.home()" v-bind:class="{disabled: !controls.isHome}" title="HomeMore" v-l.literal="title">
+        <a v-on:click="controls.home()" v-bind:class="{disabled: !controls.isHome}" title="HomeMore" v-l="title">
           <l>Home</l>
         </a>
       </li>
       <li>
-        <a v-on:click="controls.top()" v-bind:class="{disabled: !controls.isTop}" title="TopMore" v-l.literal="title">
+        <a v-on:click="controls.top()" v-bind:class="{disabled: !controls.isTop}" title="TopMore" v-l="title">
           <l>Top</l>
         </a>
       </li>
       <li>
-        <a v-on:click="controls.forward()" v-bind:class="{disabled: !controls.isForward}" title="ForwardMore" v-l.literal="title">
+        <a v-on:click="controls.forward()" v-bind:class="{disabled: !controls.isForward}" title="ForwardMore" v-l="title">
           <l>Forward</l>
         </a>
       </li>
@@ -176,8 +175,8 @@
               <l>homePage</l>: fimfiction.net/
             </div>
             <input type="text" name="homePage" v-model="homePage" debounce="500">
-            <button class="ui blue icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="ui icon browser"></i></button>
-            <button class="ui yellow icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="ui icon remove circle"></i></button>
+            <button class="ui blue icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
+            <button class="ui yellow icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
           </div>
 
           <p></p>
@@ -200,10 +199,10 @@
           <hr>
           <p></p>
           <p>
-            <button class="ui red button" v-on:click="clearBrowser" aria-label="ResetData" v-l.literal="aria-label">
+            <button class="ui red button" v-on:click="clearBrowser" aria-label="ResetData" v-l="['aria-label']">
               <l>ResetData</l>
             </button>
-            <button class="ui blue button" v-on:click="checkUpdates" aria-label="CheckUpdate" v-l.literal="aria-label">
+            <button class="ui blue button" v-on:click="checkUpdates" aria-label="CheckUpdate" v-l="['aria-label']">
               <l>CheckUpdate</l>
             </button>
           </p>
