@@ -16,7 +16,8 @@
     "semantic-ui-popup": "~2.1.4",
     "semantic-ui-modal": "~2.1.4",
     "semantic-ui-button": "~2.1.4",
-    "semantic-ui-checkbox": "~2.1.4"
+    "semantic-ui-checkbox": "~2.1.4",
+    "semantic-ui-input": "~2.1.4"
   },
   "devDependencies": {}
 }

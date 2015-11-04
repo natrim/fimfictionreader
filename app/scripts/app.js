@@ -92,7 +92,9 @@ window.addEventListener('load', function appLoadEvent() {
   jQuery('[data-content]').popup();
 
   browser.bindWebview('#fimfiction');
-  browser.setHome('https://www.fimfiction.net/');
+  //home move to settings to allow settings custom home
+  //browser.setHome('https://www.fimfiction.net/');
+  var homePage = 'https://www.fimfiction.net/';
   browser.setDomainLimit('fimfiction.net');
   //browser.allowNewWindows(true);
   browser.allowDownloadFrom('fimfiction.net');
@@ -102,6 +104,7 @@ window.addEventListener('load', function appLoadEvent() {
   var settings = {
     enableKeyboardShortcuts: true,
     saveLastPage: true,
+    homePage: '',
     lastUrl: ''
   };
 
@@ -178,6 +181,9 @@ window.addEventListener('load', function appLoadEvent() {
               });
             }
           } else if (key !== 'lastUrl') {
+            if (key === 'homePage') {
+              browser.setHome(homePage + settings.homePage);
+            }
             window.chrome.notifications.clear(settingsId, function clearNotifications() {
               window.chrome.notifications.create(settingsId, {
                 type: 'basic',
@@ -286,6 +292,7 @@ window.addEventListener('load', function appLoadEvent() {
       });
 
       loadSettings(function settingsDone() {
+        browser.setHome(homePage + settings.homePage);
         //start the browser loading
         browser.start(function startBrowsing(webview, done) {
           if (settings.saveLastPage) {

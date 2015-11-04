@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="bower_components/semantic-ui-modal/modal.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-button/button.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-checkbox/checkbox.css" />
+  <link rel="stylesheet" href="bower_components/semantic-ui-input/input.css" />
   <!-- endbower -->
   <link rel="stylesheet" href="styles/radialmenu.css">
   <!-- endbuild -->
@@ -170,13 +171,21 @@
       </div>
       <div class="content">
         <div class="description">
+          <div class="ui labeled input">
+            <div class="ui label">
+              <l>homePage</l>: fimfiction.net/
+            </div>
+            <input type="text" name="homePage" v-model="homePage" debounce="500">
+          </div>
 
+          <p></p>
           <div class="ui toggle checkbox">
             <input type="checkbox" name="saveLastPage" v-model="saveLastPage">
             <label>
               <l>saveLastPage</l>
             </label>
           </div>
+
           <p></p>
           <div class="ui toggle checkbox">
             <input type="checkbox" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">

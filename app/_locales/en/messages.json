@@ -150,5 +150,8 @@
   },
   "enableKeyboardShortcuts": {
     "message": "Enable keyboard shortcuts"
+  },
+  "homePage": {
+    "message": "Set HomePage"
   }
 }
