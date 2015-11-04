@@ -1,19 +1,18 @@
 'use strict';
 
-// Listens for the app launching then creates the window
-chrome.app.runtime.onLaunched.addListener(function onAppLaunch() {
-  var width = 1280;
-  var height = 800;
+var bounds = {
+  width: 1280,
+  height: 800,
+  minWidth: 375,
+  minHeight: 627
+};
 
+// on launch create the window
+chrome.app.runtime.onLaunched.addListener(function onLaunched() {
   chrome.app.window.create('index.html', {
-    id: 'main',
+    id: 'fimfiction:main',
     frame: 'none',
-    innerBounds: {
-      width: width,
-      height: height,
-      minWidth: 375,
-      minHeight: 627
-    }
+    innerBounds: bounds
   });
 });
 
