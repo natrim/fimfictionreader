@@ -171,11 +171,13 @@
       </div>
       <div class="content">
         <div class="description">
-          <div class="ui labeled input">
+          <div class="ui labeled action input">
             <div class="ui label">
               <l>homePage</l>: fimfiction.net/
             </div>
             <input type="text" name="homePage" v-model="homePage" debounce="500">
+            <button class="ui blue icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="ui icon browser"></i></button>
+            <button class="ui yellow icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l.literal="aria-label, data-content"><i class="ui icon remove circle"></i></button>
           </div>
 
           <p></p>
@@ -198,10 +200,10 @@
           <hr>
           <p></p>
           <p>
-            <button class="ui red button" v-on:click="clearBrowser">
+            <button class="ui red button" v-on:click="clearBrowser" aria-label="ResetData" v-l.literal="aria-label">
               <l>ResetData</l>
             </button>
-            <button class="ui blue button" v-on:click="checkUpdates">
+            <button class="ui blue button" v-on:click="checkUpdates" aria-label="CheckUpdate" v-l.literal="aria-label">
               <l>CheckUpdate</l>
             </button>
           </p>

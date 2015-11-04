@@ -152,6 +152,13 @@
     "message": "Enable keyboard shortcuts"
   },
   "homePage": {
-    "message": "Set HomePage"
+    "message": "HomePage"
+  },
+
+  "setCurrentPageAsHome": {
+    "message": "Set current page as home"
+  },
+  "clearCurrentHomePage": {
+    "message": "Clear home page"
   }
 }

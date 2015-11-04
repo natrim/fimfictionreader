@@ -33,56 +33,56 @@ function bindKeyboard(settings) {
     //82 r
     //188 ,
     switch (e.keyCode) {
-      case 166:
-      case 37:
-        if (e.keyCode === 37 && !e.altKey && !e.metaKey) {
-          break;
-        }
+    case 166:
+    case 37:
+      if (e.keyCode === 37 && !e.altKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.back();
+      break;
+    case 167:
+    case 39:
+      if (e.keyCode === 39 && !e.altKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.forward();
+      break;
+    case 38:
+      if (e.altKey || e.metaKey) {
         e.preventDefault();
-        controls.back();
+        controls.top();
+      }
+      break;
+    case 168:
+    case 40:
+    case 82:
+      if (e.keyCode === 40 && !e.altKey && !e.metaKey) {
         break;
-      case 167:
-      case 39:
-        if (e.keyCode === 39 && !e.altKey && !e.metaKey) {
-          break;
-        }
+      } else if (e.keyCode === 82 && !e.ctrlKey && !e.metaKey) {
+        break;
+      }
+      e.preventDefault();
+      controls.reload();
+      break;
+    case 80:
+    case 188:
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        controls.forward();
-        break;
-      case 38:
-        if (e.altKey || e.metaKey) {
-          e.preventDefault();
-          controls.top();
-        }
-        break;
-      case 168:
-      case 40:
-      case 82:
-        if (e.keyCode === 40 && !e.altKey && !e.metaKey) {
-          break;
-        } else if (e.keyCode === 82 && !e.ctrlKey && !e.metaKey) {
-          break;
-        }
+        jQuery('#settingsDialog').modal('toggle');
+      }
+      break;
+    case 70:
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        controls.reload();
-        break;
-      case 80:
-      case 188:
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          jQuery('#settingsDialog').modal('toggle');
+        if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
+          window.appWindow.fullscreen();
+        } else {
+          browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
         }
-        break;
-      case 70:
-        if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
-          if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
-            window.appWindow.fullscreen();
-          } else {
-            browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
-          }
-        }
-        break;
+      }
+      break;
     }
   });
 }
@@ -118,6 +118,9 @@ window.addEventListener('load', function appLoadEvent() {
       methods: {
         checkUpdates: function checkUpdates() {
           update.check(true);
+        },
+        setHome: function (url) {
+          this.homePage = url.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
         },
         clearBrowser: function clearBrowser() {
           var resetDialog = function resetDialog() {};
@@ -164,6 +167,9 @@ window.addEventListener('load', function appLoadEvent() {
         }
         var set = {};
         set[key] = newVal;
+        if (key === 'homePage') {
+          set[key] = newVal.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
+        }
         window.chrome.storage[settingsType].set(set, function () {
           if (window.chrome.runtime.lastError) {
             rollback = true;
