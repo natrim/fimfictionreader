@@ -70,7 +70,10 @@ function bindKeyboard(settings) {
     case 188:
       if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
-        jQuery('.settingsTrigger:visible').get(0).click();
+        var mod = jQuery('.settingsTrigger:not(.disabled)').get(0);
+        if (mod) {
+          mod.click();
+        }
       }
       break;
     case 70:
@@ -154,7 +157,7 @@ window.addEventListener('load', function appLoadEvent() {
         }
       },
       ready: function settingsReady() {
-        jQuery('.settingsTrigger').show();
+        jQuery('.settingsTrigger').removeClass('disabled');
         //settings dialog setting
         jQuery('#settingsDialog').modal({
           autofocus: false

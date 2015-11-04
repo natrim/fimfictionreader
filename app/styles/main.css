@@ -75,6 +75,6 @@
 	right: 1.7em;
 }
 
-.settingsTrigger {
+.settingsTrigger.disabled {
   display: none;
 }

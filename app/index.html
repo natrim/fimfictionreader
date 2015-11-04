@@ -42,7 +42,7 @@
       </div>
       <div class="item">
         &nbsp;
-        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
+        <a class="settingsTrigger disabled" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
@@ -63,7 +63,7 @@
     </div>
     <div class="right menu" v-if="appWindow.isMac" v-cloak>
       <div class="item">
-        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
+        <a class="settingsTrigger disabled" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
