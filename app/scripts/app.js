@@ -257,7 +257,7 @@ window.addEventListener('load', function appLoadEvent() {
             window.helpers.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
             jQuery('#dialog').modal('show');
           } else if (e.messageType === 'prompt') {
-            window.helpers.modal('#dialog', l('Alert'), 'Prompt dialog not handled, yet!', false, e.dialog);
+            window.helpers.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
             jQuery('#dialog').modal('show');
           } else {
             window.helpers.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);

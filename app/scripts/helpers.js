@@ -23,13 +23,29 @@
 
 window.helpers = {};
 
-window.helpers.modal = function (selector, title, content, confirm, dialog) {
+window.helpers.modal = function (selector, title, content, confirm, dialog, prompt) {
   confirm = confirm || false;
+  prompt = prompt || false;
   var modal = jQuery(selector);
   if (modal) {
     modal.find('.header').html(title);
-    modal.find('.content .description p').html(content);
-    if (confirm) {
+    if (prompt) {
+      var input = '<label for="modaldialogpromptvalue">';
+      input += content;
+      input += '</label>';
+      input += '<div class="ui fluid input">';
+      input += '<input type="text" id="modaldialogpromptvalue" name="modaldialogpromptvalue">';
+      input += '</div>';
+      modal.find('.content .description').html(input);
+      modal.off('keyup.prompt').on('keyup.prompt', '#modaldialogpromptvalue', function (e) {
+        if (e.keyCode === 13) {
+          modal.find('.positive').click();
+        }
+      });
+    } else {
+      modal.find('.content .description').html('<p>' + content + '</p>');
+    }
+    if (confirm || prompt) {
       modal.modal({
         closable: false,
         onDeny: function () {
@@ -39,7 +55,11 @@ window.helpers.modal = function (selector, title, content, confirm, dialog) {
         },
         onApprove: function () {
           if (dialog) {
-            dialog.ok();
+            if (prompt) {
+              dialog.ok(jQuery('#modaldialogpromptvalue').val().trim());
+            } else {
+              dialog.ok();
+            }
           }
         },
         onHidden: function () {
