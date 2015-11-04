@@ -6,19 +6,9 @@ function l(value) {
 }
 
 // update checks
-var update = window.newUpdater(window);
-
-update.bind(function updateMsg(details) {
-  window.toastr.info(l('Update'), l('newVersion') + ': ' + details.version, {
-    'closeButton': true,
-    'progressBar': true,
-    'preventDuplicates': true,
-    'onclick': update.update.bind(update),
-    'positionClass': 'toast-top-right',
-    'timeOut': '60000',
-    'extendedTimeOut': '10000'
-  });
-});
+var update = window.newUpdater(window, l);
+//check right now
+update.check();
 
 //browser
 var browser = window.newBrowser(window);
@@ -121,6 +111,9 @@ window.addEventListener('load', function appLoadEvent() {
       data: settings,
       methods: {
         clearBrowser: function () {
+        checkUpdates: function checkUpdates() {
+          update.check(true);
+        },
           var resetDialog = function resetDialog() {};
           resetDialog.ok = function () {
             browser.getControls().clearData(function (ok) {

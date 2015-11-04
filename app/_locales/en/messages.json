@@ -11,15 +11,34 @@
     "description": "The description of the application"
   },
 
-  "Update": {
-    "message": "Press to Update"
+  "CheckUpdate": {
+    "message": "Check for updates"
   },
-  "newVersion": {
-    "message": "New version"
+  "notificationUpdateAvailable": {
+    "message": "Update available"
   },
-  "Restart": {
-    "message": "Restart"
+  "notificationUpdateDetail": {
+    "message": "An update to version $1 is available. Would you like to update and restart now?"
   },
+  "notificationNoUpdateTitle": {
+    "message": "No updates available"
+  },
+  "notificationNoUpdateDetail": {
+    "message": "There aren't any updates at this time."
+  },
+  "notificationUpdateOK": {
+    "message": "Yes, update and restart"
+  },
+  "notificationUpdateWait": {
+    "message": "No thanks"
+  },
+  "notificationUpdated": {
+    "message": "Reader has been updated"
+  },
+  "notificationUpdatedDetail": {
+    "message": "Now at version $1."
+  },
+
 
   "ResetData": {
     "message": "Clear browser data"

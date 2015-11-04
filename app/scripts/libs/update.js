@@ -1,56 +1,72 @@
 'use strict';
 
-function newUpdater(window, _, timeout) {
-  if (typeof _ === 'undefined') { //try global
-    if (typeof window._ === 'undefined') {
-      throw new Error('Missing underscore.js!');
+function newUpdater(window, l) {
+  if (typeof l === 'undefined') { //try global
+    if (typeof window.l === 'undefined') {
+      throw new Error('Missing translate!');
     } else {
-      _ = window._;
+      l = window.l;
     }
   }
 
-  if (typeof timeout === 'undefined') {
-    timeout = function timeout(callback, timer) {
-      if (timer) {
-        return _.delay(callback, timer);
-      } else {
-        return _.defer(callback);
-      }
-    };
-
-    timeout.prototype.clear = function clearTimeout(ret) {
-      return clearTimeout(ret);
-    };
-  }
 
   function AppUpdater() {
-    this.updateTime = 60000 * 60 * 2; //every two hours
-    this.timer = null;
-    this.checkUpdate = null;
+    this.updateID = 'fimfiction:update';
   }
 
-  AppUpdater.prototype.bind = function bindUpdater(callback) {
-    window.chrome.runtime.onUpdateAvailable.addListener(callback);
+  AppUpdater.prototype.check = function checkUpdate(isManual) {
+    //code to enable update checking
 
-    if (this.timer) {
-      timeout.clear(this.timer);
-      this.timer = null;
-    }
-    this.checkUpdate = function checkUpdate() {
-      this.timer = null;
-      window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status) {
-        if (status === 'update_available') {
-          console.log('update pending...');
-          //stop checking we just need to wait for user to close the app
-          return;
+    window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status, details) {
+      if (status === 'update_available') {
+        var updateListener = function updateListener() {
+          window.chrome.runtime.onUpdateAvailable.removeListener(updateListener);
+          window.chrome.notifications.clear(this.updateID, function clearNotifications() {
+            window.chrome.notifications.create(this.updateID, {
+              type: 'basic',
+              iconUrl: 'images/icon-128.png',
+              title: l('notificationUpdateAvailable'),
+              message: l('notificationUpdateDetail', details.version),
+              buttons: [
+                {
+                  title: l('notificationUpdateOK')
+                  },
+                {
+                  title: l('notificationUpdateWait')
+                  }
+              ]
+            }, function (id) {
+              this.updateID = id;
+            }.bind(this));
+            var notificationListener = function notificationListener(id, index) {
+              if (id !== this.updateID) {
+                return;
+              }
+              window.chrome.notifications.onButtonClicked.removeListener(notificationListener);
+              if (index === 0) {
+                this.update();
+              }
+            }.bind(this);
+            window.chrome.notifications.onButtonClicked.addListener(notificationListener);
+          }.bind(this));
+        }.bind(this);
+        window.chrome.runtime.onUpdateAvailable.addListener(updateListener);
+      } else {
+        if (isManual) {
+          window.chrome.notifications.clear(this.updateID, function clearNotifications() {
+            window.chrome.notifications.create(this.updateID, {
+              type: 'basic',
+              iconUrl: 'images/icon-128.png',
+              title: l('notificationNoUpdateTitle'),
+              message: l('notificationNoUpdateDetail')
+            }, function (id) {
+              this.updateID = id;
+            }.bind(this));
+          }.bind(this));
         }
-        console.log('no update found');
-        this.timer = timeout(this.checkUpdate, this.updateTime);
-      }.bind(this));
-    }.bind(this);
+      }
 
-    //check update right now (almost)
-    this.timer = timeout(this.checkUpdate, 5000);
+    }.bind(this));
   };
 
   AppUpdater.prototype.update = function update() {
