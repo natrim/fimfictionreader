@@ -91,6 +91,11 @@ window.addEventListener('load', function appLoadEvent() {
   //enable tooltips
   jQuery('[data-content]').popup();
 
+  //settings dialog setting
+  jQuery('#settingsDialog').modal({
+    autofocus: false
+  });
+
   browser.bindWebview('#fimfiction');
   //home move to settings to allow settings custom home
   //browser.setHome('https://www.fimfiction.net/');
