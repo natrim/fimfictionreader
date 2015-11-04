@@ -5,7 +5,6 @@
     "underscore": "~1.8.3",
     "vue": "csp",
     "jquery": "~2.1.4",
-    "toastr": "~2.1.2",
     "semantic-ui-reset": "~2.1.4",
     "semantic-ui-site": "~2.1.4",
     "semantic-ui-header": "~2.1.4",

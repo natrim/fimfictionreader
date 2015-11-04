@@ -33,62 +33,63 @@ function bindKeyboard(settings) {
     //82 r
     //188 ,
     switch (e.keyCode) {
-    case 166:
-    case 37:
-      if (e.keyCode === 37 && !e.altKey && !e.metaKey) {
-        break;
-      }
-      e.preventDefault();
-      controls.back();
-      break;
-    case 167:
-    case 39:
-      if (e.keyCode === 39 && !e.altKey && !e.metaKey) {
-        break;
-      }
-      e.preventDefault();
-      controls.forward();
-      break;
-    case 38:
-      if (e.altKey || e.metaKey) {
-        e.preventDefault();
-        controls.top();
-      }
-      break;
-    case 168:
-    case 40:
-    case 82:
-      if (e.keyCode === 40 && !e.altKey && !e.metaKey) {
-        break;
-      } else if (e.keyCode === 82 && !e.ctrlKey && !e.metaKey) {
-        break;
-      }
-      e.preventDefault();
-      controls.reload();
-      break;
-    case 80:
-    case 188:
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        jQuery('#settingsDialog').modal('toggle');
-      }
-      break;
-    case 70:
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
-          window.appWindow.fullscreen();
-        } else {
-          browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+      case 166:
+      case 37:
+        if (e.keyCode === 37 && !e.altKey && !e.metaKey) {
+          break;
         }
-      }
-      break;
+        e.preventDefault();
+        controls.back();
+        break;
+      case 167:
+      case 39:
+        if (e.keyCode === 39 && !e.altKey && !e.metaKey) {
+          break;
+        }
+        e.preventDefault();
+        controls.forward();
+        break;
+      case 38:
+        if (e.altKey || e.metaKey) {
+          e.preventDefault();
+          controls.top();
+        }
+        break;
+      case 168:
+      case 40:
+      case 82:
+        if (e.keyCode === 40 && !e.altKey && !e.metaKey) {
+          break;
+        } else if (e.keyCode === 82 && !e.ctrlKey && !e.metaKey) {
+          break;
+        }
+        e.preventDefault();
+        controls.reload();
+        break;
+      case 80:
+      case 188:
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          jQuery('#settingsDialog').modal('toggle');
+        }
+        break;
+      case 70:
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
+            window.appWindow.fullscreen();
+          } else {
+            browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+          }
+        }
+        break;
     }
   });
 }
 
 window.addEventListener('load', function appLoadEvent() {
-  window.helpers.onLoad();
+  //enable tooltips
+  jQuery('[data-content]').popup();
 
   browser.bindWebview('#fimfiction');
   browser.setHome('https://www.fimfiction.net/');
@@ -105,31 +106,41 @@ window.addEventListener('load', function appLoadEvent() {
   };
 
   function initSettings() {
+    var settingsId = 'fimfiction:settings';
+    var clearId = 'fimfiction:clear_data';
     //settings
     var settingVM = new Vue({
       el: '#settings',
       data: settings,
       methods: {
-        clearBrowser: function () {
         checkUpdates: function checkUpdates() {
           update.check(true);
         },
+        clearBrowser: function clearBrowser() {
           var resetDialog = function resetDialog() {};
           resetDialog.ok = function () {
             browser.getControls().clearData(function (ok) {
               if (ok) {
-                window.toastr.success(l('clear_data'), l('Settings'), {
-                  'closeButton': false,
-                  'positionClass': 'toast-bottom-left',
-                  'timeOut': '5000',
-                  'extendedTimeOut': '1000'
+                window.chrome.notifications.clear(clearId, function clearNotifications() {
+                  window.chrome.notifications.create(clearId, {
+                    type: 'basic',
+                    iconUrl: 'images/icon-128.png',
+                    title: l('ResetData'),
+                    message: l('clear_data')
+                  }, function (id) {
+                    clearId = id;
+                  });
                 });
               } else {
-                window.toastr.error(l('clear_data_fail'), l('Settings'), {
-                  'closeButton': false,
-                  'positionClass': 'toast-bottom-left',
-                  'timeOut': '5000',
-                  'extendedTimeOut': '1000'
+                window.chrome.notifications.clear(clearId, function clearNotifications() {
+                  window.chrome.notifications.create(clearId, {
+                    type: 'basic',
+                    iconUrl: 'images/icon-128.png',
+                    title: l('ResetData'),
+                    message: l('clear_data_fail')
+                  }, function (id) {
+                    clearId = id;
+                  });
                 });
               }
             });
@@ -155,19 +166,27 @@ window.addEventListener('load', function appLoadEvent() {
             rollback = true;
             settings[key] = oldVal;
             if (key !== 'lastUrl') {
-              window.toastr.error(l('SettingsSaveFailed'), l('Settings'), {
-                'closeButton': false,
-                'positionClass': 'toast-bottom-left',
-                'timeOut': '5000',
-                'extendedTimeOut': '1000'
+              window.chrome.notifications.clear(settingsId, function clearNotifications() {
+                window.chrome.notifications.create(settingsId, {
+                  type: 'basic',
+                  iconUrl: 'images/icon-128.png',
+                  title: l('Settings'),
+                  message: l('SettingsSaveFailed')
+                }, function (id) {
+                  settingsId = id;
+                });
               });
             }
           } else if (key !== 'lastUrl') {
-            window.toastr.success(l('SettingsSaved'), l('Settings'), {
-              'closeButton': false,
-              'positionClass': 'toast-bottom-left',
-              'timeOut': '3000',
-              'extendedTimeOut': '1000'
+            window.chrome.notifications.clear(settingsId, function clearNotifications() {
+              window.chrome.notifications.create(settingsId, {
+                type: 'basic',
+                iconUrl: 'images/icon-128.png',
+                title: l('Settings'),
+                message: l('SettingsSaved')
+              }, function (id) {
+                settingsId = id;
+              });
             });
           }
         });
