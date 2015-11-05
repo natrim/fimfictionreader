@@ -42,6 +42,12 @@
     "message": "Now at version $1."
   },
 
+  "ReloadApp": {
+    "message": "Reload App"
+  },
+  "ReloadAppMore": {
+    "message": "Reload's Application data from disk (and installs updates if there are any)"
+  },
 
   "ResetData": {
     "message": "Clear browser data"

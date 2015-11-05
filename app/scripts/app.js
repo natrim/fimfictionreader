@@ -119,6 +119,9 @@ window.addEventListener('load', function appLoadEvent() {
       el: '#settings',
       data: settings,
       methods: {
+        reloadApp: function () {
+          update.update();
+        },
         checkUpdates: function checkUpdates() {
           update.check(true);
         },
