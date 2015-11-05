@@ -73,7 +73,7 @@ function newWindow(window, _) {
       content.style.width = window.document.documentElement.clientWidth + 'px';
       if (this._minusSelector) {
         var minus = window.document.querySelector(this._minusSelector);
-        if (minus && !this.isFullscreen) {
+        if (minus) {
           content.style.height = (window.document.documentElement.clientHeight - minus.clientHeight) + 'px';
         }
       }
@@ -87,10 +87,6 @@ function newWindow(window, _) {
     this.isMaximized = window.chrome.app.window.current().isMaximized();
     this.isFocused = (typeof focus === 'boolean' ? focus : window.document.hasFocus());
     this.isFullscreen = window.chrome.app.window.current().isFullscreen();
-
-    if (type === 'fullscreen' && this._contentSelector) { //forced content update
-      this.updateContentSize();
-    }
 
     if (this._callbacks.length > 0) {
       _.each(this._callbacks, function (v) {

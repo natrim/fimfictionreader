@@ -12,7 +12,7 @@ var closeTrigger = function closeTrigger() {
 window.document.querySelector('#default-close-button').addEventListener('click', closeTrigger);
 
 //fire toolbar right away - the DOM should be usable by now
-new Vue({
+var toolbar = new Vue({
   el: '#toolbar',
   data: {
     appWindow: appWindow
@@ -26,4 +26,9 @@ new Vue({
       jQuery('#settingsDialog').modal('toggle');
     }
   }
+});
+
+//need to force update
+toolbar.$watch('appWindow.isFullscreen', function () {
+  appWindow.updateContentSize();
 });
