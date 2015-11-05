@@ -1,7 +1,5 @@
 ##### TODO'S
 - settings for keyboard shortcus
-- sync settings
-
 - offline mode (saving the stories and reading them without internet)
 
 ###### MAYBE'S

@@ -100,6 +100,9 @@ window.addEventListener('load', function appLoadEvent() {
   browser.allowDownloadFrom('fimfiction.net');
 
   var settingsType = 'local'; //local or sync
+  if (window.chrome.runtime.getManifest().key) { //if deployed from store then sync settings
+    settingsType = 'sync';
+  }
   //default settings
   var settings = {
     enableKeyboardShortcuts: true,
@@ -298,9 +301,12 @@ window.addEventListener('load', function appLoadEvent() {
       });
 
       //save last browser url
+      var debouncedSaveLastUrl = window._.debounce(function (url) {
+        settings.lastUrl = url;
+      }, 500);
       browser.addChangeCallback(function saveLastUrl(type, err, e) {
         if (type === 'handshake') {
-          settings.lastUrl = e.data.url;
+          debouncedSaveLastUrl(e.data.url);
         }
       });
 
