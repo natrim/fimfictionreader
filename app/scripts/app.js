@@ -100,9 +100,6 @@ window.addEventListener('load', function appLoadEvent() {
   browser.allowDownloadFrom('fimfiction.net');
 
   var settingsType = 'local'; //local or sync
-  if (window.chrome.runtime.getManifest().key) { //if deployed from store then sync settings
-    settingsType = 'sync';
-  }
   //default settings
   var settings = {
     enableKeyboardShortcuts: true,
@@ -110,10 +107,19 @@ window.addEventListener('load', function appLoadEvent() {
     homePage: '',
     lastUrl: ''
   };
+  var settingsKeys = Object.keys(settings);
+
+  //take manifest with you
+  settings.manifest = window.chrome.runtime.getManifest();
+  //if deployed from store then sync settings
+  if (settings.manifest.key) {
+    settingsType = 'sync';
+  }
 
   function initSettings() {
     var settingsId = 'fimfiction:settings';
     var clearId = 'fimfiction:clear_data';
+
     //settings
     var settingVM = new Vue({
       el: '#settings',
@@ -171,7 +177,7 @@ window.addEventListener('load', function appLoadEvent() {
       }
     });
 
-    window._.each(settings, function (val, key) {
+    window._.each(settingsKeys, function (key) {
       var rollback = false;
       settingVM.$watch(key, function (newVal, oldVal) {
         if (rollback) {
@@ -220,9 +226,9 @@ window.addEventListener('load', function appLoadEvent() {
   }
 
   function loadSettings(callback) {
-    window.chrome.storage[settingsType].get(Object.keys(settings), function getSettings(items) {
+    window.chrome.storage[settingsType].get(settingsKeys, function getSettings(items) {
       if (!window.chrome.runtime.lastError) {
-        window._.each(Object.keys(settings), function (v) {
+        window._.each(settingsKeys, function (v) {
           if (typeof items[v] !== 'undefined') {
             settings[v] = items[v];
           }
