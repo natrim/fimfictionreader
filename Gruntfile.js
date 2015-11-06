@@ -1,4 +1,3 @@
-// Generated on 2015-09-24 using generator-chromeapp 0.2.19
 'use strict';
 
 // # Globbing
@@ -73,7 +72,7 @@ module.exports = function (grunt) {
       },
       server: {
         options: {
-          middleware: function(connect) {
+          middleware: function (connect) {
             return [
               connect.static('.tmp'),
               connect().use('/bower_components', connect.static('./bower_components')),
@@ -221,6 +220,13 @@ module.exports = function (grunt) {
     //   dist: {}
     // },
 
+    // Dont import googlefonts
+    'cssmin': {
+      'options': {
+        'processImportFrom': ['!fonts.googleapis.com']
+      }
+    },
+
     // Copies remaining files to places other tasks can use
     copy: {
       dist: {
@@ -245,6 +251,13 @@ module.exports = function (grunt) {
         cwd: '<%= config.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
+      },
+      icons: {
+        expand: true,
+        dot: true,
+        cwd: '<%= config.app %>/bower_components/semantic-ui-icon',
+        dest: '<%= config.dist %>/styles/',
+        src: 'assets/fonts/icons.woff2'
       }
     },
 
@@ -265,6 +278,19 @@ module.exports = function (grunt) {
 
     // Merge event page, update build number, exclude the debug script
     chromeManifest: {
+      predist: {
+        options: {
+          buildnumber: false,
+          background: {
+            target: 'scripts/background.js',
+            exclude: [
+              'scripts/chromereload.js'
+            ]
+          }
+        },
+        src: '<%= config.app %>',
+        dest: '<%= config.dist %>'
+      },
       dist: {
         options: {
           buildnumber: true,
@@ -280,11 +306,11 @@ module.exports = function (grunt) {
       }
     },
 
-    // Compress files in dist to make Chromea Apps package
+    // Compress files in dist to make Chrome Apps package
     compress: {
       dist: {
         options: {
-          archive: function() {
+          archive: function () {
             var manifest = grunt.file.readJSON('app/manifest.json');
             return 'package/fimfiction-' + manifest.version + '.zip';
           }
@@ -308,7 +334,6 @@ module.exports = function (grunt) {
     if (platform === 'server') {
       watch.styles.tasks = ['newer:copy:styles'];
       watch.styles.options.livereload = false;
-
     }
 
     // Configure updated watch task
@@ -321,6 +346,19 @@ module.exports = function (grunt) {
       'watch'
     ]);
   });
+
+  grunt.registerTask('prebuild', [
+    'clean:dist',
+    'chromeManifest:predist',
+    'useminPrepare',
+    'concurrent:dist',
+    'concat',
+    'cssmin',
+    'uglify',
+    'copy',
+    'usemin',
+    'htmlmin'
+  ]);
 
   grunt.registerTask('build', [
     'clean:dist',
