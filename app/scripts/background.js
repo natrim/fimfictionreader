@@ -26,7 +26,7 @@ chrome.app.runtime.onLaunched.addListener(function onLaunched() {
   });
 });
 
-chrome.runtime.onInstalled.addListener(function onInstalled(e) {
+chrome.runtime.onInstalled.addListener(function onInstalled() {
   chrome.storage.local.set({
     'updateReady': false
   });

@@ -30,10 +30,10 @@ function newUpdater(window, l) {
               buttons: [
                 {
                   title: l('notificationUpdateOK')
-                  },
+                },
                 {
                   title: l('notificationUpdateWait')
-                  }
+                }
               ]
             }, function (id) {
               this.updateID = id;
