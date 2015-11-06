@@ -35,12 +35,6 @@
   "notificationUpdateWait": {
     "message": "No thanks"
   },
-  "notificationUpdated": {
-    "message": "Reader has been updated"
-  },
-  "notificationUpdatedDetail": {
-    "message": "Now at version $1."
-  },
 
   "ReloadApp": {
     "message": "Reload App"
