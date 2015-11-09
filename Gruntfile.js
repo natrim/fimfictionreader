@@ -237,6 +237,7 @@ module.exports = function (grunt) {
           dest: '<%= config.dist %>',
           src: [
             'scripts/inject/*.js',
+            'styles/inject/*.css',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',

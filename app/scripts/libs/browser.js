@@ -228,6 +228,9 @@ function newBrowser(window, _, timeout) {
       js: {
         files: ['scripts/inject/init.js', 'scripts/inject/scroll.js', 'scripts/inject/exec.js']
       },
+      css: {
+        files: ['styles/inject/scrollbar.css']
+      },
       'run_at': 'document_start'
     }]);
 
