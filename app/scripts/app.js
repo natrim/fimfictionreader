@@ -82,7 +82,7 @@ function bindKeyboard(settings) {
         if ((e.ctrlKey && e.metaKey) || (e.ctrlKey && e.altKey)) {
           window.appWindow.fullscreen();
         } else {
-          browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 300);');
+          browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);');
         }
       }
       break;
