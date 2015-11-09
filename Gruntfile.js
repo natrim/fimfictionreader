@@ -236,8 +236,8 @@ module.exports = function (grunt) {
           cwd: '<%= config.app %>',
           dest: '<%= config.dist %>',
           src: [
-            'scripts/inject/*.js',
-            'styles/inject/*.css',
+            'scripts/inject.js',
+            'styles/inject.css',
             '*.{ico,png,txt}',
             'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',

@@ -226,10 +226,10 @@ function newBrowser(window, _, timeout) {
       name: 'rule',
       matches: ['http://*/*', 'https://*/*'],
       js: {
-        files: ['scripts/inject/init.js', 'scripts/inject/scroll.js', 'scripts/inject/exec.js']
+        files: ['scripts/inject.js']
       },
       css: {
-        files: ['styles/inject/scrollbar.css']
+        files: ['styles/inject.css']
       },
       'run_at': 'document_start'
     }]);

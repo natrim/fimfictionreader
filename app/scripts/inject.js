@@ -1,7 +1,5 @@
 'use strict';
 
-/*jshint unused: false*/
-
 var appWindow = null,
   appOrigin = null;
 
@@ -31,6 +29,15 @@ function _receiveMessage(event) {
       url: window.location.href
     });
   }
+
+  if (event && event.data && event.data.command) {
+    var command = event.data.command;
+    if (command === 'execute') {
+      runScript(event.data.value);
+    } else if (command === 'scrollTop') {
+      runScript('if(typeof jQuery !== \'undefined\')jQuery(\'html, body\').animate({scrollTop : 0}, 800); else window.scrollTo(0, 0);');
+    }
+  }
 }
 
 window.addEventListener('message', _receiveMessage);
@@ -42,4 +49,26 @@ window.addEventListener('contextmenu', function (e) {
     e.stopPropagation();
     return false;
   }
+});
+
+
+var scrollSender = null;
+var scrollSend = function () {
+  if (scrollSender) {
+    clearTimeout(scrollSender);
+    scrollSender = null;
+  }
+
+  scrollSender = setTimeout(function () {
+    scrollSender = null;
+    _sendMessage({
+      command: 'scroll',
+      value: window.scrollY
+    });
+  }, 100);
+};
+
+window.addEventListener('load', function () {
+  scrollSend();
+  window.addEventListener('scroll', scrollSend);
 });
