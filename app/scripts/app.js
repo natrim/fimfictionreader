@@ -96,8 +96,19 @@ window.addEventListener('load', function appLoadEvent() {
   //browser.setHome('https://www.fimfiction.net/');
   var homePage = 'https://www.fimfiction.net/';
   browser.setDomainLimit('fimfiction.net');
-  //browser.allowNewWindows(true);
   browser.allowDownloadFrom('fimfiction.net');
+
+  //alow new windows with shift click (not here, goes to chrome)
+  window.addEventListener('keydown', function newWDown(e) {
+    if (e.keyCode === 16) {
+      browser.allowNewWindows(true);
+    }
+  });
+  window.addEventListener('keyup', function newWUp(e) {
+    if (e.keyCode === 16) {
+      browser.allowNewWindows(false);
+    }
+  });
 
   var settingsType = 'local'; //local or sync
   //default settings
@@ -257,10 +268,10 @@ window.addEventListener('load', function appLoadEvent() {
       var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function changeCallback(type, err, e) {
         if (err && type === 'loadstart') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message, false);
+          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + '<br><br>' + l('block_exception'), false);
           jQuery('#dialog').modal('show');
         } else if (err && type === 'newwindow') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message, false);
+          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + '<br><br>' + l('block_exception'), false);
           jQuery('#dialog').modal('show');
         } else if (type === 'dialog') {
           e.preventDefault();
