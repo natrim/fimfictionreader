@@ -2,13 +2,21 @@
 
 chrome.runtime.onUpdateAvailable.addListener(function onUpdateAvailable() {
   chrome.storage.local.set({
-    'updateReady': true
+    'updateReady': Date.now()
   });
 });
 
 chrome.app.runtime.onLaunched.addListener(function onLaunched() {
+  var hang = setTimeout(function preventHang() {
+    hang = null;
+    chrome.runtime.reload();
+  }, 5000);
   chrome.storage.local.get('updateReady', function loadGet(o) {
-    if (o.updateReady) {
+    if (hang) {
+      clearTimeout(hang);
+      hang = null;
+    }
+    if (o.updateReady && (o.updateReady + 86400000) >= Date.now()) {
       chrome.runtime.reload();
       return;
     }
@@ -28,6 +36,6 @@ chrome.app.runtime.onLaunched.addListener(function onLaunched() {
 
 chrome.runtime.onInstalled.addListener(function onInstalled() {
   chrome.storage.local.set({
-    'updateReady': false
+    'updateReady': 0
   });
 });
