@@ -161,6 +161,9 @@
   "enableKeyboardShortcuts": {
     "message": "Enable keyboard shortcuts"
   },
+  "enableShiftToOpenWindow": {
+    "message": "Enable holding Shift to open link in new window"
+  },
   "homePage": {
     "message": "HomePage"
   },

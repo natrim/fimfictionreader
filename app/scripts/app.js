@@ -100,11 +100,17 @@ window.addEventListener('load', function appLoadEvent() {
 
   //alow new windows with shift click (not here, goes to chrome)
   window.addEventListener('keydown', function newWDown(e) {
+    if (!settings.enableShiftToOpenWindow) {
+      return;
+    }
     if (e.keyCode === 16) {
       browser.allowNewWindows(true);
     }
   });
   window.addEventListener('keyup', function newWUp(e) {
+    if (!settings.enableShiftToOpenWindow) {
+      return;
+    }
     if (e.keyCode === 16) {
       browser.allowNewWindows(false);
     }
@@ -114,6 +120,7 @@ window.addEventListener('load', function appLoadEvent() {
   //default settings
   var settings = {
     enableKeyboardShortcuts: true,
+    enableShiftToOpenWindow: true,
     saveLastPage: true,
     homePage: '',
     lastUrl: ''
@@ -219,6 +226,8 @@ window.addEventListener('load', function appLoadEvent() {
           } else if (key !== 'lastUrl') {
             if (key === 'homePage') {
               browser.setHome(homePage + settings.homePage);
+            } else if (key === 'enableShiftToOpenWindow') {
+              browser.allowNewWindows(settings.enableShiftToOpenWindow);
             }
             window.chrome.notifications.clear(settingsId, function clearNotifications() {
               window.chrome.notifications.create(settingsId, {
@@ -268,10 +277,10 @@ window.addEventListener('load', function appLoadEvent() {
       var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function changeCallback(type, err, e) {
         if (err && type === 'loadstart') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + '<br><br>' + l('block_exception'), false);
+          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
           jQuery('#dialog').modal('show');
         } else if (err && type === 'newwindow') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + '<br><br>' + l('block_exception'), false);
+          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
           jQuery('#dialog').modal('show');
         } else if (type === 'dialog') {
           e.preventDefault();
