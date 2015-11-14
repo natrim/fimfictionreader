@@ -103,7 +103,7 @@
     </div>
 
     <!-- ALERT/CONFIRM BEGIN -->
-    <div class="ui small modal" id="dialog">
+    <div class="ui small modal" id="dialog" v-cloak>
       <i class="close icon"></i>
       <div class="header">
         <l>Alert</l>
@@ -129,7 +129,7 @@
     <!-- ALERT/CONFIRM END -->
 
     <!-- RADIAL MENU BEGIN -->
-    <ul class="radial">
+    <ul class="radial" v-cloak>
       <li>
         <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l="title">
           <l>Reload</l>
