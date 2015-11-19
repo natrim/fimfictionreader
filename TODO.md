@@ -1,6 +1,7 @@
 ##### TODO'S
 - settings for keyboard shortcus
 - offline mode (saving the stories and reading them without internet)
+- unit tests
 
 ###### MAYBE'S
 - tabs (or windows) (so they don't open in chrome)
