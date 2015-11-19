@@ -145,19 +145,21 @@ function newShortcuts(window, _, l) {
   }
 
   AppShortcuts.prototype.bind = function bindShortcuts(settings, browser) {
+    var controls = browser.getControls();
+
     function doShortcut(action) {
       switch (action) {
       case 'back':
-        browser.getControls().controls.back();
+        controls.back();
         break;
       case 'forward':
-        browser.getControls().forward();
+        controls.forward();
         break;
       case 'reload':
-        browser.getControls().reload();
+        controls.reload();
         break;
       case 'top':
-        browser.getControls().top();
+        controls.top();
         break;
       case 'settings':
         var mod = jQuery('.settingsTrigger:not(.disabled)').get(0);
