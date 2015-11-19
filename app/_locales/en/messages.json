@@ -173,5 +173,40 @@
   },
   "clearCurrentHomePage": {
     "message": "Clear home page"
+  },
+
+
+  "shortcut_key_meta": {
+    "message": "Meta"
+  },
+  "shortcut_key_alt": {
+    "message": "Alt"
+  },
+  "shortcut_key_ctrl": {
+    "message": "Ctrl"
+  },
+  "shortcut_key_shift": {
+    "message": "Shift"
+  },
+  "shortcut_key_arrow_left": {
+    "message": "Arrow Left"
+  },
+  "shortcut_key_arrow_right": {
+    "message": "Arrow Right"
+  },
+  "shortcut_key_arrow_up": {
+    "message": "Arrow Up"
+  },
+  "shortcut_key_arrow_down": {
+    "message": "Arrow Down"
+  },
+  "shortcut_key_browser_back": {
+    "message": "Browser Back"
+  },
+  "shortcut_key_browser_forward": {
+    "message": "Browser Forward"
+  },
+  "shortcut_key_browser_reload": {
+    "message": "Browser Reload"
   }
 }
