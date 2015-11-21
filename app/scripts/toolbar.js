@@ -28,7 +28,14 @@ var toolbar = new Vue({
   }
 });
 
-//need to force update
+// force update content size on fullscreen change
 toolbar.$watch('appWindow.isFullscreen', function () {
   appWindow.updateContentSize();
+});
+
+// force webview focus on window focus
+toolbar.$watch('appWindow.isFocused', function () {
+  if (appWindow.isFocused) {
+    window.document.querySelector('#fimfiction').focus();
+  }
 });

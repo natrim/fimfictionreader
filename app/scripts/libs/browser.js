@@ -360,6 +360,7 @@ function newBrowser(window, _, timeout) {
     }
 
     var done = function done() {
+      webview.focus();
       if (webview.src === 'about:blank' || webview.src === '') {
         webview.src = homeUrl;
       }
