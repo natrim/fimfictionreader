@@ -1,9 +1,9 @@
 ##### TODO'S
-- settings for keyboard shortcus
 - offline mode (saving the stories and reading them without internet)
 - unit tests
 
 ###### MAYBE'S
+- settings for keyboard shortcuts
 - tabs (or windows) (so they don't open in chrome)
 - precaching
 - remember and renew pagescroll?
