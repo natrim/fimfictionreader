@@ -117,11 +117,7 @@ window.addEventListener('load', function appLoadEvent() {
         jQuery('.settingsTrigger').removeClass('disabled');
         //settings dialog setting
         jQuery('#settingsDialog').modal({
-          autofocus: false,
-          onHidden: function onSettingsClose() {
-            // refocus view on settings close
-            window.document.querySelector('#fimfiction').focus();
-          }
+          autofocus: false
         });
       }
     });

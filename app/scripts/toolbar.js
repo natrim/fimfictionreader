@@ -32,12 +32,3 @@ var toolbar = new Vue({
 toolbar.$watch('appWindow.isFullscreen', function () {
   appWindow.updateContentSize();
 });
-
-// force webview focus on window focus
-toolbar.$watch('appWindow.isFocused', function () {
-  if (appWindow.isFocused) {
-    if (window.document.activeElement.className.search('dimmable') !== -1 && window.document.activeElement.className.search('dimmed') === -1) {
-      window.document.querySelector('#fimfiction').focus();
-    }
-  }
-});

@@ -216,6 +216,9 @@ function newBrowser(window, _, timeout) {
   };
 
   Browser.prototype.bindWebview = function bindWebview(selecter) {
+    if (webview) {
+      throw new Error('Browser is already bound to Webview!');
+    }
     webview = window.document.querySelector(selecter);
     if (!webview) {
       throw new Error('Invalid selector or webview not found!');
@@ -336,6 +339,14 @@ function newBrowser(window, _, timeout) {
         }, this);
       }
     }.bind(this));
+
+
+    // force webview focus from app body
+    setInterval(function keepWebviewFocus() {
+      if (webviewLoaded && window.document.activeElement.id === 'mainWindow' && window.document.activeElement.className.search('dimmed') === -1) {
+        webview.focus();
+      }
+    }, 1000);
   };
 
   Browser.prototype.setHome = function setHome(url) {
@@ -360,7 +371,6 @@ function newBrowser(window, _, timeout) {
     }
 
     var done = function done() {
-      webview.focus();
       if (webview.src === 'about:blank' || webview.src === '') {
         webview.src = homeUrl;
       }

@@ -34,7 +34,7 @@
   <!-- endbuild -->
 </head>
 
-<body style="background-color: rgba(0,0,0,0.5)">
+<body style="background-color: rgba(0,0,0,0.5)" id="mainWindow">
   <!-- TOOLBAR BEGIN -->
   <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen, mac: appWindow.isMac}" id="toolbar">
     <div class="left menu" v-if="!appWindow.isMac">
