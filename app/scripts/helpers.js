@@ -66,6 +66,8 @@ window.helpers.modal = function (selector, title, content, confirm, dialog, prom
           if (dialog) {
             dialog.cancel();
           }
+          // refocus view on dialog close
+          window.document.querySelector('#fimfiction').focus();
         }
       });
       modal.find('.negative').show();
@@ -86,6 +88,8 @@ window.helpers.modal = function (selector, title, content, confirm, dialog, prom
           if (dialog) {
             dialog.cancel();
           }
+          // refocus view on dialog close
+          window.document.querySelector('#fimfiction').focus();
         }
       });
       modal.find('.negative').hide();

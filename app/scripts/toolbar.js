@@ -36,6 +36,8 @@ toolbar.$watch('appWindow.isFullscreen', function () {
 // force webview focus on window focus
 toolbar.$watch('appWindow.isFocused', function () {
   if (appWindow.isFocused) {
-    window.document.querySelector('#fimfiction').focus();
+    if (window.document.activeElement.className.search('dimmable') !== -1 && window.document.activeElement.className.search('dimmed') === -1) {
+      window.document.querySelector('#fimfiction').focus();
+    }
   }
 });
