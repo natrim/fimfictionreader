@@ -52,28 +52,6 @@
 .ui.image.loader {
     min-width: 2.2585em;
 }
-/*fix toastr top postitions*/
-.toast-top-center {
-  top: 1.786em;
-  right: 0;
-  width: 100%;
-}
-
-.toast-top-full-width {
-  top: 1.786em;
-  right: 0;
-  width: 100%;
-}
-
-.toast-top-left {
-  top: 2.2em;
-  left: 1.7em;
-}
-
-.toast-top-right {
-  top: 2.2em;
-  right: 1.7em;
-}
 
 .settingsTrigger.disabled {
   display: none;
@@ -82,4 +60,12 @@
 .window_toolbar.fullscreen {
   height: 0!important;
   display: none;
+}
+.ui.toggle.checkbox input:checked ~ .box:before,
+.ui.toggle.checkbox input:checked ~ label:before {
+  background-color: #111 !important;
+}
+.ui.toggle.checkbox input:focus:checked ~ .box:before,
+.ui.toggle.checkbox input:focus:checked ~ label:before {
+  background-color: #111 !important;
 }

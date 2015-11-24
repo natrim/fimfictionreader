@@ -116,11 +116,11 @@
         </div>
       </div>
       <div class="actions">
-        <div class="ui negative button">
+        <div class="ui cancel button">
           <i class="remove icon"></i>
           <l>Cancel</l>
         </div>
-        <div class="ui positive button">
+        <div class="ui grey ok button">
           <i class="checkmark icon"></i>
           <l>Ok</l>
         </div>
@@ -175,8 +175,8 @@
               <l>homePage</l>: fimfiction.net/
             </div>
             <input type="text" name="homePage" v-model="homePage" debounce="500">
-            <button class="ui blue icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
-            <button class="ui yellow icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
+            <button class="ui icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
+            <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
           </div>
 
           <p></p>
@@ -207,13 +207,13 @@
           <hr>
           <p></p>
           <p>
-            <button class="ui red button" v-on:click="clearBrowser" data-content="ResetDataMore" data-variation="basic tiny" aria-label="ResetData" v-l="['aria-label', 'data-content']">
+            <button class="ui button" v-on:click="clearBrowser" data-content="ResetDataMore" data-variation="basic tiny" aria-label="ResetData" v-l="['aria-label', 'data-content']">
               <l>ResetData</l>
             </button>
-            <button class="ui yellow button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
+            <button class="ui button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
               <l>ReloadApp</l>
             </button>
-            <button class="ui blue button" v-on:click="checkUpdates" data-content="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-content']">
+            <button class="ui button" v-on:click="checkUpdates" data-content="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-content']">
               <l>CheckUpdate</l>
             </button>
           </p>
@@ -221,7 +221,7 @@
       </div>
       <div class="actions">
         <p style="position: absolute;">v{{manifest.version}}</p>
-        <div class="ui black ok button">
+        <div class="ui close button">
           <l>Close</l>
         </div>
       </div>
