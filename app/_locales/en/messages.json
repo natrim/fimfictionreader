@@ -15,7 +15,7 @@
     "message": "Check for updates"
   },
   "CheckUpdateMore": {
-    "message": "Check for updates on Chrome Web Store"
+    "message": "Check for updates on Chrome Web Store\nIt will be installed when Chrome feels like it!\n(you can force the update by clicking \"Reload App\" button)"
   },
   "notificationUpdateAvailable": {
     "message": "Update available"
