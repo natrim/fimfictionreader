@@ -3,6 +3,7 @@
 - unit tests
 
 ###### MAYBE'S
+- toggleable reverse color scheme
 - settings for keyboard shortcuts
 - tabs (or windows) (so they don't open in chrome)
 - precaching
