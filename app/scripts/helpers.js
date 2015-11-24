@@ -39,7 +39,7 @@ window.helpers.modal = function (selector, title, content, confirm, dialog, prom
       modal.find('.content .description').html(input);
       modal.off('keyup.prompt').on('keyup.prompt', '#modaldialogpromptvalue', function (e) {
         if (e.keyCode === 13) {
-          modal.find('.positive').click();
+          modal.find('.ok').click();
         }
       });
     } else {
@@ -68,7 +68,7 @@ window.helpers.modal = function (selector, title, content, confirm, dialog, prom
           }
         }
       });
-      modal.find('.negative').show();
+      modal.find('.cancel').show();
     } else {
       modal.modal({
         closable: false,
@@ -88,7 +88,7 @@ window.helpers.modal = function (selector, title, content, confirm, dialog, prom
           }
         }
       });
-      modal.find('.negative').hide();
+      modal.find('.cancel').hide();
     }
   }
 };
