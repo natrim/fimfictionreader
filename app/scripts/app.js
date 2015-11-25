@@ -198,7 +198,12 @@ window.addEventListener('load', function appLoadEvent() {
       var loading = jQuery('#loading');
       var loadingBrowserTimer = null;
       window._.defer(function menuDefer() {
-        window.radialMenu(controls.check.bind(controls)); //browser radial menu
+        window.radialMenu(function (callback) {
+          controls.check(); //sync func
+          if (callback) {
+            callback();
+          }
+        }); //browser radial menu
       });
       var firstBrowserLoad = true;
       var firstLoadBrowserTimer = null;
