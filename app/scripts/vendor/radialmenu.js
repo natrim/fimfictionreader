@@ -152,7 +152,9 @@
           }, 10);
         } else {
           canMove = true;
-          $('.radialmenu').removeClass('paused');
+          setTimeout(function () {
+            $('.radialmenu').removeClass('paused');
+          }, 10);
         }
         return false;
       }
