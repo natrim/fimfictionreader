@@ -171,7 +171,7 @@ function newShortcuts(window, _, l) {
         window.appWindow.fullscreen();
         break;
       case 'find':
-        browser.exec('jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);');
+        browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'#site-search input[name="search"]\').focus();}');
         break;
       }
     }
