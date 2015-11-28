@@ -286,5 +286,5 @@ window.addEventListener('load', function appLoadEvent() {
   });
 
   //enable tooltips
-  jQuery('[data-content]').popup();
+  jQuery('[data-content],[data-html]').popup();
 });

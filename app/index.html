@@ -192,6 +192,7 @@
             <input type="checkbox" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
             <label>
               <l>enableKeyboardShortcuts</l>
+              <i class="ui help icon" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
             </label>
           </div>
 
@@ -213,7 +214,7 @@
             <button class="ui button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
               <l>ReloadApp</l>
             </button>
-            <button class="ui button" v-on:click="checkUpdates" data-content="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-content']">
+            <button class="ui button" v-on:click="checkUpdates" data-html="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-html']">
               <l>CheckUpdate</l>
             </button>
           </p>

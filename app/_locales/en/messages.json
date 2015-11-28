@@ -1,21 +1,19 @@
 {
   "appName": {
     "message": "FimFiction Reader",
-    "description": "The name of the application"
   },
   "appShortName": {
     "message": "FimFicReader"
   },
   "appDescription": {
     "message": "Fimfiction.net reader app",
-    "description": "The description of the application"
   },
 
   "CheckUpdate": {
     "message": "Check for updates"
   },
   "CheckUpdateMore": {
-    "message": "Check for updates on Chrome Web Store\nIt will be installed when Chrome feels like it!\n(you can force the update by clicking \"Reload App\" button)"
+    "message": "Check for updates on Chrome Web Store.<br>It will be installed when Chrome feels like it!<br>You can force the update by clicking \"Reload App\" button."
   },
   "notificationUpdateAvailable": {
     "message": "Update available"
@@ -40,7 +38,7 @@
     "message": "Reload App"
   },
   "ReloadAppMore": {
-    "message": "Reload's Application data from disk (and installs updates if there are any)"
+    "message": "Reload's App from disk (and installs updates if there are any)"
   },
 
   "ResetData": {
@@ -162,7 +160,7 @@
     "message": "Enable keyboard shortcuts"
   },
   "enableShiftToOpenWindow": {
-    "message": "Enable holding Shift to open link in new window"
+    "message": "Enable holding Shift to open link in Chrome"
   },
   "homePage": {
     "message": "HomePage"
@@ -175,6 +173,9 @@
     "message": "Clear home page"
   },
 
+  "shortcuts_help": {
+    "message": "<strong>Shortcuts</strong><br>ctrl + P - toggle settings<br>ctrl + R - reload<br>ctrl + alt + F - toggle fullscreen<br>alt + left - back<br>alt + right - forward<br>alt + up - scroll top<br>alt + down - reload<br>ctrl + F - focus site search"
+  },
 
   "shortcut_key_meta": {
     "message": "Meta"
