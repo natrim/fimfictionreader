@@ -1,12 +1,12 @@
 {
   "appName": {
-    "message": "FimFiction Reader",
+    "message": "FimFiction Reader"
   },
   "appShortName": {
     "message": "FimFicReader"
   },
   "appDescription": {
-    "message": "Fimfiction.net reader app",
+    "message": "Fimfiction.net reader app"
   },
 
   "CheckUpdate": {
