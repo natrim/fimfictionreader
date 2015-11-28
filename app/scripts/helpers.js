@@ -3,15 +3,17 @@
 (function () {
   Vue.elementDirective('l', {
     bind: function () {
-      this.el.innerText = window.chrome.i18n.getMessage(this.el.innerText);
+      var $el = jQuery(this.el);
+      $el.html(window.chrome.i18n.getMessage($el.text().trim()));
     }
   });
 
   Vue.directive('l', {
     priority: 999999999,
     update: function (values) {
+      var $el = jQuery(this.el);
       for (var i in values) {
-        this.el.setAttribute(values[i].trim(), window.chrome.i18n.getMessage(this.el.getAttribute(values[i].trim())));
+        $el.attr(values[i].trim(), window.chrome.i18n.getMessage($el.attr(values[i].trim()).trim()));
       }
     }
   });
