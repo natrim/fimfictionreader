@@ -37,17 +37,16 @@
 <body style="background-color: rgba(0,0,0,0.5)" id="mainWindow">
   <!-- TOOLBAR BEGIN -->
   <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen, mac: appWindow.isMac}" id="toolbar">
-    <div class="left menu" v-if="!appWindow.isMac">
+    <div class="left menu" v-if="appWindow.toolbarType === 2">
       <div class="item">
       </div>
       <div class="item">
-        &nbsp;&nbsp;&nbsp;
-        <a class="settingsTrigger disabled" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
+        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
     </div>
-    <div class="left menu" v-if="appWindow.isMac" v-cloak>
+    <div class="left menu" v-if="appWindow.toolbarType === 1" v-cloak>
       <div class="item">
         <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="remove circle icon link"></i></a>
       </div>
@@ -61,14 +60,14 @@
     <div class="header item" v-cloak>
       <l>appName</l>
     </div>
-    <div class="right menu" v-if="appWindow.isMac" v-cloak>
+    <div class="right menu" v-if="appWindow.toolbarType === 1" v-cloak>
       <div class="item">
-        <a class="settingsTrigger disabled" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
+        <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
         </a>
       </div>
     </div>
-    <div class="right menu" v-if="!appWindow.isMac">
+    <div class="right menu" v-if="appWindow.toolbarType === 2">
       <div class="item" v-cloak>
         <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
@@ -76,7 +75,7 @@
         <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
-        <a id="default-close-button" v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>
+        <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>
       </div>
     </div>
   </div>
@@ -181,16 +180,16 @@
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" name="saveLastPage" v-model="saveLastPage">
-            <label>
+            <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="saveLastPage">
+            <label for="saveLastPage">
               <l>saveLastPage</l>
             </label>
           </div>
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
-            <label>
+            <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
+            <label for="enableKeyboardShortcuts">
               <l>enableKeyboardShortcuts</l>
               <i class="ui help icon" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
             </label>
@@ -198,10 +197,41 @@
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" name="enableShiftToOpenWindow" v-model="enableShiftToOpenWindow">
-            <label>
+            <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="enableShiftToOpenWindow">
+            <label for="enableShiftToOpenWindow">
               <l>enableShiftToOpenWindow</l>
             </label>
+          </div>
+
+          <p></p>
+          <div class="inline fields">
+            <label>
+              <l>toolbarType</l>
+            </label>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="toolbarType">
+                <label for="toolbarTypeAuto">
+                  <l>toolbarTypeAuto</l>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="toolbarType">
+                <label for="toolbarTypeMac">
+                  <l>toolbarTypeMac</l>
+                </label>
+              </div>
+            </div>
+            <div class="field">
+              <div class="ui radio checkbox">
+                <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="toolbarType">
+                <label for="toolbarTypeWin">
+                  <l>toolbarTypeWin</l>
+                </label>
+              </div>
+            </div>
           </div>
 
           <p></p>

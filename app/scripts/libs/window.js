@@ -20,11 +20,15 @@ function newWindow(window, _) {
     this.isMac = false;
     this.isLinux = false;
     this.isWindows = false;
+    this.toolbarType = 1;
     if (window.chrome && window.chrome.runtime && window.chrome.runtime.getPlatformInfo) {
       window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
         this.isMac = info.os === 'mac';
         this.isLinux = info.os === 'linux';
         this.isWindows = info.os === 'windows';
+        if (this.isMac) {
+          this.toolbarType = 2;
+        }
         if (this._callbacks.length > 0) {
           _.each(this._callbacks, function (v) {
             v('os', this);

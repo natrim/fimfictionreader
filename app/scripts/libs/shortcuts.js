@@ -162,7 +162,7 @@ function newShortcuts(window, _, l) {
         controls.top();
         break;
       case 'settings':
-        var mod = jQuery('.settingsTrigger:not(.disabled)').get(0);
+        var mod = jQuery('.settingsTrigger').get(0);
         if (mod) {
           mod.click();
         }

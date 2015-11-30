@@ -165,7 +165,18 @@
   "homePage": {
     "message": "HomePage"
   },
-
+  "toolbarType": {
+    "message": "Toolbar controls side:"
+  },
+  "toolbarTypeAuto": {
+    "message": "defined by OS"
+  },
+  "toolbarTypeMac": {
+    "message": "on left"
+  },
+  "toolbarTypeWin": {
+    "message": "on right"
+  },
   "setCurrentPageAsHome": {
     "message": "Set current page as home"
   },

@@ -46,6 +46,7 @@ window.addEventListener('load', function appLoadEvent() {
   var settingsType = 'local'; //local or sync
   //default settings
   var settings = {
+    toolbarType: 0,
     enableKeyboardShortcuts: true,
     enableShiftToOpenWindow: true,
     saveLastPage: true,
@@ -114,7 +115,6 @@ window.addEventListener('load', function appLoadEvent() {
         }
       },
       ready: function settingsReady() {
-        jQuery('.settingsTrigger').removeClass('disabled');
         //settings dialog setting
         jQuery('#settingsDialog').modal({
           autofocus: false
@@ -155,6 +155,12 @@ window.addEventListener('load', function appLoadEvent() {
               browser.setHome(homePage + settings.homePage);
             } else if (key === 'enableShiftToOpenWindow') {
               browser.allowNewWindows(settings.enableShiftToOpenWindow);
+            } else if (key === 'toolbarType') {
+              if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
+                window.appWindow.toolbarType = window.appWindow.isMac ? 1 : 2;
+              } else {
+                window.appWindow.toolbarType = parseInt(settings.toolbarType);
+              }
             }
             window.chrome.notifications.clear(settingsId, function clearNotifications() {
               window.chrome.notifications.create(settingsId, {
@@ -170,6 +176,13 @@ window.addEventListener('load', function appLoadEvent() {
         });
       });
     });
+
+    //set toolbar type
+    if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
+      window.appWindow.toolbarType = window.appWindow.isMac ? 1 : 2;
+    } else {
+      window.appWindow.toolbarType = parseInt(settings.toolbarType);
+    }
   }
 
   function loadSettings(callback) {
