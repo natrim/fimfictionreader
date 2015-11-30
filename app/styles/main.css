@@ -20,11 +20,14 @@
 .menu.blured {
   background-color: rgba(0,0,0,0.5)!important;
 }
-.window_toolbar.mac .menu.left .item {
+.window_toolbar .left.menu .item {
   margin-left: 0.3em!important;
 }
-.window_toolbar:not(.mac) .menu.right .item {
+.window_toolbar .right.menu .item {
   padding-right: 0.3em!important;
+}
+.window_toolbar .menu .item::before {
+  content: none!important;
 }
 .window_content {
   overflow: hidden;
