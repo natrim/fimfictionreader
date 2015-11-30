@@ -343,8 +343,10 @@ function newBrowser(window, _, timeout) {
 
     // force webview focus from app body
     setInterval(function keepWebviewFocus() {
-      if (webviewLoaded && window.document.activeElement.id === 'mainWindow' && window.document.activeElement.className.search('dimmed') === -1) {
-        webview.focus();
+      if (webviewLoaded) {
+        if (window.document.activeElement.tagName !== 'INPUT' && window.document.activeElement.tagName !== 'TEXTAREA') {
+          webview.focus();
+        }
       }
     }, 1000);
   };
