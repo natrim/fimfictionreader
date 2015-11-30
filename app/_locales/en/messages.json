@@ -166,16 +166,16 @@
     "message": "HomePage"
   },
   "toolbarType": {
-    "message": "Toolbar controls side:"
+    "message": "Toolbar controls position:"
   },
   "toolbarTypeAuto": {
-    "message": "defined by OS"
+    "message": "defined by OS (Win/Mac)"
   },
   "toolbarTypeMac": {
-    "message": "on left"
+    "message": "on left (Mac style)"
   },
   "toolbarTypeWin": {
-    "message": "on right"
+    "message": "on right (Win style)"
   },
   "setCurrentPageAsHome": {
     "message": "Set current page as home"
