@@ -10,16 +10,16 @@
   },
 
   "CheckUpdate": {
-    "message": "Check for updates"
+    "message": "Update app"
   },
   "CheckUpdateMore": {
-    "message": "Check for updates on Chrome Web Store.<br>It will be installed when Chrome feels like it!<br>You can force the update by clicking \"Reload App\" button."
+    "message": "Check for app update on Chrome Web Store and install it."
   },
   "notificationUpdateAvailable": {
     "message": "Update available"
   },
   "notificationUpdateDetail": {
-    "message": "An update to version $1 is available. Would you like to update and restart now?"
+    "message": "An update to version $1 is available. Reloading the app in few seconds."
   },
   "notificationNoUpdateTitle": {
     "message": "No updates available"
@@ -27,11 +27,17 @@
   "notificationNoUpdateDetail": {
     "message": "There aren't any updates at this time."
   },
-  "notificationUpdateOK": {
-    "message": "Yes, update and restart"
+  "notificationWaitUpdateTitle": {
+    "message": "Checking for update"
   },
-  "notificationUpdateWait": {
-    "message": "No thanks"
+  "notificationWaitUpdateDetail": {
+    "message": "I am checking for update right now, wait a while."
+  },
+  "notificationUpdated": {
+    "message": "Updated"
+  },
+  "notificationUpdatedDetail": {
+    "message": "FimFiction Reader has been updated to version $1."
   },
 
   "ReloadApp": {

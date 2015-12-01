@@ -12,60 +12,45 @@ function newUpdater(window, l) {
 
   function AppUpdater() {
     this.updateID = 'fimfiction:update';
+    this.checking = false;
   }
 
   AppUpdater.prototype.check = function checkUpdate(isManual) {
-    //code to enable update checking
+    if (this.checking) {
+      window.chrome.notifications.create(this.updateID, {
+        type: 'basic',
+        iconUrl: 'images/icon-128.png',
+        title: l('notificationWaitUpdateTitle'),
+        message: l('notificationWaitUpdateDetail')
+      });
+      return;
+    }
+
+    this.checking = true;
 
     window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status, details) {
       if (status === 'update_available') {
-        var updateListener = function updateListener() {
-          window.chrome.runtime.onUpdateAvailable.removeListener(updateListener);
-          window.chrome.notifications.clear(this.updateID, function clearNotifications() {
-            window.chrome.notifications.create(this.updateID, {
-              type: 'basic',
-              iconUrl: 'images/icon-128.png',
-              title: l('notificationUpdateAvailable'),
-              message: l('notificationUpdateDetail', details.version),
-              buttons: [
-                {
-                  title: l('notificationUpdateOK')
-                },
-                {
-                  title: l('notificationUpdateWait')
-                }
-              ]
-            }, function (id) {
-              this.updateID = id;
-            }.bind(this));
-            var notificationListener = function notificationListener(id, index) {
-              if (id !== this.updateID) {
-                return;
-              }
-              window.chrome.notifications.onButtonClicked.removeListener(notificationListener);
-              if (index === 0) {
-                this.update();
-              }
-            }.bind(this);
-            window.chrome.notifications.onButtonClicked.addListener(notificationListener);
-          }.bind(this));
-        }.bind(this);
-        window.chrome.runtime.onUpdateAvailable.addListener(updateListener);
+        window.chrome.runtime.onUpdateAvailable.addListener(function updateListener() {
+          this.checking = false;
+          this.update();
+        }.bind(this));
+        window.chrome.notifications.create(this.updateID, {
+          type: 'basic',
+          iconUrl: 'images/icon-128.png',
+          title: l('notificationUpdateAvailable'),
+          message: l('notificationUpdateDetail', details.version)
+        });
       } else {
+        this.checking = false;
         if (isManual) {
-          window.chrome.notifications.clear(this.updateID, function clearNotifications() {
-            window.chrome.notifications.create(this.updateID, {
-              type: 'basic',
-              iconUrl: 'images/icon-128.png',
-              title: l('notificationNoUpdateTitle'),
-              message: l('notificationNoUpdateDetail')
-            }, function (id) {
-              this.updateID = id;
-            }.bind(this));
-          }.bind(this));
+          window.chrome.notifications.create(this.updateID, {
+            type: 'basic',
+            iconUrl: 'images/icon-128.png',
+            title: l('notificationNoUpdateTitle'),
+            message: l('notificationNoUpdateDetail')
+          });
         }
       }
-
     }.bind(this));
   };
 
