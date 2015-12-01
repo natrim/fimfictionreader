@@ -175,7 +175,7 @@
     "message": "Toolbar controls position:"
   },
   "toolbarTypeAuto": {
-    "message": "defined by OS (Win/Mac)"
+    "message": "autodetect"
   },
   "toolbarTypeMac": {
     "message": "on left (Mac style)"
