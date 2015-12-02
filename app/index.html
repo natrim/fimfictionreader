@@ -36,7 +36,7 @@
 
 <body style="background-color: rgba(0,0,0,0.5)">
   <!-- TOOLBAR BEGIN -->
-  <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen}" id="toolbar">
+  <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen}" id="toolbar" v-cloak>
     <div class="left menu" v-show="appWindow.toolbarType === 2">
       <div class="item">
       </div>
@@ -46,21 +46,21 @@
         </a>
       </div>
     </div>
-    <div class="left menu" v-show="appWindow.toolbarType === 1" v-cloak>
+    <div class="left menu" v-show="appWindow.toolbarType === 1">
       <div class="item">
         <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="remove circle icon link"></i></a>
       </div>
       <div class="item">
-        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+        <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
         <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
     </div>
-    <div class="header item" v-cloak>
+    <div class="header item">
       <l>appName</l>
     </div>
-    <div class="right menu" v-show="appWindow.toolbarType === 1" v-cloak>
+    <div class="right menu" v-show="appWindow.toolbarType === 1">
       <div class="item">
         <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
           <i class="settings link icon"></i>
@@ -68,11 +68,11 @@
       </div>
     </div>
     <div class="right menu" v-show="appWindow.toolbarType === 2">
-      <div class="item" v-cloak>
+      <div class="item">
         <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
-      <div class="item" v-cloak>
-        <a v-on:click="appWindow.maximize()" aria-label="Maximize" data-content="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+      <div class="item">
+        <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
         <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>

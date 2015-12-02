@@ -14,6 +14,13 @@ var toolbar = new Vue({
   methods: {
     openSettings: function () {
       jQuery('#settingsDialog').modal('toggle');
+    },
+    maximize: function (event) {
+      if (event.shiftKey) {
+        this.appWindow.fullscreen();
+      } else {
+        this.appWindow.maximize();
+      }
     }
   }
 });

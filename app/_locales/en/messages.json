@@ -106,7 +106,7 @@
     "message": "Maximize"
   },
   "MaximizeMore": {
-    "message": "Maximize app"
+    "message": "Maximize app<br>If holding \"Shift\" then fullscreen app"
   },
   "Close": {
     "message": "Close"

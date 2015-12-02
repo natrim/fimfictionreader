@@ -103,6 +103,9 @@ function newWindow(window, _) {
     if (this.isFullscreen) {
       window.chrome.app.window.current().restore();
     } else {
+      if (this.isMaximized) {
+        window.chrome.app.window.current().restore();
+      }
       window.chrome.app.window.current().fullscreen();
     }
     if (typeof callback === 'function') {
