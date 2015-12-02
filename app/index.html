@@ -191,7 +191,7 @@
             <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
             <label for="enableKeyboardShortcuts">
               <l>enableKeyboardShortcuts</l>
-              <i class="ui help icon" @click.stop.prevent="" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
+              <i class="ui help icon" v-on:click.stop.prevent="" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
             </label>
           </div>
 
