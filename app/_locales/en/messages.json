@@ -106,7 +106,7 @@
     "message": "Maximize"
   },
   "MaximizeMore": {
-    "message": "Maximize app<br>If holding \"Shift\" then fullscreen app"
+    "message": "Maximize app<br>If holding \"Shift\" then fullscreen app<br>(To exit fullscreen press \"Esc\")"
   },
   "Close": {
     "message": "Close"
@@ -191,7 +191,7 @@
   },
 
   "shortcuts_help": {
-    "message": "<strong>Shortcuts</strong><br>ctrl + P - toggle settings<br>ctrl + R - reload<br>ctrl + alt + F - toggle fullscreen<br>alt + left - back<br>alt + right - forward<br>alt + up - scroll top<br>alt + down - reload<br>ctrl + F - focus site search"
+    "message": "<strong>Shortcuts</strong><br>ctrl + P - toggle settings<br>ctrl + R - reload<br>alt + left - back<br>alt + right - forward<br>alt + up - scroll top<br>alt + down - reload<br>ctrl + F - focus site search<br>ctrl + alt + F - toggle fullscreen<br>Esc - escape fullscreen"
   },
 
   "shortcut_key_meta": {
