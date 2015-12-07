@@ -224,6 +224,12 @@ function newBrowser(window, _, timeout) {
       throw new Error('Invalid selector or webview not found!');
     }
 
+    //useragent
+    webview.setUserAgentOverride(webview.getUserAgent() + ' FimFictionReader/' + window.chrome.runtime.getManifest().version);
+
+    //disable zoom
+    webview.setZoomMode('disabled');
+
     //inject
     webview.addContentScripts([{
       name: 'rule',
