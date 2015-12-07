@@ -1,26 +1,13 @@
 'use strict';
 
-function newBrowser(window, _, timeout) {
-  if (typeof _ === 'undefined') { //try global
-    if (typeof window._ === 'undefined') {
-      throw new Error('Missing underscore.js!');
-    } else {
-      _ = window._;
-    }
-  }
+/*globals _,window,chrome*/
+/*exported newBrowser*/
 
-  if (typeof timeout === 'undefined') {
-    timeout = function timeout(callback, timer) {
-      if (timer) {
-        return _.delay(callback, timer);
-      } else {
-        return _.defer(callback);
-      }
-    };
+var BrowserInstance;
 
-    timeout.prototype.clear = function clearTimeout(ret) {
-      return clearTimeout(ret);
-    };
+function newBrowser() {
+  if (BrowserInstance) {
+    return BrowserInstance;
   }
 
   var homeUrl;
@@ -40,7 +27,6 @@ function newBrowser(window, _, timeout) {
     this.scrollTopCan = false;
     window.addEventListener('message', function onMessage() {
       if (event && event.data && event.data.command && event.data.command === 'scroll') {
-        //console.log('received scroll: ' + event.data.value);
         if (event.data.value > 100) {
           this.scrollTopCan = true;
         } else {
@@ -225,7 +211,7 @@ function newBrowser(window, _, timeout) {
     }
 
     //useragent
-    webview.setUserAgentOverride(webview.getUserAgent() + ' FimFictionReader/' + window.chrome.runtime.getManifest().version);
+    webview.setUserAgentOverride(webview.getUserAgent() + ' FimFictionReader/' + chrome.runtime.getManifest().version);
 
     //disable zoom
     webview.setZoomMode('disabled');
@@ -391,9 +377,6 @@ function newBrowser(window, _, timeout) {
     }
   };
 
-  return new Browser();
-}
-
-if (typeof module !== 'undefined') {
-  module.export.new = newBrowser;
+  BrowserInstance = new Browser();
+  return BrowserInstance;
 }

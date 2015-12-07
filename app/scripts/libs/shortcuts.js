@@ -1,22 +1,18 @@
 'use strict';
 
-function newShortcuts(window, _, l) {
-  if (typeof _ === 'undefined') { //try global
-    if (typeof window._ === 'undefined') {
-      throw new Error('Missing underscore.js!');
-    } else {
-      _ = window._;
-    }
+/*globals _,window,chrome*/
+/*exported newShortcuts*/
+
+var AppShortcutsInstance;
+
+function newShortcuts() {
+  if (AppShortcutsInstance) {
+    return AppShortcutsInstance;
   }
 
-  if (typeof l === 'undefined') { //try global
-    if (typeof window.l === 'undefined') {
-      throw new Error('Missing translate!');
-    } else {
-      l = window.l;
-    }
+  function l(value) {
+    return chrome.i18n.getMessage(value);
   }
-
 
   function AppShortcuts() {
     this.shortcuts = {
@@ -144,7 +140,7 @@ function newShortcuts(window, _, l) {
     };
   }
 
-  AppShortcuts.prototype.bind = function bindShortcuts(settings, browser) {
+  AppShortcuts.prototype.bind = function bindShortcuts(settings, browser, toolbar) {
     var controls = browser.getControls();
 
     function doShortcut(action) {
@@ -168,7 +164,7 @@ function newShortcuts(window, _, l) {
         }
         break;
       case 'fullscreen':
-        window.appWindow.fullscreen();
+        toolbar.fullscreen();
         break;
       case 'find':
         browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'#site-search input[name="search"]\').focus();}');
@@ -177,8 +173,8 @@ function newShortcuts(window, _, l) {
     }
 
     window.addEventListener('keydown', function shortcutsEvent(e) {
-      window._.each(this.shortcuts, function (sh, action) {
-        window._.each(sh, function (shortcut) {
+      _.each(this.shortcuts, function (sh, action) {
+        _.each(sh, function (shortcut) {
           if (e.keyCode === shortcut.key && (e.shiftKey === shortcut.shift || (e.shiftKey === false && shortcut.shift === undefined)) && (e.altKey === shortcut.alt || (e.altKey === false && shortcut.alt === undefined)) && (e.metaKey === shortcut.meta || (e.metaKey === false && shortcut.meta === undefined)) && (e.ctrlKey === shortcut.ctrl || (e.ctrlKey === false && shortcut.ctrl === undefined))) {
             if (settings.enableKeyboardShortcuts || shortcut.forced) {
               doShortcut(action);
@@ -189,10 +185,6 @@ function newShortcuts(window, _, l) {
     }.bind(this));
   };
 
-  return new AppShortcuts();
-}
-
-
-if (typeof module !== 'undefined') {
-  module.export.new = newShortcuts;
+  AppShortcutsInstance = new AppShortcuts();
+  return AppShortcutsInstance;
 }

@@ -1,10 +1,13 @@
 'use strict';
 
+/*globals window,chrome*/
+
+//define vue translation tags
 (function () {
   Vue.elementDirective('l', {
     bind: function () {
       var $el = jQuery(this.el);
-      $el.html(window.chrome.i18n.getMessage($el.text().trim()));
+      $el.html(chrome.i18n.getMessage($el.text().trim()));
     }
   });
 
@@ -13,18 +16,19 @@
     update: function (values) {
       var $el = jQuery(this.el);
       for (var i in values) {
-        $el.attr(values[i].trim(), window.chrome.i18n.getMessage($el.attr(values[i].trim()).trim()));
+        $el.attr(values[i].trim(), chrome.i18n.getMessage($el.attr(values[i].trim()).trim()));
       }
     }
   });
 
   Vue.filter('l', function (value) {
-    return window.chrome.i18n.getMessage(value);
+    return chrome.i18n.getMessage(value);
   });
 })();
 
 window.helpers = {};
 
+//define modal for alert/prompt/confirm dialogs
 window.helpers.modal = function (selector, title, content, confirm, dialog, prompt) {
   confirm = confirm || false;
   prompt = prompt || false;

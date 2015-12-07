@@ -157,11 +157,7 @@
     </ul>
     <!-- RADIAL MENU END -->
 
-  </div>
-  <!-- APP END -->
-
-  <!-- SETTINGS START -->
-  <div id="settings" v-cloak>
+    <!-- SETTINGS START -->
     <div class="ui modal" id="settingsDialog">
       <i class="close icon"></i>
       <div class="header">
@@ -173,14 +169,14 @@
             <div class="ui label">
               <l>homePage</l>: fimfiction.net/
             </div>
-            <input type="text" name="homePage" v-model="homePage" debounce="500">
-            <button class="ui icon button" v-on:click="setHome(lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
+            <input type="text" name="homePage" v-model="settings.homePage" debounce="500">
+            <button class="ui icon button" v-on:click="setHome(settings.lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
             <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
           </div>
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="saveLastPage">
+            <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="settings.saveLastPage">
             <label for="saveLastPage">
               <l>saveLastPage</l>
             </label>
@@ -188,7 +184,7 @@
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="enableKeyboardShortcuts">
+            <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="settings.enableKeyboardShortcuts">
             <label for="enableKeyboardShortcuts">
               <l>enableKeyboardShortcuts</l>
               <i class="ui help icon" v-on:click.stop.prevent="" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
@@ -197,7 +193,7 @@
 
           <p></p>
           <div class="ui toggle checkbox">
-            <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="enableShiftToOpenWindow">
+            <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="settings.enableShiftToOpenWindow">
             <label for="enableShiftToOpenWindow">
               <l>enableShiftToOpenWindow</l>
             </label>
@@ -209,19 +205,19 @@
               <l>toolbarType</l>
             </label>
             <div class="ui radio checkbox">
-              <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="toolbarType">
+              <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="settings.toolbarType">
               <label for="toolbarTypeAuto">
                 <l>toolbarTypeAuto</l>
               </label>
             </div>
             <div class="ui radio checkbox">
-              <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="toolbarType">
+              <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="settings.toolbarType">
               <label for="toolbarTypeMac">
                 <l>toolbarTypeMac</l>
               </label>
             </div>
             <div class="ui radio checkbox">
-              <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="toolbarType">
+              <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="settings.toolbarType">
               <label for="toolbarTypeWin">
                 <l>toolbarTypeWin</l>
               </label>
@@ -245,14 +241,16 @@
         </div>
       </div>
       <div class="actions">
-        <p style="position: absolute;">v{{manifest.version}}</p>
+        <p style="position: absolute;">{{appVersion}}</p>
         <div class="ui ok button">
           <l>Close</l>
         </div>
       </div>
     </div>
+    <!-- SETTINGS END -->
+
   </div>
-  <!-- SETTINGS END -->
+  <!-- APP END -->
 
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->

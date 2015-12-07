@@ -1,12 +1,13 @@
 'use strict';
 
-function newWindow(window, _) {
-  if (typeof _ === 'undefined') { //try global
-    if (typeof window._ === 'undefined') {
-      throw new Error('Missing underscore.js!');
-    } else {
-      _ = window._;
-    }
+/*globals _,window,chrome*/
+/*exported newWindow*/
+
+var AppWindowInstance;
+
+function newWindow() {
+  if (AppWindowInstance) {
+    return AppWindowInstance;
   }
 
   function AppWindow() {
@@ -21,8 +22,8 @@ function newWindow(window, _) {
     this.isLinux = false;
     this.isWindows = false;
     this.toolbarType = 1;
-    if (window.chrome && window.chrome.runtime && window.chrome.runtime.getPlatformInfo) {
-      window.chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
+    if (chrome.runtime && chrome.runtime.getPlatformInfo) {
+      chrome.runtime.getPlatformInfo(function getPlatformInfo(info) {
         this.isMac = info.os === 'mac';
         this.isLinux = info.os === 'linux';
         this.isWindows = info.os === 'windows';
@@ -43,11 +44,11 @@ function newWindow(window, _) {
 
     var throttled = _.debounce(this.changeWindow, 100); //because some events fire right after another
 
-    window.chrome.app.window.current().onMaximized.addListener(throttled.bind(this, 'maximize'));
-    window.chrome.app.window.current().onMinimized.addListener(throttled.bind(this, 'minimize'));
-    window.chrome.app.window.current().onRestored.addListener(throttled.bind(this, 'restore'));
-    window.chrome.app.window.current().onFullscreened.addListener(throttled.bind(this, 'fullscreen'));
-    window.chrome.app.window.current().onBoundsChanged.addListener(throttled.bind(this, 'resize'));
+    chrome.app.window.current().onMaximized.addListener(throttled.bind(this, 'maximize'));
+    chrome.app.window.current().onMinimized.addListener(throttled.bind(this, 'minimize'));
+    chrome.app.window.current().onRestored.addListener(throttled.bind(this, 'restore'));
+    chrome.app.window.current().onFullscreened.addListener(throttled.bind(this, 'fullscreen'));
+    chrome.app.window.current().onBoundsChanged.addListener(throttled.bind(this, 'resize'));
 
     window.addEventListener('focus', throttled.bind(this, 'focus', true));
     window.addEventListener('blur', throttled.bind(this, 'blur', false));
@@ -87,10 +88,10 @@ function newWindow(window, _) {
   AppWindow.prototype.bindContent = AppWindow.prototype.updateContentSize;
 
   AppWindow.prototype.changeWindow = function changeWindow(type, focus) {
-    this.isMinimized = window.chrome.app.window.current().isMinimized();
-    this.isMaximized = window.chrome.app.window.current().isMaximized();
+    this.isMinimized = chrome.app.window.current().isMinimized();
+    this.isMaximized = chrome.app.window.current().isMaximized();
     this.isFocused = (typeof focus === 'boolean' ? focus : window.document.hasFocus());
-    this.isFullscreen = window.chrome.app.window.current().isFullscreen();
+    this.isFullscreen = chrome.app.window.current().isFullscreen();
 
     if (this._callbacks.length > 0) {
       _.each(this._callbacks, function (v) {
@@ -101,12 +102,12 @@ function newWindow(window, _) {
 
   AppWindow.prototype.fullscreen = function fullscreen(callback) {
     if (this.isFullscreen) {
-      window.chrome.app.window.current().restore();
+      chrome.app.window.current().restore();
     } else {
       if (this.isMaximized) {
-        window.chrome.app.window.current().restore();
+        chrome.app.window.current().restore();
       }
-      window.chrome.app.window.current().fullscreen();
+      chrome.app.window.current().fullscreen();
     }
     if (typeof callback === 'function') {
       callback(this);
@@ -114,7 +115,7 @@ function newWindow(window, _) {
   };
 
   AppWindow.prototype.minimize = function minimizeWindow(callback) {
-    window.chrome.app.window.current().minimize();
+    chrome.app.window.current().minimize();
     if (typeof callback === 'function') {
       callback(this);
     }
@@ -122,9 +123,9 @@ function newWindow(window, _) {
 
   AppWindow.prototype.maximize = function maximizeWindow(callback) {
     if (this.isMaximized || this.isFullscreen) {
-      window.chrome.app.window.current().restore();
+      chrome.app.window.current().restore();
     } else {
-      window.chrome.app.window.current().maximize();
+      chrome.app.window.current().maximize();
     }
     if (typeof callback === 'function') {
       callback(this);
@@ -132,7 +133,7 @@ function newWindow(window, _) {
   };
 
   AppWindow.prototype.close = function closeWindow(callback) {
-    window.chrome.app.window.current().close();
+    chrome.app.window.current().close();
     if (typeof callback === 'function') {
       callback(this);
     }
@@ -144,9 +145,6 @@ function newWindow(window, _) {
     }
   };
 
-  return new AppWindow();
-}
-
-if (typeof module !== 'undefined') {
-  module.export.new = newWindow;
+  AppWindowInstance = new AppWindow();
+  return AppWindowInstance;
 }

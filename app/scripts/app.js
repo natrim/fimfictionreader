@@ -1,75 +1,79 @@
 'use strict';
 
-// translate
-function l(value) {
-  return window.chrome.i18n.getMessage(value);
-}
+/*globals _,window,chrome,newUpdater,newShortcuts,newBrowser,newWindow*/
 
-// update checks
-var update = window.newUpdater(window, l);
-//check right now
-update.check();
-
-// browser
-var browser = window.newBrowser(window);
-var controls = browser.getControls();
-
-// shortcuts
-var shortcuts = window.newShortcuts(window, window._, l);
-
-window.addEventListener('load', function appLoadEvent() {
-  browser.bindWebview('#fimfiction');
-  //home move to settings to allow settings custom home
-  //browser.setHome('https://www.fimfiction.net/');
-  var homePage = 'https://www.fimfiction.net/';
-  browser.setDomainLimit('fimfiction.net');
-  browser.allowDownloadFrom('fimfiction.net');
-
-  //alow new windows with shift click (not here, goes to chrome)
-  window.addEventListener('keydown', function newWDown(e) {
-    if (!settings.enableShiftToOpenWindow) {
-      return;
-    }
-    if (e.keyCode === 16) {
-      browser.allowNewWindows(true);
-    }
-  });
-  window.addEventListener('keyup', function newWUp(e) {
-    if (!settings.enableShiftToOpenWindow) {
-      return;
-    }
-    if (e.keyCode === 16) {
-      browser.allowNewWindows(false);
-    }
-  });
-
-  var settingsType = 'local'; //local or sync
-  //default settings
-  var settings = {
-    toolbarType: 0,
-    enableKeyboardShortcuts: true,
-    enableShiftToOpenWindow: true,
-    saveLastPage: true,
-    homePage: '',
-    lastUrl: ''
-  };
-  var settingsKeys = Object.keys(settings);
-
-  //take manifest with you
-  settings.manifest = window.chrome.runtime.getManifest();
-  //if deployed from store then sync settings
-  if (settings.manifest.key) {
-    settingsType = 'sync';
+(function createApp() {
+  // translate
+  function l(value) {
+    return chrome.i18n.getMessage(value);
   }
 
-  function initSettings() {
-    var settingsId = 'fimfiction:settings';
-    var clearId = 'fimfiction:clear_data';
+  // update checks
+  var update = newUpdater();
+  //check right now
+  update.check();
 
-    //settings
-    var settingVM = new Vue({
-      el: '#settings',
-      data: settings,
+  // browser
+  var browser = newBrowser();
+  var controls = browser.getControls();
+  // shortcuts
+  var shortcuts = newShortcuts();
+  // toolbar
+  var toolbar = newWindow();
+
+  window.addEventListener('load', function appLoadEvent() {
+    browser.bindWebview('#fimfiction');
+    //home move to settings to allow settings custom home
+    //browser.setHome('https://www.fimfiction.net/');
+    var homePage = 'https://www.fimfiction.net/';
+    browser.setDomainLimit('fimfiction.net');
+    browser.allowDownloadFrom('fimfiction.net');
+
+    //alow new windows with shift click (not here, goes to chrome)
+    window.addEventListener('keydown', function newWDown(e) {
+      if (!settings.enableShiftToOpenWindow) {
+        return;
+      }
+      if (e.keyCode === 16) {
+        browser.allowNewWindows(true);
+      }
+    });
+    window.addEventListener('keyup', function newWUp(e) {
+      if (!settings.enableShiftToOpenWindow) {
+        return;
+      }
+      if (e.keyCode === 16) {
+        browser.allowNewWindows(false);
+      }
+    });
+
+    var manifest = chrome.runtime.getManifest();
+    var settingsType = 'local'; //local or sync
+    //if deployed from store then sync settings
+    if (manifest.key) {
+      settingsType = 'sync';
+    }
+    //default settings
+    var settings = {
+      toolbarType: 0,
+      enableKeyboardShortcuts: true,
+      enableShiftToOpenWindow: true,
+      saveLastPage: true,
+      homePage: '',
+      lastUrl: ''
+    };
+
+    //save settings keys for watches
+    var settingsKeys = Object.keys(settings);
+
+    //the main app
+    var AppVM = new Vue({
+      el: '#app',
+      data: {
+        controls: controls,
+        settings: settings,
+        appVersion: 'v' + manifest.version
+      },
       methods: {
         reloadApp: function () {
           update.update();
@@ -78,33 +82,26 @@ window.addEventListener('load', function appLoadEvent() {
           update.check(true);
         },
         setHome: function (url) {
-          this.homePage = url.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
+          this.settings.homePage = url.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
         },
         clearBrowser: function clearBrowser() {
           var resetDialog = function resetDialog() {};
+          var clearId = 'fimfiction:clear_data';
           resetDialog.ok = function () {
             browser.getControls().clearData(function (ok) {
               if (ok) {
-                window.chrome.notifications.clear(clearId, function clearNotifications() {
-                  window.chrome.notifications.create(clearId, {
-                    type: 'basic',
-                    iconUrl: 'images/icon-128.png',
-                    title: l('ResetData'),
-                    message: l('clear_data')
-                  }, function (id) {
-                    clearId = id;
-                  });
+                chrome.notifications.create(clearId, {
+                  type: 'basic',
+                  iconUrl: 'images/icon-128.png',
+                  title: l('ResetData'),
+                  message: l('clear_data')
                 });
               } else {
-                window.chrome.notifications.clear(clearId, function clearNotifications() {
-                  window.chrome.notifications.create(clearId, {
-                    type: 'basic',
-                    iconUrl: 'images/icon-128.png',
-                    title: l('ResetData'),
-                    message: l('clear_data_fail')
-                  }, function (id) {
-                    clearId = id;
-                  });
+                chrome.notifications.create(clearId, {
+                  type: 'basic',
+                  iconUrl: 'images/icon-128.png',
+                  title: l('ResetData'),
+                  message: l('clear_data_fail')
                 });
               }
             });
@@ -114,190 +111,172 @@ window.addEventListener('load', function appLoadEvent() {
           jQuery('#dialog').modal('show');
         }
       },
-      ready: function settingsReady() {
-        //settings dialog setting
+      ready: function appReady() {
+        //enable tooltips
+        jQuery('[data-content],[data-html]').popup();
+        //settings dialog
         jQuery('#settingsDialog').modal({
           autofocus: false
         });
-      }
-    });
-
-    window._.each(settingsKeys, function (key) {
-      var rollback = false;
-      settingVM.$watch(key, function (newVal, oldVal) {
-        if (rollback) {
-          rollback = false;
-          return;
-        }
-        var set = {};
-        set[key] = newVal;
-        if (key === 'homePage') {
-          set[key] = newVal.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
-        }
-        window.chrome.storage[settingsType].set(set, function () {
-          if (window.chrome.runtime.lastError) {
-            rollback = true;
-            settings[key] = oldVal;
-            if (key !== 'lastUrl') {
-              window.chrome.notifications.clear(settingsId, function clearNotifications() {
-                window.chrome.notifications.create(settingsId, {
-                  type: 'basic',
-                  iconUrl: 'images/icon-128.png',
-                  title: l('Settings'),
-                  message: l('SettingsSaveFailed')
-                }, function (id) {
-                  settingsId = id;
-                });
-              });
-            }
-          } else if (key !== 'lastUrl') {
-            if (key === 'homePage') {
-              browser.setHome(homePage + settings.homePage);
-            } else if (key === 'enableShiftToOpenWindow') {
-              browser.allowNewWindows(settings.enableShiftToOpenWindow);
-            } else if (key === 'toolbarType') {
-              if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
-                window.appWindow.toolbarType = window.appWindow.isMac ? 1 : 2;
-              } else {
-                window.appWindow.toolbarType = parseInt(settings.toolbarType);
-              }
-            }
-            window.chrome.notifications.clear(settingsId, function clearNotifications() {
-              window.chrome.notifications.create(settingsId, {
-                type: 'basic',
-                iconUrl: 'images/icon-128.png',
-                title: l('Settings'),
-                message: l('SettingsSaved')
-              }, function (id) {
-                settingsId = id;
-              });
-            });
-          }
-        });
-      });
-    });
-
-    //set toolbar type
-    if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
-      window.appWindow.toolbarType = window.appWindow.isMac ? 1 : 2;
-    } else {
-      window.appWindow.toolbarType = parseInt(settings.toolbarType);
-    }
-  }
-
-  function loadSettings(callback) {
-    window.chrome.storage[settingsType].get(settingsKeys, function getSettings(items) {
-      if (!window.chrome.runtime.lastError) {
-        window._.each(settingsKeys, function (v) {
-          if (typeof items[v] !== 'undefined') {
-            settings[v] = items[v];
-          }
-        });
-      }
-      initSettings();
-      if (callback) {
-        callback();
-      }
-    });
-  }
-
-  //the main app
-  new Vue({
-    el: '#app',
-    data: {
-      controls: controls
-    },
-    ready: function appReady() {
-      var loading = jQuery('#loading');
-      var loadingBrowserTimer = null;
-      window._.defer(function menuDefer() {
-        window.radialMenu(function (callback) {
+        //radial menu
+        window.radialMenu(_.throttle(function (callback) {
           controls.check(); //sync func
           if (callback) {
             callback();
           }
-        }); //browser radial menu
-      });
-      var firstBrowserLoad = true;
-      var firstLoadBrowserTimer = null;
-      browser.addChangeCallback(function changeCallback(type, err, e) {
-        if (err && type === 'loadstart') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
-          jQuery('#dialog').modal('show');
-        } else if (err && type === 'newwindow') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
-          jQuery('#dialog').modal('show');
-        } else if (type === 'dialog') {
-          e.preventDefault();
+        }), 100);
+        //and now browser
+        var loading = jQuery('#loading');
+        var loadingBrowserTimer = null;
+        var firstBrowserLoad = true;
+        var firstLoadBrowserTimer = null;
+        browser.addChangeCallback(function changeCallback(type, err, e) {
+          if (err && type === 'loadstart') {
+            window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
+            jQuery('#dialog').modal('show');
+          } else if (err && type === 'newwindow') {
+            window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
+            jQuery('#dialog').modal('show');
+          } else if (type === 'dialog') {
+            e.preventDefault();
 
-          if (e.messageType === 'confirm') {
-            window.helpers.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
-            jQuery('#dialog').modal('show');
-          } else if (e.messageType === 'prompt') {
-            window.helpers.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
-            jQuery('#dialog').modal('show');
-          } else {
-            window.helpers.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
-            jQuery('#dialog').modal('show');
+            if (e.messageType === 'confirm') {
+              window.helpers.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
+              jQuery('#dialog').modal('show');
+            } else if (e.messageType === 'prompt') {
+              window.helpers.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
+              jQuery('#dialog').modal('show');
+            } else {
+              window.helpers.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
+              jQuery('#dialog').modal('show');
+            }
           }
-        }
 
-        //show small circle to indicate page loading
-        if (e.isTopLevel && type === 'loadstart') {
-          loading.addClass('active');
-          loadingBrowserTimer = window._.delay(function loadBrowserTimerDelay() {
-            loadingBrowserTimer = null;
-            loading.removeClass('active');
-          }, 5000);
-        } else if (type === 'loadstop') {
-          if (loadingBrowserTimer) {
-            clearTimeout(loadingBrowserTimer);
-            loadingBrowserTimer = null;
-            loading.removeClass('active');
+          //show small circle to indicate page loading
+          if (e.isTopLevel && type === 'loadstart') {
+            loading.addClass('active');
+            loadingBrowserTimer = _.delay(function loadBrowserTimerDelay() {
+              loadingBrowserTimer = null;
+              loading.removeClass('active');
+            }, 5000);
+          } else if (type === 'loadstop') {
+            if (loadingBrowserTimer) {
+              clearTimeout(loadingBrowserTimer);
+              loadingBrowserTimer = null;
+              loading.removeClass('active');
+            }
           }
-        }
 
-        if (firstBrowserLoad && type === 'loadstart') {
-          //remove splash on first load
-          firstLoadBrowserTimer = window._.delay(function firstLoadBrowserTimerDelay() {
-            firstLoadBrowserTimer = null;
+          if (firstBrowserLoad && type === 'loadstart') {
+            //remove splash on first load
+            firstLoadBrowserTimer = _.delay(function firstLoadBrowserTimerDelay() {
+              firstLoadBrowserTimer = null;
+              firstBrowserLoad = false;
+              jQuery('#splash').dimmer('hide').remove();
+            }, 5000);
+          } else if (firstBrowserLoad && type === 'loadstop') {
+            if (firstLoadBrowserTimer) {
+              clearTimeout(firstLoadBrowserTimer);
+              firstLoadBrowserTimer = null;
+              jQuery('#splash').dimmer('hide').remove();
+            }
             firstBrowserLoad = false;
-            jQuery('#splash').dimmer('hide').remove();
-          }, 5000);
-        } else if (firstBrowserLoad && type === 'loadstop') {
-          if (firstLoadBrowserTimer) {
-            clearTimeout(firstLoadBrowserTimer);
-            firstLoadBrowserTimer = null;
-            jQuery('#splash').dimmer('hide').remove();
           }
-          firstBrowserLoad = false;
-        }
-      });
-
-      //save last browser url
-      var debouncedSaveLastUrl = window._.debounce(function (url) {
-        settings.lastUrl = url;
-      }, 500);
-      browser.addChangeCallback(function saveLastUrl(type, err, e) {
-        if (type === 'handshake') {
-          debouncedSaveLastUrl(e.data.url);
-        }
-      });
-
-      loadSettings(function settingsDone() {
-        browser.setHome(homePage + settings.homePage);
-        //start the browser loading
-        browser.start(function startBrowsing(webview, done) {
-          if (settings.saveLastPage) {
-            webview.src = settings.lastUrl;
-          }
-          shortcuts.bind(settings, browser);
-          done();
         });
-      });
-    }
-  });
 
-  //enable tooltips
-  jQuery('[data-content],[data-html]').popup();
-});
+        //save last browser url
+        var debouncedSaveLastUrl = _.debounce(function (url) {
+          settings.lastUrl = url;
+        }, 500);
+        browser.addChangeCallback(function saveLastUrl(type, err, e) {
+          if (type === 'handshake') {
+            debouncedSaveLastUrl(e.data.url);
+          }
+        });
+
+        //load settings and init
+        chrome.storage[settingsType].get(settingsKeys, function getSettings(items) {
+          if (!chrome.runtime.lastError) {
+            _.each(settingsKeys, function (v) {
+              if (typeof items[v] !== 'undefined') {
+                settings[v] = items[v];
+              }
+            });
+          }
+
+          //settings save notification id
+          var settingsId = 'fimfiction:settings';
+          //watch for settings change
+          _.each(settingsKeys, function (key) {
+            var rollback = false;
+            AppVM.$watch('settings.' + key, function (newVal, oldVal) {
+              if (rollback) {
+                rollback = false;
+                return;
+              }
+              var set = {};
+              set[key] = newVal;
+              if (key === 'homePage') {
+                set[key] = newVal.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
+              }
+              chrome.storage[settingsType].set(set, function () {
+                if (chrome.runtime.lastError) {
+                  rollback = true;
+                  settings[key] = oldVal;
+                  if (key !== 'lastUrl') {
+                    chrome.notifications.create(settingsId, {
+                      type: 'basic',
+                      iconUrl: 'images/icon-128.png',
+                      title: l('Settings'),
+                      message: l('SettingsSaveFailed')
+                    });
+                  }
+                } else if (key !== 'lastUrl') {
+                  if (key === 'homePage') {
+                    browser.setHome(homePage + settings.homePage);
+                  } else if (key === 'enableShiftToOpenWindow') {
+                    browser.allowNewWindows(settings.enableShiftToOpenWindow);
+                  } else if (key === 'toolbarType') {
+                    if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
+                      toolbar.toolbarType = toolbar.isMac ? 1 : 2;
+                    } else {
+                      toolbar.toolbarType = parseInt(settings.toolbarType);
+                    }
+                  }
+                  chrome.notifications.create(settingsId, {
+                    type: 'basic',
+                    iconUrl: 'images/icon-128.png',
+                    title: l('Settings'),
+                    message: l('SettingsSaved')
+                  });
+                }
+              });
+            });
+          });
+
+          //set toolbar type
+          if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
+            toolbar.toolbarType = toolbar.isMac ? 1 : 2;
+          } else {
+            toolbar.toolbarType = parseInt(settings.toolbarType);
+          }
+
+          //set home from settings
+          browser.setHome(homePage + settings.homePage);
+
+          //start the browser loading
+          browser.start(function startBrowsing(webview, done) {
+            //goto last open page if available
+            if (settings.saveLastPage) {
+              webview.src = settings.lastUrl;
+            }
+            //bind shortcuts to browser
+            shortcuts.bind(settings, browser, toolbar);
+            //done show browser
+            done();
+          });
+        });
+      }
+    });
+  });
+})();

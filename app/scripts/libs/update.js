@@ -1,14 +1,18 @@
 'use strict';
 
-function newUpdater(window, l) {
-  if (typeof l === 'undefined') { //try global
-    if (typeof window.l === 'undefined') {
-      throw new Error('Missing translate!');
-    } else {
-      l = window.l;
-    }
+/*globals chrome*/
+/*exported newUpdater*/
+
+var AppUpdaterInstance;
+
+function newUpdater() {
+  if (AppUpdaterInstance) {
+    return AppUpdaterInstance;
   }
 
+  function l(value) {
+    return chrome.i18n.getMessage(value);
+  }
 
   function AppUpdater() {
     this.updateID = 'fimfiction:update';
@@ -17,7 +21,7 @@ function newUpdater(window, l) {
 
   AppUpdater.prototype.check = function checkUpdate(isManual) {
     if (this.checking) {
-      window.chrome.notifications.create(this.updateID, {
+      chrome.notifications.create(this.updateID, {
         type: 'basic',
         iconUrl: 'images/icon-128.png',
         title: l('notificationWaitUpdateTitle'),
@@ -28,13 +32,13 @@ function newUpdater(window, l) {
 
     this.checking = true;
 
-    window.chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status, details) {
+    chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status, details) {
       if (status === 'update_available') {
-        window.chrome.runtime.onUpdateAvailable.addListener(function updateListener() {
+        chrome.runtime.onUpdateAvailable.addListener(function updateListener() {
           this.checking = false;
           this.update();
         }.bind(this));
-        window.chrome.notifications.create(this.updateID, {
+        chrome.notifications.create(this.updateID, {
           type: 'basic',
           iconUrl: 'images/icon-128.png',
           title: l('notificationUpdateAvailable'),
@@ -43,7 +47,7 @@ function newUpdater(window, l) {
       } else {
         this.checking = false;
         if (isManual) {
-          window.chrome.notifications.create(this.updateID, {
+          chrome.notifications.create(this.updateID, {
             type: 'basic',
             iconUrl: 'images/icon-128.png',
             title: l('notificationNoUpdateTitle'),
@@ -55,13 +59,9 @@ function newUpdater(window, l) {
   };
 
   AppUpdater.prototype.update = function update() {
-    window.chrome.runtime.reload();
+    chrome.runtime.reload();
   };
 
-  return new AppUpdater();
-}
-
-
-if (typeof module !== 'undefined') {
-  module.export.new = newUpdater;
+  AppUpdaterInstance = new AppUpdater();
+  return AppUpdaterInstance;
 }
