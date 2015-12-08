@@ -32,12 +32,17 @@ function newUpdater() {
 
     this.checking = true;
 
+    var updateListener = function updateListener() {
+      chrome.runtime.onUpdateAvailable.removeListener(updateListener);
+      setTimeout(function delayUpdate() {
+        this.checking = false;
+        this.update();
+      }.bind(this), 1000);
+    }.bind(this);
+    chrome.runtime.onUpdateAvailable.addListener(updateListener);
+
     chrome.runtime.requestUpdateCheck(function requestUpdateCheck(status, details) {
       if (status === 'update_available') {
-        chrome.runtime.onUpdateAvailable.addListener(function updateListener() {
-          this.checking = false;
-          this.update();
-        }.bind(this));
         chrome.notifications.create(this.updateID, {
           type: 'basic',
           iconUrl: 'images/icon-128.png',
@@ -45,6 +50,7 @@ function newUpdater() {
           message: l('notificationUpdateDetail', details.version)
         });
       } else {
+        chrome.runtime.onUpdateAvailable.removeListener(updateListener);
         this.checking = false;
         if (isManual) {
           chrome.notifications.create(this.updateID, {
