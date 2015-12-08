@@ -1,9 +1,9 @@
 'use strict';
 
-/*globals newWindow*/
+/*globals createWindow*/
 
 (function createToolbar() {
-  var appWindow = newWindow();
+  var appWindow = createWindow();
 
   //bind content resizing
   appWindow.updateContentSize('.window_content', '.window_toolbar');

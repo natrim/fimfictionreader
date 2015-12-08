@@ -282,9 +282,9 @@ module.exports = function (grunt) {
         options: {
           buildnumber: false,
           background: {
-            target: 'scripts/background.js',
+            target: 'init.js',
             exclude: [
-              'scripts/chromereload.js'
+              'chromereload.js'
             ]
           }
         },
@@ -295,9 +295,9 @@ module.exports = function (grunt) {
         options: {
           buildnumber: true,
           background: {
-            target: 'scripts/background.js',
+            target: 'init.js',
             exclude: [
-              'scripts/chromereload.js'
+              'chromereload.js'
             ]
           }
         },

@@ -1,11 +1,11 @@
 'use strict';
 
 /*globals _,window,chrome*/
-/*exported newWindow*/
+/*exported createWindow*/
 
 var AppWindowInstance;
 
-function newWindow() {
+function createWindow() {
   if (AppWindowInstance) {
     return AppWindowInstance;
   }

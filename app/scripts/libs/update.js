@@ -1,11 +1,11 @@
 'use strict';
 
 /*globals chrome*/
-/*exported newUpdater*/
+/*exported createUpdater*/
 
 var AppUpdaterInstance;
 
-function newUpdater() {
+function createUpdater(notificationId) {
   if (AppUpdaterInstance) {
     return AppUpdaterInstance;
   }
@@ -15,7 +15,7 @@ function newUpdater() {
   }
 
   function AppUpdater() {
-    this.updateID = 'fimfiction:update';
+    this.updateID = notificationId;
     this.checking = false;
   }
 

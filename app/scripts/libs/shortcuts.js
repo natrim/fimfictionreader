@@ -1,11 +1,11 @@
 'use strict';
 
 /*globals _,window,chrome*/
-/*exported newShortcuts*/
+/*exported createShortcuts*/
 
 var AppShortcutsInstance;
 
-function newShortcuts() {
+function createShortcuts() {
   if (AppShortcutsInstance) {
     return AppShortcutsInstance;
   }

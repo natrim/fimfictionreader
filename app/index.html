@@ -3,7 +3,6 @@
 
 <head>
   <meta charset="utf-8">
-  <title>FimFiction Reader</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
   <style type="text/css">
     [v-cloak] {
@@ -97,7 +96,7 @@
         </div>
       </div>
       <div class="full trim ui">
-        <webview allowtransparency="on" class="trim full" flex id="fimfiction" partition="persist:fimfictionreader" src=""></webview>
+        <webview allowtransparency="on" class="trim full" flex id="browser"></webview>
       </div>
     </div>
 
@@ -167,7 +166,7 @@
         <div class="description">
           <div class="ui labeled action inverted fluid input">
             <div class="ui label">
-              <l>homePage</l>: fimfiction.net/
+              <l>homePage</l>: {{shortDomainUrl}}
             </div>
             <input type="text" name="homePage" v-model="settings.homePage" debounce="500">
             <button class="ui icon button" v-on:click="setHome(settings.lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>

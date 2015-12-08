@@ -1,11 +1,11 @@
 'use strict';
 
 /*globals _,window,chrome*/
-/*exported newBrowser*/
+/*exported createBrowser*/
 
 var BrowserInstance;
 
-function newBrowser() {
+function createBrowser() {
   if (BrowserInstance) {
     return BrowserInstance;
   }
@@ -201,7 +201,7 @@ function newBrowser() {
     this._downloadFrom = d;
   };
 
-  Browser.prototype.bindWebview = function bindWebview(selecter) {
+  Browser.prototype.bindWebview = function bindWebview(selecter, partition, userAgent) {
     if (webview) {
       throw new Error('Browser is already bound to Webview!');
     }
@@ -210,8 +210,15 @@ function newBrowser() {
       throw new Error('Invalid selector or webview not found!');
     }
 
+    //set where to save cookie and other data
+    if (partition) {
+      webview.partition = partition;
+    }
+
     //useragent
-    webview.setUserAgentOverride(webview.getUserAgent() + ' FimFictionReader/' + chrome.runtime.getManifest().version);
+    if (userAgent) {
+      webview.setUserAgentOverride(webview.getUserAgent() + ' ' + userAgent);
+    }
 
     //disable zoom
     webview.setZoomMode('disabled');

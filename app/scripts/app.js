@@ -1,33 +1,32 @@
 'use strict';
 
-/*globals _,window,chrome,newUpdater,newShortcuts,newBrowser,newWindow*/
+/*globals _,window,chrome,createUpdater,createShortcuts,createBrowser,createWindow*/
 
-(function createApp() {
+function createApp(AppConfig) {
   // translate
   function l(value) {
     return chrome.i18n.getMessage(value);
   }
 
   // update checks
-  var update = newUpdater();
+  var update = createUpdater(AppConfig.notifications + ':update');
   //check right now
   update.check();
 
   // browser
-  var browser = newBrowser();
+  var browser = createBrowser();
   var controls = browser.getControls();
   // shortcuts
-  var shortcuts = newShortcuts();
+  var shortcuts = createShortcuts();
   // toolbar
-  var toolbar = newWindow();
+  var toolbar = createWindow();
 
   window.addEventListener('load', function appLoadEvent() {
-    browser.bindWebview('#fimfiction');
-    //home move to settings to allow settings custom home
-    //browser.setHome('https://www.fimfiction.net/');
-    var homePage = 'https://www.fimfiction.net/';
-    browser.setDomainLimit('fimfiction.net');
-    browser.allowDownloadFrom('fimfiction.net');
+    var manifest = chrome.runtime.getManifest();
+    browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent + '/' + manifest.version);
+    var homePage = AppConfig.url;
+    browser.setDomainLimit(AppConfig.domainLimit);
+    browser.allowDownloadFrom(AppConfig.domainLimit);
 
     //alow new windows with shift click (not here, goes to chrome)
     window.addEventListener('keydown', function newWDown(e) {
@@ -47,21 +46,13 @@
       }
     });
 
-    var manifest = chrome.runtime.getManifest();
     var settingsType = 'local'; //local or sync
     //if deployed from store then sync settings
     if (manifest.key) {
       settingsType = 'sync';
     }
     //default settings
-    var settings = {
-      toolbarType: 0,
-      enableKeyboardShortcuts: true,
-      enableShiftToOpenWindow: true,
-      saveLastPage: true,
-      homePage: '',
-      lastUrl: ''
-    };
+    var settings = _.clone(AppConfig.settings);
 
     //save settings keys for watches
     var settingsKeys = Object.keys(settings);
@@ -72,7 +63,8 @@
       data: {
         controls: controls,
         settings: settings,
-        appVersion: 'v' + manifest.version
+        appVersion: 'v' + manifest.version,
+        shortDomainUrl: AppConfig.shortUrl
       },
       methods: {
         reloadApp: function () {
@@ -82,11 +74,11 @@
           update.check(true);
         },
         setHome: function (url) {
-          this.settings.homePage = url.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
+          this.settings.homePage = url.replace(AppConfig.homeReplacer, '');
         },
         clearBrowser: function clearBrowser() {
           var resetDialog = function resetDialog() {};
-          var clearId = 'fimfiction:clear_data';
+          var clearId = AppConfig.notifications + ':clear_data';
           resetDialog.ok = function () {
             browser.getControls().clearData(function (ok) {
               if (ok) {
@@ -205,7 +197,7 @@
           }
 
           //settings save notification id
-          var settingsId = 'fimfiction:settings';
+          var settingsId = AppConfig.notifications + ':settings';
           //watch for settings change
           _.each(settingsKeys, function (key) {
             var rollback = false;
@@ -217,7 +209,7 @@
               var set = {};
               set[key] = newVal;
               if (key === 'homePage') {
-                set[key] = newVal.replace(/https?\:\/\/((.*)\.)?fimfiction\.net\/?/, '');
+                set[key] = newVal.replace(AppConfig.homeReplacer, '');
               }
               chrome.storage[settingsType].set(set, function () {
                 if (chrome.runtime.lastError) {
@@ -279,4 +271,9 @@
       }
     });
   });
-})();
+}
+
+//load background page and get config
+chrome.runtime.getBackgroundPage(function (win) {
+  createApp(win.AppConfig);
+});
