@@ -13,6 +13,7 @@ var AppConfig = {
   notifications: 'fimfiction', //notifications prefix
   homeReplacer: /https?\:\/\/((.*)\.)?fimfiction\.net\/?/, //for cleaning user defined home page
   userAgent: 'FimFictionReader', //browser user agent
+  findSelector: '#site-search input[name="search"]', //for ctrl+F shortcut to focus search input
   //applications user settings defaults
   settings: {
     toolbarType: 0, //0-auto,1-mac,2-win

@@ -5,7 +5,7 @@
 
 var AppShortcutsInstance;
 
-function createShortcuts() {
+function createShortcuts(searchSelector) {
   if (AppShortcutsInstance) {
     return AppShortcutsInstance;
   }
@@ -111,18 +111,6 @@ function createShortcuts() {
           description: l('shortcut_key_meta') + ' + ,'
         }
       ],
-      find: [
-        {
-          key: 70,
-          ctrl: true,
-          description: l('shortcut_key_ctrl') + ' + F'
-        },
-        {
-          key: 70,
-          meta: true,
-          description: l('shortcut_key_meta') + ' + F'
-        }
-      ],
       fullscreen: [
         {
           key: 70,
@@ -138,6 +126,21 @@ function createShortcuts() {
         }
       ]
     };
+
+    if (searchSelector) {
+      this.shortcuts.find = [
+        {
+          key: 70,
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + F'
+        },
+        {
+          key: 70,
+          meta: true,
+          description: l('shortcut_key_meta') + ' + F'
+        }
+      ];
+    }
   }
 
   AppShortcuts.prototype.bind = function bindShortcuts(settings, browser, toolbar) {
@@ -167,7 +170,7 @@ function createShortcuts() {
         toolbar.fullscreen();
         break;
       case 'find':
-        browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'#site-search input[name="search"]\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'#site-search input[name="search"]\').focus();}');
+        browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').focus();}');
         break;
       }
     }

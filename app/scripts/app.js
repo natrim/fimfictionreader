@@ -17,7 +17,7 @@ function createApp(AppConfig) {
   var browser = createBrowser();
   var controls = browser.getControls();
   // shortcuts
-  var shortcuts = createShortcuts();
+  var shortcuts = createShortcuts(AppConfig.findSelector);
   // toolbar
   var toolbar = createWindow();
 
