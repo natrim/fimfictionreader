@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals _,window,chrome*/
+/*globals _,window*/
 /*exported createBrowser*/
 
 var BrowserInstance;
