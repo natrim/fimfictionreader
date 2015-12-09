@@ -27,8 +27,9 @@
     "app": {
         "background": {
             "scripts": [
-                "init.js",
-                "chromereload.js"
+                "scripts/config.js",
+                "scripts/background.js",
+                "scripts/chromereload.js"
             ],
             "persistent": false
         }
