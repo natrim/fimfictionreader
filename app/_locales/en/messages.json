@@ -147,6 +147,16 @@
   },
 
 
+  "SettingsApp": {
+    "message": "App Settings"
+  },
+  "SettingsBrowser": {
+    "message": "Browser Settings"
+  },
+  "SettingsActions": {
+    "message": "Actions"
+  },
+
   "Settings": {
     "message": "Settings"
   },

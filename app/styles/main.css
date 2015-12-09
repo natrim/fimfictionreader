@@ -72,10 +72,3 @@
 .ui.toggle.checkbox input:focus:checked ~ label:before {
   background-color: #111 !important;
 }
-.ui.radio.checkbox label {
-    padding-left: 1.85714em;
-    padding-right: 1.85714em;
-}
-.radiofield > label {
-  margin-right: 1em;
-}
