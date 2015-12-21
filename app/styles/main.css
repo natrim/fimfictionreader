@@ -1,59 +1,79 @@
 [v-cloak] {
   display: none;
 }
+
 ::-webkit-scrollbar-thumb {
   display: none;
 }
+
 .window_toolbar {
   -webkit-app-region: drag;
 }
-.window_toolbar button, .window_toolbar a {
+
+.window_toolbar button,
+.window_toolbar a {
   -webkit-app-region: no-drag;
 }
+
+
 /*limit toolbar size*/
+
 .ui.window_toolbar {
   min-height: 1.786em;
   max-height: 1.786em;
   border-radius: 0;
   border: 0;
 }
+
 .menu.blured {
-  background-color: rgba(0,0,0,0.5)!important;
+  background-color: rgba(0, 0, 0, 0.5)!important;
 }
+
 .window_toolbar .left.menu .item {
   margin-left: 0.3em!important;
 }
+
 .window_toolbar .right.menu .item {
   padding-right: 0.3em!important;
 }
+
 .window_toolbar .item::before {
   content: none!important;
 }
+
 .window_content {
   overflow: hidden;
   position: relative;
 }
+
 .full {
   width: 100%;
   height: 100%;
 }
+
 .trim {
   margin: 0!important;
   padding: 0!important;
   border: 0!important;
 }
+
+
 /*create bigger loader*/
+
 .ui.inverted.dimmer .ui.loader.big,
 .ui.loader.big {
   width: 2.2714em;
   height: 2.2714em;
   font-size: 5.14285714em;
 }
-.ui.loader.colorized:after, .ui.dimmer .ui.loader.colorized:after {
-  border-color: rgb(55,100,212) transparent;
+
+.ui.loader.colorized:after,
+.ui.dimmer .ui.loader.colorized:after {
+  border-color: rgb(55, 100, 212) transparent;
 }
+
 .ui.image.loader {
-    min-width: 2.2585em;
+  min-width: 2.2585em;
 }
 
 .settingsTrigger.disabled {
@@ -64,11 +84,38 @@
   height: 0!important;
   display: none;
 }
+
 .ui.toggle.checkbox input:checked ~ .box:before,
 .ui.toggle.checkbox input:checked ~ label:before {
   background-color: #111 !important;
 }
+
 .ui.toggle.checkbox input:focus:checked ~ .box:before,
 .ui.toggle.checkbox input:focus:checked ~ label:before {
   background-color: #111 !important;
+}
+
+
+/*fix toastr positions*/
+
+.toast-top-center {
+  top: 1.786em;
+  right: 0;
+  width: 100%;
+}
+
+.toast-top-full-width {
+  top: 1.786em;
+  right: 0;
+  width: 100%;
+}
+
+.toast-top-left {
+  top: 2.2em;
+  left: 1.7em;
+}
+
+.toast-top-right {
+  top: 2.2em;
+  right: 1.7em;
 }

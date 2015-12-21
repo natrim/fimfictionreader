@@ -2,7 +2,7 @@
 
 (function ($, window, document) {
   function radialMenu(checkCallback) {
-    var radialSource = $('ul.radial');
+    var radialSource = $('ul#radialmenu');
 
     if (radialSource.length <= 0) {
       console.error('No menu source defined!');

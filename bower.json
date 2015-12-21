@@ -4,6 +4,8 @@
   "dependencies": {
     "underscore": "~1.8.3",
     "vue": "csp",
+    "vue-router": "~0.7.7",
+    "toastr": "~2.1.2",
     "jquery": "~2.1.4",
     "semantic-ui-reset": "~2.1.6",
     "semantic-ui-site": "~2.1.6",

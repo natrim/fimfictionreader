@@ -11,6 +11,7 @@
   </style>
   <!-- build:css styles/vendor.css -->
   <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/toastr/toastr.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-reset/reset.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-site/site.css" />
   <link rel="stylesheet" href="bower_components/semantic-ui-header/header.css" />
@@ -98,10 +99,13 @@
         </div>
       </div>
       <div class="full trim ui">
-        <webview allowtransparency="on" class="trim full" flex id="browser"></webview>
+        <router-view></router-view>
       </div>
     </div>
+  </div>
+  <!-- APP END -->
 
+  <div id="helpers">
     <!-- ALERT/CONFIRM BEGIN -->
     <div class="ui small modal" id="dialog" v-cloak>
       <i class="close icon"></i>
@@ -129,7 +133,7 @@
     <!-- ALERT/CONFIRM END -->
 
     <!-- RADIAL MENU BEGIN -->
-    <ul class="radial" v-cloak>
+    <ul id="radialmenu" v-cloak>
       <li>
         <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l="title">
           <l>Reload</l>
@@ -157,126 +161,127 @@
       </li>
     </ul>
     <!-- RADIAL MENU END -->
+  </div>
 
-    <!-- SETTINGS START -->
-    <div class="ui modal" id="settingsDialog">
-      <i class="close icon"></i>
-      <div class="content">
-        <div class="description ui form">
-          <h4 class="ui dividing header"><l>SettingsApp</l></h4>
 
-          <div class="inline fields">
-            <label>
-              <l>toolbarType</l>
-            </label>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="settings.toolbarType">
-                <label for="toolbarTypeAuto">
-                  <l>toolbarTypeAuto</l>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="settings.toolbarType">
-                <label for="toolbarTypeMac">
-                  <l>toolbarTypeMac</l>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="settings.toolbarType">
-                <label for="toolbarTypeWin">
-                  <l>toolbarTypeWin</l>
-                </label>
-              </div>
-            </div>
-          </div>
+  <!-- SETTINGS START -->
+  <div class="ui modal" id="settingsDialog">
+    <i class="close icon"></i>
+    <div class="content">
+      <div class="description ui form">
+        <h4 class="ui dividing header"><l>SettingsApp</l></h4>
 
-          <h4 class="ui dividing header"><l>SettingsBrowser</l></h4>
-          <div class="inline fields">
-            <label for="homePage">
-              <l>homePage</l>:
-            </label>
-            <div class="sixteen wide field">
-              <div class="ui labeled action input">
-                <div class="ui label">
-                  {{shortDomainUrl}}
-                </div>
-                <input type="text" id="homePage" name="homePage" v-model="settings.homePage" debounce="500">
-                <button class="ui icon button" v-on:click="setHome(settings.lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
-                <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
-              </div>
-            </div>
-          </div>
-
+        <div class="inline fields">
+          <label>
+            <l>toolbarType</l>
+          </label>
           <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="settings.saveLastPage">
-              <label for="saveLastPage">
-                <l>saveLastPage</l>
+            <div class="ui radio checkbox">
+              <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="settings.toolbarType">
+              <label for="toolbarTypeAuto">
+                <l>toolbarTypeAuto</l>
               </label>
             </div>
           </div>
-
           <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="settings.enableKeyboardShortcuts">
-              <label for="enableKeyboardShortcuts">
-                <l>enableKeyboardShortcuts</l>
-                <i class="ui help icon" v-on:click="$event.preventDefault()" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
+            <div class="ui radio checkbox">
+              <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="settings.toolbarType">
+              <label for="toolbarTypeMac">
+                <l>toolbarTypeMac</l>
               </label>
             </div>
           </div>
-
           <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="settings.enableShiftToOpenWindow">
-              <label for="enableShiftToOpenWindow">
-                <l>enableShiftToOpenWindow</l>
+            <div class="ui radio checkbox">
+              <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="settings.toolbarType">
+              <label for="toolbarTypeWin">
+                <l>toolbarTypeWin</l>
               </label>
-            </div>
-          </div>
-
-          <h4 class="ui dividing header"><l>SettingsActions</l></h4>
-          <div class="fields">
-            <div class="field">
-              <button class="ui button" v-on:click="clearBrowser" data-content="ResetDataMore" data-variation="basic tiny" aria-label="ResetData" v-l="['aria-label', 'data-content']">
-                <l>ResetData</l>
-              </button>
-            </div>
-            <div class="field">
-              <button class="ui button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
-                <l>ReloadApp</l>
-              </button>
-            </div>
-            <div class="field">
-              <button class="ui button" v-on:click="checkUpdates" data-html="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-html']">
-                <l>CheckUpdate</l>
-              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div class="actions">
-        <p style="position: absolute;">{{appVersion}}</p>
-        <div class="ui ok button">
-          <l>Close</l>
+
+        <h4 class="ui dividing header"><l>SettingsBrowser</l></h4>
+        <div class="inline fields">
+          <label for="homePage">
+            <l>homePage</l>:
+          </label>
+          <div class="sixteen wide field">
+            <div class="ui labeled action input">
+              <div class="ui label">
+                {{shortDomainUrl}}
+              </div>
+              <input type="text" id="homePage" name="homePage" v-model="settings.homePage" debounce="500">
+              <button class="ui icon button" v-on:click="setHome(settings.lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
+              <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="settings.saveLastPage">
+            <label for="saveLastPage">
+              <l>saveLastPage</l>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="settings.enableKeyboardShortcuts">
+            <label for="enableKeyboardShortcuts">
+              <l>enableKeyboardShortcuts</l>
+              <i class="ui help icon" v-on:click="$event.preventDefault()" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="settings.enableShiftToOpenWindow">
+            <label for="enableShiftToOpenWindow">
+              <l>enableShiftToOpenWindow</l>
+            </label>
+          </div>
+        </div>
+
+        <h4 class="ui dividing header"><l>SettingsActions</l></h4>
+        <div class="fields">
+          <div class="field">
+            <button class="ui button" v-on:click="clearBrowser" data-content="ResetDataMore" data-variation="basic tiny" aria-label="ResetData" v-l="['aria-label', 'data-content']">
+              <l>ResetData</l>
+            </button>
+          </div>
+          <div class="field">
+            <button class="ui button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
+              <l>ReloadApp</l>
+            </button>
+          </div>
+          <div class="field">
+            <button class="ui button" v-on:click="checkUpdates" data-html="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-html']">
+              <l>CheckUpdate</l>
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <!-- SETTINGS END -->
-
+    <div class="actions">
+      <p style="position: absolute;">{{appVersion}}</p>
+      <div class="ui ok button">
+        <l>Close</l>
+      </div>
+    </div>
   </div>
-  <!-- APP END -->
+  <!-- SETTINGS END -->
 
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/underscore/underscore.js"></script>
   <script src="bower_components/vue/dist/vue.js"></script>
+  <script src="bower_components/vue-router/dist/vue-router.js"></script>
+  <script src="bower_components/toastr/toastr.js"></script>
   <!-- endbower -->
   <script src="bower_components/semantic-ui-site/site.js"></script>
   <script src="bower_components/semantic-ui-transition/transition.js"></script>
@@ -300,6 +305,8 @@
   <script src="scripts/libs/update.js"></script>
   <script src="scripts/libs/browser.js"></script>
   <script src="scripts/libs/shortcuts.js"></script>
+  <script src="scripts/libs/settings.js"></script>
+  <script src="scripts/controller/online.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild -->
 </body>

@@ -4,7 +4,7 @@
 
 chrome.app.runtime.onLaunched.addListener(function onLaunched() {
   chrome.app.window.create('index.html', {
-    id: AppConfig.notifications + ':main',
+    id: AppConfig.idprefix + ':main',
     frame: 'none',
     innerBounds: {
       width: 1280,
@@ -23,7 +23,7 @@ chrome.runtime.onInstalled.addListener(function onInstalled(e) {
   var manifest = chrome.runtime.getManifest();
 
   if (('v' + e.previousVersion) !== ('v' + manifest.version)) {
-    chrome.notifications.create(AppConfig.notifications + ':update', {
+    chrome.notifications.create(AppConfig.idprefix + ':update', {
       type: 'basic',
       iconUrl: 'images/icon-128.png',
       title: chrome.i18n.getMessage('notificationUpdated'),

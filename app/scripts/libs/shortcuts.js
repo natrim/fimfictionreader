@@ -1,17 +1,13 @@
 'use strict';
 
-/*globals _,window,chrome*/
+/*globals _,window*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;
 
-function createShortcuts(searchSelector) {
+function createShortcuts(l, searchSelector) {
   if (AppShortcutsInstance) {
     return AppShortcutsInstance;
-  }
-
-  function l(value) {
-    return chrome.i18n.getMessage(value);
   }
 
   function AppShortcuts() {

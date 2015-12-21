@@ -9,58 +9,6 @@
   opacity: 1;
   display: inline;
 }
-.radial ul {
-  list-style: none;
-  position: absolute;
-}
-.radial ul li a {
-  border-radius: 33px;
-  text-align: center;
-  height: 60px;
-  line-height: 58px;
-  color: white;
-  width: 60px;
-  border: 2px solid white;
-  background: black;
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  box-shadow: 2px 3px 5px white;
-  -webkit-transition: top .5s ease, left .5s ease, opacity .5s ease;
-}
-.radial ul li > div {
-  position: absolute;
-}
-.radial ul li a:hover {
-  background: white;
-}
-.radial ul.paused li a {
-  opacity: 1;
-}
-.radial ul.paused > li div ul li a {
-  opacity: 0;
-  -webkit-transition: top .5s ease, left .5s ease, opacity .5s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  display: none;
-  background: black;
-}
-.radial ul.paused > li div ul li a:hover {
-  background: white;
-}
-.radial ul.paused > li:hover > div > ul a {
-  opacity: 1;
-  display: block;
-}
-
-/*This needs work to fade out others*/
-
-.radial > ul.paused > li > a:not(:hover) {
-  opacity: .7;
-}
 .sector {
   width: 0;
   height: 0;
