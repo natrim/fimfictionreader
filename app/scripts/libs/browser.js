@@ -342,7 +342,7 @@ function createBrowser() {
 
     // force webview focus from app body
     setInterval(function keepWebviewFocus() {
-      if (webviewLoaded) {
+      if (webview && webviewLoaded) {
         if (window.document.activeElement !== webview && window.document.activeElement.tagName !== 'INPUT' && window.document.activeElement.tagName !== 'TEXTAREA') {
           webview.focus();
         }
