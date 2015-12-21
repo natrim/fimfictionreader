@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals _,window*/
+/*globals _,window,jQuery*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;

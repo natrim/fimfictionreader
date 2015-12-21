@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals createWindow*/
+/*globals jQuery,Vue,createWindow*/
 
 (function createToolbar() {
   var appWindow = createWindow();

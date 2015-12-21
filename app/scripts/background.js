@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals AppConfig*/
+/*globals AppConfig,chrome*/
 
 chrome.app.runtime.onLaunched.addListener(function onLaunched() {
   chrome.app.window.create('index.html', {

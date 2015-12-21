@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals _,window,chrome,createShortcuts,createBrowser,createWindow*/
+/*globals _,window,chrome,Vue,jQuery,createShortcuts,createBrowser,createWindow*/
 /*exported createOnlineController*/
 
 function createOnlineController(AppConfig, settings) {

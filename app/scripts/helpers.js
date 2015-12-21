@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals window,chrome*/
+/*globals window,chrome,Vue,jQuery*/
 
 //define vue translation tags
 (function () {

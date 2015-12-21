@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals _,Vue,VueRouter,chrome,createSettings,createUpdater,createBrowser,createWindow,createOnlineController*/
+/*globals _,Vue,VueRouter,jQuery,chrome,createSettings,createUpdater,createBrowser,createWindow,createOnlineController,createOfflineController*/
 
 function createApp(AppConfig) {
   // update checks
@@ -29,21 +29,10 @@ function createApp(AppConfig) {
     });
     router.map({
       '/online': {
-        component: createOnlineController(AppConfig, settings)
+        component: createOnlineController(AppConfig, settings, router)
       },
       '/offline': {
-        component: {
-          template: '<div class="ui modal active visible">' + '<div class="header">' + 'OFFLINE' + '</div>' + '<div class="content">' + AppConfig.translate('offlineDetail') + '<div class="description">' + '</div>' + '</div>' + '</div>',
-          ready: function () {
-            jQuery('#splash').dimmer('hide').remove();
-            var check = setInterval(function checkOnline() {
-              if (navigator.onLine) {
-                clearInterval(check);
-                router.go('/online');
-              }
-            }, 1000);
-          }
-        }
+        component: createOfflineController(AppConfig, router)
       }
     });
     router.start(App, '#app');
