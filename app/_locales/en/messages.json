@@ -39,6 +39,9 @@
   "notificationUpdatedDetail": {
     "message": "FimFiction Reader has been updated to version $1."
   },
+  "offlineDetail": {
+    "message": "Seems like your internet connection is down.<br>The offline mode for this App is still not complete, so you see this message."
+  },
 
   "ReloadApp": {
     "message": "Reload App"
