@@ -37,7 +37,7 @@ function createOnlineController(AppConfig, settings) {
 
   return Vue.extend({
     template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
-    ready: function online() {
+    ready: function onlineReady() {
       browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent + '/' + manifest.version);
       browser.setDomainLimit(AppConfig.domainLimit);
       browser.allowDownloadFrom(AppConfig.domainLimit);
