@@ -82,8 +82,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
             resetDialog.cancel = function () {};
           };
           _.defer(function () {
-            window.modal('#dialog', l('Confirm'), l('ConfirmResetData'), true, resetDialog);
-            jQuery('#dialog').modal('show');
+            window.confirm(l('Confirm'), l('ConfirmResetData'), resetDialog);
           });
         }
       },

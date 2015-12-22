@@ -70,12 +70,6 @@ window.addEventListener('load', function appLoad() {
   //enable tooltips
   jQuery('[data-content],[data-html]').popup();
 
-  //alert dialog init
-  jQuery('#dialog').modal({
-    detachable: false,
-    autofocus: true
-  });
-
   //set toast's
   window.toastr.options = {
     'closeButton': false,

@@ -42,23 +42,18 @@ function createOnlineController(AppConfig, router, settings) {
       var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function changeCallback(type, err, e) {
         if (err && type === 'loadstart') {
-          window.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
-          jQuery('#dialog').modal('show');
+          window.alert(l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''));
         } else if (err && type === 'newwindow') {
-          window.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
-          jQuery('#dialog').modal('show');
+          window.alert(l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''));
         } else if (type === 'dialog') {
           e.preventDefault();
 
           if (e.messageType === 'confirm') {
-            window.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
-            jQuery('#dialog').modal('show');
+            window.confirm(l('Confirm'), e.messageText, e.dialog);
           } else if (e.messageType === 'prompt') {
-            window.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
-            jQuery('#dialog').modal('show');
+            window.prompt(l('Prompt'), e.messageText, e.dialog);
           } else {
-            window.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
-            jQuery('#dialog').modal('show');
+            window.alert(l('Alert'), e.messageText, e.dialog);
           }
         }
 

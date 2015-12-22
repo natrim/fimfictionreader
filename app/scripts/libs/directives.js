@@ -2,7 +2,7 @@
 
 /*globals AppConfig,Vue,jQuery*/
 
-//transaltions directives
+//translations element
 (function createVueDirectives() {
   Vue.elementDirective('l', {
     bind: function () {
@@ -11,6 +11,7 @@
     }
   });
 
+  //translations directive
   Vue.directive('l', {
     priority: 999999999,
     update: function (values) {
@@ -21,6 +22,7 @@
     }
   });
 
+  //translation filter
   Vue.filter('l', function (value) {
     return AppConfig.translate(value);
   });
