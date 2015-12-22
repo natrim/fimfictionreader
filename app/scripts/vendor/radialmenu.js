@@ -3,8 +3,8 @@
 /*global jQuery,window*/
 
 (function ($, window, document) {
-  function radialMenu(checkCallback) {
-    var radialSource = $('ul#radialmenu');
+  function radialMenu(el, checkCallback) {
+    var radialSource = $(el || 'ul#radialmenu');
 
     if (radialSource.length <= 0) {
       console.error('No menu source defined!');

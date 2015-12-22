@@ -10,37 +10,20 @@ function createApp(AppConfig) {
 
   //browser
   var browser = createBrowser();
-  var controls = browser.getControls();
   // shortcuts
   var shortcuts = createShortcuts(AppConfig.translate, AppConfig.findSelector);
   // toolbar
   var toolbar = createWindow();
 
-  //helpers instance (modal,radial)
-  new Vue({
-    el: '#helpers',
-    data: {
-      controls: controls
-    }
-  });
-
   //load settings and start routing
   createSettings(AppConfig, toolbar, browser, update).load().then(function init(settings) {
-    _.defer(function done() {
-      //bind shortcuts
-      shortcuts.bind(settings, browser, toolbar);
-
-      //radial menu
-      window.radialMenu(_.throttle(function (callback) {
-        controls.check(); //sync func
-        if (callback) {
-          callback();
-        }
-      }, 100));
-    });
-
     //the main component
-    var App = Vue.extend({});
+    var App = Vue.extend({
+      ready: function () {
+        //bind shortcuts
+        shortcuts.bind(settings, browser, toolbar);
+      }
+    });
 
     history.pushState = null; //to prevent warn
     var router = new VueRouter({

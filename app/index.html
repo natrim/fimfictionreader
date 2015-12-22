@@ -102,45 +102,11 @@
         <router-view></router-view>
       </div>
     </div>
+
+    <app-modal></app-modal>
+    <app-radial-menu></app-radial-menu>
   </div>
   <!-- APP END -->
-
-  <div id="helpers">
-    <!-- ALERT/CONFIRM BEGIN -->
-    <app-modal></app-modal>
-    <!-- ALERT/CONFIRM END -->
-
-    <!-- RADIAL MENU BEGIN -->
-    <ul id="radialmenu" v-cloak>
-      <li>
-        <a v-on:click="controls.reload()" v-bind:class="{disabled: !controls.isReload}" title="ReloadMore" v-l="title">
-          <l>Reload</l>
-        </a>
-      </li>
-      <li>
-        <a v-on:click="controls.back()" v-bind:class="{disabled: !controls.isBack}" title="BackMore" v-l="title">
-          <l>Back</l>
-        </a>
-      </li>
-      <li>
-        <a v-on:click="controls.home()" v-bind:class="{disabled: !controls.isHome}" title="HomeMore" v-l="title">
-          <l>Home</l>
-        </a>
-      </li>
-      <li>
-        <a v-on:click="controls.top()" v-bind:class="{disabled: !controls.isTop}" title="TopMore" v-l="title">
-          <l>Top</l>
-        </a>
-      </li>
-      <li>
-        <a v-on:click="controls.forward()" v-bind:class="{disabled: !controls.isForward}" title="ForwardMore" v-l="title">
-          <l>Forward</l>
-        </a>
-      </li>
-    </ul>
-    <!-- RADIAL MENU END -->
-  </div>
-
 
   <!-- SETTINGS START -->
   <div class="ui modal" id="settingsDialog">
@@ -281,11 +247,12 @@
   <!-- endbuild -->
 
   <!-- build:js scripts/app.js -->
-  <script src="scripts/libs/modal.js"></script>
   <script src="scripts/libs/update.js"></script>
   <script src="scripts/libs/browser.js"></script>
   <script src="scripts/libs/shortcuts.js"></script>
   <script src="scripts/libs/settings.js"></script>
+  <script src="scripts/components/modal.js"></script>
+  <script src="scripts/components/radial.js"></script>
   <script src="scripts/controller/offline.js"></script>
   <script src="scripts/controller/online.js"></script>
   <script src="scripts/app.js"></script>
