@@ -28,7 +28,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
 
   var VM;
 
-  function createSettingsComponent(settings) {
+  function createSettingsInstance(settings) {
     if (VM) {
       return VM;
     }
@@ -154,7 +154,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
     //needs to create setters and getters or else does not work!
     //Vue makes it for us if we put it as data
     //so component it
-    var VM = createSettingsComponent(settings);
+    var VM = createSettingsInstance(settings);
 
     var definer = Object.getOwnPropertyDescriptor(settings, 'toolbarType');
     if (typeof definer.get !== 'function') {
@@ -197,7 +197,6 @@ function createSettings(AppConfig, toolbar, browser, update) {
 
   function Settings() {}
   Settings.prototype.load = loadSettings;
-  Settings.prototype.component = createSettingsComponent;
   SettingsInstance = new Settings();
   return SettingsInstance;
 }
