@@ -1,20 +1,13 @@
 'use strict';
 
-/*globals _,window,chrome,Vue,jQuery,createShortcuts,createBrowser,createWindow*/
+/*globals _,window,Vue,jQuery,createBrowser*/
 /*exported createOnlineController*/
 
-function createOnlineController(AppConfig, settings) {
+function createOnlineController(AppConfig, router, settings) {
   var l = AppConfig.translate;
 
   // browser
   var browser = createBrowser();
-  var controls = browser.getControls();
-  // shortcuts
-  var shortcuts = createShortcuts(AppConfig.translate, AppConfig.findSelector);
-  // toolbar
-  var toolbar = createWindow();
-
-  var manifest = chrome.runtime.getManifest();
 
   //alow new windows with shift click (not here, goes to chrome)
   window.addEventListener('keydown', function newWDown(e) {
@@ -38,7 +31,7 @@ function createOnlineController(AppConfig, settings) {
   return Vue.extend({
     template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
     ready: function onlineReady() {
-      browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent + '/' + manifest.version);
+      browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent);
       browser.setDomainLimit(AppConfig.domainLimit);
       browser.allowDownloadFrom(AppConfig.domainLimit);
 
@@ -49,22 +42,22 @@ function createOnlineController(AppConfig, settings) {
       var firstLoadBrowserTimer = null;
       browser.addChangeCallback(function changeCallback(type, err, e) {
         if (err && type === 'loadstart') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
+          window.modal('#dialog', l('Alert'), l('block_url') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
           jQuery('#dialog').modal('show');
         } else if (err && type === 'newwindow') {
-          window.helpers.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
+          window.modal('#dialog', l('Alert'), l('block_window') + '<br>' + err.message + (settings.enableShiftToOpenWindow ? ('<br><br>' + l('block_exception')) : ''), false);
           jQuery('#dialog').modal('show');
         } else if (type === 'dialog') {
           e.preventDefault();
 
           if (e.messageType === 'confirm') {
-            window.helpers.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
+            window.modal('#dialog', l('Confirm'), e.messageText, true, e.dialog);
             jQuery('#dialog').modal('show');
           } else if (e.messageType === 'prompt') {
-            window.helpers.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
+            window.modal('#dialog', l('Prompt'), e.messageText, true, e.dialog, true);
             jQuery('#dialog').modal('show');
           } else {
-            window.helpers.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
+            window.modal('#dialog', l('Alert'), e.messageText, false, e.dialog);
             jQuery('#dialog').modal('show');
           }
         }
@@ -113,17 +106,6 @@ function createOnlineController(AppConfig, settings) {
 
       //start the browser loading
       browser.start(function startBrowsing(webview, done) {
-        //bind shortcuts to browser
-        shortcuts.bind(settings, browser, toolbar);
-
-        //radial menu
-        window.radialMenu(_.throttle(function (callback) {
-          controls.check(); //sync func
-          if (callback) {
-            callback();
-          }
-        }, 100));
-
         //goto last open page if available
         if (settings.saveLastPage) {
           webview.src = settings.lastUrl;

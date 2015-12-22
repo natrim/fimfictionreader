@@ -27,7 +27,6 @@
     "app": {
         "background": {
             "scripts": [
-                "scripts/config.js",
                 "scripts/background.js",
                 "scripts/chromereload.js"
             ],

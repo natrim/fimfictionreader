@@ -1,6 +1,6 @@
 'use strict';
 
-/*globals _,Vue,VueRouter,jQuery,chrome,createSettings,createUpdater,createBrowser,createWindow,createOnlineController,createOfflineController*/
+/*globals _,AppConfig,Vue,VueRouter,jQuery,createSettings,createUpdater,createBrowser,createWindow,createShortcuts,createOnlineController,createOfflineController*/
 
 function createApp(AppConfig) {
   // update checks
@@ -8,16 +8,37 @@ function createApp(AppConfig) {
   //schedule startup update check
   _.defer(update.check.bind(update));
 
-  //helpers instance
+  //browser
+  var browser = createBrowser();
+  var controls = browser.getControls();
+  // shortcuts
+  var shortcuts = createShortcuts(AppConfig.translate, AppConfig.findSelector);
+  // toolbar
+  var toolbar = createWindow();
+
+  //helpers instance (modal,radial)
   new Vue({
     el: '#helpers',
     data: {
-      controls: createBrowser().getControls()
+      controls: controls
     }
   });
 
   //load settings and start routing
-  createSettings(AppConfig, createWindow(), createBrowser(), update).load().then(function init(settings) {
+  createSettings(AppConfig, toolbar, browser, update).load().then(function init(settings) {
+    _.defer(function done() {
+      //bind shortcuts
+      shortcuts.bind(settings, browser, toolbar);
+
+      //radial menu
+      window.radialMenu(_.throttle(function (callback) {
+        controls.check(); //sync func
+        if (callback) {
+          callback();
+        }
+      }, 100));
+    });
+
     //the main component
     var App = Vue.extend({});
 
@@ -29,10 +50,10 @@ function createApp(AppConfig) {
     });
     router.map({
       '/online': {
-        component: createOnlineController(AppConfig, settings, router)
+        component: createOnlineController(AppConfig, router, settings)
       },
       '/offline': {
-        component: createOfflineController(AppConfig, router)
+        component: createOfflineController(AppConfig, router, settings)
       }
     });
     router.start(App, '#app');
@@ -44,7 +65,7 @@ function createApp(AppConfig) {
   });
 }
 
-
+//app load
 window.addEventListener('load', function appLoad() {
   //enable tooltips
   jQuery('[data-content],[data-html]').popup();
@@ -74,9 +95,11 @@ window.addEventListener('load', function appLoad() {
     'hideMethod': 'fadeOut'
   };
 
-  //load background page and get config
-  chrome.runtime.getBackgroundPage(function (win) {
-    win.AppConfig.translate = chrome.i18n.getMessage;
-    createApp(win.AppConfig);
-  });
+  //get config and load page
+  if (typeof AppConfig === 'object') {
+    createApp(AppConfig);
+  } else {
+    jQuery('#splash').dimmer('hide').remove();
+    jQuery('#app').append('<div class="ui modal active visible">' + '<div class="header">' + 'LOAD FAILURE' + '</div>' + '<div class="content">' + '<div class="description">No app config provided!</div>' + '</div>' + '</div>');
+  }
 });

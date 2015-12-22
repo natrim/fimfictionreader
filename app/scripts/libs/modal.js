@@ -1,35 +1,9 @@
 'use strict';
 
-/*globals window,chrome,Vue,jQuery*/
-
-//define vue translation tags
-(function () {
-  Vue.elementDirective('l', {
-    bind: function () {
-      var $el = jQuery(this.el);
-      $el.html(chrome.i18n.getMessage($el.text().trim()));
-    }
-  });
-
-  Vue.directive('l', {
-    priority: 999999999,
-    update: function (values) {
-      var $el = jQuery(this.el);
-      for (var i in values) {
-        $el.attr(values[i].trim(), chrome.i18n.getMessage($el.attr(values[i].trim()).trim()));
-      }
-    }
-  });
-
-  Vue.filter('l', function (value) {
-    return chrome.i18n.getMessage(value);
-  });
-})();
-
-window.helpers = {};
+/*globals window,jQuery*/
 
 //define modal for alert/prompt/confirm dialogs
-window.helpers.modal = function (selector, title, content, confirm, dialog, prompt) {
+window.modal = function (selector, title, content, confirm, dialog, prompt) {
   confirm = confirm || false;
   prompt = prompt || false;
   var modal = jQuery(selector);

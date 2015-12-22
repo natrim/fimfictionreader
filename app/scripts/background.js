@@ -1,10 +1,10 @@
 'use strict';
 
-/*globals AppConfig,chrome*/
+/*globals chrome*/
 
 chrome.app.runtime.onLaunched.addListener(function onLaunched() {
   chrome.app.window.create('index.html', {
-    id: AppConfig.idprefix + ':main',
+    id: 'app:main',
     frame: 'none',
     innerBounds: {
       width: 1280,
@@ -23,7 +23,7 @@ chrome.runtime.onInstalled.addListener(function onInstalled(e) {
   var manifest = chrome.runtime.getManifest();
 
   if (('v' + e.previousVersion) !== ('v' + manifest.version)) {
-    chrome.notifications.create(AppConfig.idprefix + ':update', {
+    chrome.notifications.create('app:update', {
       type: 'basic',
       iconUrl: 'images/icon-128.png',
       title: chrome.i18n.getMessage('notificationUpdated'),
