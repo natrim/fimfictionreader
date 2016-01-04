@@ -42,16 +42,6 @@ function _receiveMessage(event) {
 
 window.addEventListener('message', _receiveMessage);
 
-//disable contextmenu
-window.addEventListener('contextmenu', function (e) {
-  if (!e.altKey) { // ALT Right Click => Standard Context Menu
-    e.preventDefault();
-    e.stopPropagation();
-    return false;
-  }
-});
-
-
 var scrollSender = null;
 var scrollSend = function () {
   if (scrollSender) {
