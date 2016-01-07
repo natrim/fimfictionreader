@@ -1,38 +1,6 @@
 /*globals _,Vue,VueRouter,jQuery,require*/
 
-(function createToolbar() {
-  'use strict';
-
-  var appWindow = require('window');
-
-  //bind content resizing
-  appWindow.updateContentSize('.window_content', '.window_toolbar');
-
-  //fire toolbar right away - the DOM should be usable by now
-  var toolbar = new Vue({
-    el: '#toolbar',
-    data: {
-      appWindow: appWindow
-    },
-    methods: {
-      openSettings: function () {
-        jQuery('#settings').modal('toggle');
-      },
-      maximize: function (event) {
-        if (event.shiftKey) {
-          this.appWindow.fullscreen();
-        } else {
-          this.appWindow.maximize();
-        }
-      }
-    }
-  });
-
-  // force update content size on fullscreen change
-  toolbar.$watch('appWindow.isFullscreen', function () {
-    appWindow.updateContentSize();
-  });
-})();
+Vue.config.debug = true;
 
 function createApp() {
   'use strict';
@@ -71,7 +39,7 @@ function createApp() {
         component: require('offline')(AppConfig, router, settings)
       }
     });
-    router.start(App, '#app');
+    router.start(App, 'body');
     if (navigator.onLine) {
       router.go('/online');
     } else {

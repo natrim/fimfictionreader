@@ -14,7 +14,7 @@ function createSettings() {
   var browser = require('browser');
   var update = require('update');
   var AppConfig = AppConfig || require('config');
-  var elSelector = '#settings';
+  var el = document.querySelector('#settings');
 
   // translate helper
   var l = AppConfig.translate;
@@ -38,7 +38,7 @@ function createSettings() {
       return VM;
     }
     VM = new Vue({
-      el: elSelector,
+      el: el,
       data: {
         settings: settings,
         appVersion: 'v' + manifest.version,
@@ -200,7 +200,9 @@ function createSettings() {
     return defer.promise();
   }
 
-  function Settings() {}
+  function Settings() {
+    this.el = el;
+  }
   Settings.prototype.load = loadSettings;
   SettingsInstance = new Settings();
   return SettingsInstance;
