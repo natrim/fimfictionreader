@@ -54,7 +54,7 @@ module.exports = function (grunt) {
         files: [
           '.tmp/styles/{,*/}*.css',
           '<%= config.app %>/*.html',
-          '<%= config.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}',
+          '<%= config.app %>/images/{,*/}*.{png,jpg,jpeg,gif}',
           '<%= config.app %>/manifest.json',
           '<%= config.app %>/_locales/{,*/}*.json'
         ]
@@ -160,17 +160,6 @@ module.exports = function (grunt) {
       }
     },
 
-    svgmin: {
-      dist: {
-        files: [{
-          expand: true,
-          cwd: '<%= config.app %>/images',
-          src: '{,*/}*.svg',
-          dest: '<%= config.dist %>/images'
-        }]
-      }
-    },
-
     htmlmin: {
       dist: {
         options: {
@@ -219,10 +208,25 @@ module.exports = function (grunt) {
     //   dist: {}
     // },
 
-    // Dont import googlefonts
-    'cssmin': {
+    cssmin: {
       'options': {
-        'processImportFrom': ['!fonts.googleapis.com']
+        'processImportFrom': ['!fonts.googleapis.com'] // Dont import googlefonts
+      },
+      dist: {
+        files: {
+          '<%= config.dist %>/styles/inject.css': [
+            '<%= config.app %>/styles/inject.css'
+          ]
+        }
+      }
+    },
+    uglify: {
+      dist: {
+        files: {
+          '<%= config.dist %>/scripts/inject.js': [
+            '<%= config.app %>/scripts/inject.js'
+          ]
+        }
       }
     },
 
@@ -235,12 +239,7 @@ module.exports = function (grunt) {
           cwd: '<%= config.app %>',
           dest: '<%= config.dist %>',
           src: [
-            'scripts/inject.js',
-            'styles/inject.css',
-            '*.{ico,png,txt}',
-            'images/{,*/}*.{webp,gif}',
             '{,*/}*.html',
-            'styles/fonts/{,*/}*.*',
             '_locales/{,*/}*.json',
           ]
         }]
@@ -271,14 +270,13 @@ module.exports = function (grunt) {
       ],
       dist: [
         'copy:styles',
-        'imagemin',
-        'svgmin'
+        'imagemin'
       ],
     },
 
     // Merge event page, update build number, exclude the debug script
     chromeManifest: {
-      predist: {
+      dist: {
         options: {
           buildnumber: false,
           background: {
@@ -291,7 +289,7 @@ module.exports = function (grunt) {
         src: '<%= config.app %>',
         dest: '<%= config.dist %>'
       },
-      dist: {
+      release: {
         options: {
           buildnumber: true,
           background: {
@@ -312,7 +310,7 @@ module.exports = function (grunt) {
         options: {
           archive: function () {
             var manifest = grunt.file.readJSON('app/manifest.json');
-            return 'package/fimfiction-' + manifest.version + '.zip';
+            return 'release/v' + manifest.version + '.zip';
           }
         },
         files: [{
@@ -347,19 +345,6 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('prebuild', [
-    'clean:dist',
-    'chromeManifest:predist',
-    'useminPrepare',
-    'concurrent:dist',
-    'concat',
-    'cssmin',
-    'uglify',
-    'copy',
-    'usemin',
-    'htmlmin'
-  ]);
-
   grunt.registerTask('build', [
     'clean:dist',
     'chromeManifest:dist',
@@ -370,7 +355,12 @@ module.exports = function (grunt) {
     'uglify',
     'copy',
     'usemin',
-    'htmlmin',
+    'htmlmin'
+  ]);
+
+  grunt.registerTask('release', [
+    'build',
+    'chromeManifest:release',
     'compress'
   ]);
 
