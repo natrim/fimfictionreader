@@ -1,9 +1,9 @@
-'use strict';
-
 /*globals AppConfig,Vue,jQuery*/
 
 //translations element
 (function createVueDirectives() {
+  'use strict';
+
   Vue.elementDirective('l', {
     bind: function () {
       var $el = jQuery(this.el);

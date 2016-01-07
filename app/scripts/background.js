@@ -1,8 +1,8 @@
-'use strict';
-
 /*globals chrome*/
 
 chrome.app.runtime.onLaunched.addListener(function onLaunched() {
+  'use strict';
+
   chrome.app.window.create('index.html', {
     id: 'app:main',
     frame: 'none',
@@ -16,6 +16,8 @@ chrome.app.runtime.onLaunched.addListener(function onLaunched() {
 });
 
 chrome.runtime.onInstalled.addListener(function onInstalled(e) {
+  'use strict';
+
   if (!e.previousVersion) {
     return;
   }

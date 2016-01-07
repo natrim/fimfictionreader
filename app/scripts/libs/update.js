@@ -1,14 +1,17 @@
-'use strict';
-
-/*globals chrome*/
+/*globals chrome,exports,require*/
 /*exported createUpdater*/
 
 var AppUpdaterInstance;
 
-function createUpdater(l) {
+function createUpdater() {
+  'use strict';
+
   if (AppUpdaterInstance) {
     return AppUpdaterInstance;
   }
+
+  var AppConfig = AppConfig || require('config');
+  var l = AppConfig.translate;
 
   function AppUpdater() {
     this.checking = false;
@@ -65,4 +68,8 @@ function createUpdater(l) {
 
   AppUpdaterInstance = new AppUpdater();
   return AppUpdaterInstance;
+}
+
+if (typeof exports !== 'undefined') {
+  exports.update = createUpdater();
 }

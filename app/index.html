@@ -4,9 +4,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>PonyApp</title>
   <style type="text/css">
     [v-cloak] {
       display: none!important;
+    }
+    body {
+      background-color: rgba(0,0,0,0.5);
     }
   </style>
   <!-- build:css styles/vendor.css -->
@@ -36,7 +40,7 @@
   <!-- endbuild -->
 </head>
 
-<body style="background-color: rgba(0,0,0,0.5)">
+<body>
   <!-- TOOLBAR BEGIN -->
   <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen}" id="toolbar" v-cloak>
     <div class="left menu" v-show="appWindow.toolbarType === 2">
@@ -109,7 +113,7 @@
   <!-- APP END -->
 
   <!-- SETTINGS START -->
-  <div class="ui modal" id="settingsDialog">
+  <div class="ui modal" id="settings">
     <i class="close icon"></i>
     <div class="content">
       <div class="description ui form">
@@ -236,17 +240,11 @@
   <script src="scripts/vendor/radialmenu.js"></script>
   <!-- endbuild -->
 
-  <!-- build:js scripts/init.js -->
+  <!-- build:js scripts/main.js -->
+  <script src="scripts/libs/shims.js"></script>
   <script src="scripts/config.js"></script>
   <script src="scripts/libs/directives.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js scripts/toolbar.js -->
   <script src="scripts/libs/window.js"></script>
-  <script src="scripts/toolbar.js"></script>
-  <!-- endbuild -->
-
-  <!-- build:js scripts/app.js -->
   <script src="scripts/libs/update.js"></script>
   <script src="scripts/libs/browser.js"></script>
   <script src="scripts/libs/shortcuts.js"></script>

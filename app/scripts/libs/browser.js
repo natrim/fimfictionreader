@@ -1,11 +1,11 @@
-'use strict';
-
-/*globals _,window*/
+/*globals _,window,exports*/
 /*exported createBrowser*/
 
 var BrowserInstance;
 
 function createBrowser() {
+  'use strict';
+
   if (BrowserInstance) {
     return BrowserInstance;
   }
@@ -278,7 +278,6 @@ function createBrowser() {
       //shake hands to send this app id to web
       var handshake = function handshake(event) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
-          console.log('webview handshake received');
           if (event.data.url) {
             if (this._callbacks.length > 0) {
               _.each(this._callbacks, function (v) {
@@ -386,4 +385,8 @@ function createBrowser() {
 
   BrowserInstance = new Browser();
   return BrowserInstance;
+}
+
+if (typeof exports !== 'undefined') {
+  exports.browser = createBrowser();
 }

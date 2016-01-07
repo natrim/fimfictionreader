@@ -1,13 +1,13 @@
-'use strict';
-
-/*globals _,window,Vue,jQuery,createBrowser*/
+/*globals _,window,Vue,jQuery,exports,require*/
 /*exported createOnlineController*/
 
 function createOnlineController(AppConfig, router, settings) {
+  'use strict';
+
   var l = AppConfig.translate;
 
   // browser
-  var browser = createBrowser();
+  var browser = require('browser');
 
   //alow new windows with shift click (not here, goes to chrome)
   window.addEventListener('keydown', function newWDown(e) {
@@ -111,4 +111,8 @@ function createOnlineController(AppConfig, router, settings) {
       });
     }
   });
+}
+
+if (typeof exports !== 'undefined') {
+  exports.online = createOnlineController;
 }

@@ -1,14 +1,21 @@
-'use strict';
-
-/*globals _,window,jQuery*/
+/*globals _,window,jQuery,exports,require*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;
 
-function createShortcuts(l, searchSelector) {
+function createShortcuts() {
+  'use strict';
+
   if (AppShortcutsInstance) {
     return AppShortcutsInstance;
   }
+
+  var AppConfig = AppConfig || require('config');
+  var l = AppConfig.translate;
+  var searchSelector = AppConfig.findSelector;
+  var browser = require('browser');
+  var controls = browser.getControls();
+  var toolbar = require('window');
 
   function AppShortcuts() {
     this.shortcuts = {
@@ -139,9 +146,7 @@ function createShortcuts(l, searchSelector) {
     }
   }
 
-  AppShortcuts.prototype.bind = function bindShortcuts(settings, browser, toolbar) {
-    var controls = browser.getControls();
-
+  AppShortcuts.prototype.bind = function bindShortcuts(settings) {
     function doShortcut(action) {
       switch (action) {
       case 'back':
@@ -186,4 +191,8 @@ function createShortcuts(l, searchSelector) {
 
   AppShortcutsInstance = new AppShortcuts();
   return AppShortcutsInstance;
+}
+
+if (typeof exports !== 'undefined') {
+  exports.shortcuts = createShortcuts();
 }

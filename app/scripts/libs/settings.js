@@ -1,15 +1,20 @@
-'use strict';
-
-/*globals _,chrome,jQuery,Vue*/
-
+/*globals _,chrome,jQuery,Vue,exports,require*/
 /*exported createSettings*/
 
 var SettingsInstance;
 
-function createSettings(AppConfig, toolbar, browser, update) {
+function createSettings() {
+  'use strict';
+
   if (SettingsInstance) {
     return SettingsInstance;
   }
+
+  var toolbar = require('window');
+  var browser = require('browser');
+  var update = require('update');
+  var AppConfig = AppConfig || require('config');
+  var elSelector = '#settings';
 
   // translate helper
   var l = AppConfig.translate;
@@ -33,7 +38,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
       return VM;
     }
     VM = new Vue({
-      el: '#settingsDialog',
+      el: elSelector,
       data: {
         settings: settings,
         appVersion: 'v' + manifest.version,
@@ -50,7 +55,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
           this.settings.homePage = url.replace(AppConfig.homeReplacer, '');
         },
         clearBrowser: function clearBrowser() {
-          jQuery('#settingsDialog').modal('hide');
+          jQuery(this.$el).modal('hide');
           var resetDialog = function resetDialog() {};
           resetDialog.ok = function () {
             browser.getControls().clearData(function (ok) {
@@ -76,11 +81,11 @@ function createSettings(AppConfig, toolbar, browser, update) {
           resetDialog.cancel = function () {
             _.defer(function () {
               //reopen settings
-              jQuery('#settingsDialog').modal('show');
-            });
+              jQuery(this.$el).modal('show');
+            }.bind(this));
             resetDialog.ok = function () {};
             resetDialog.cancel = function () {};
-          };
+          }.bind(this);
           _.defer(function () {
             window.confirm(l('Confirm'), l('ConfirmResetData'), resetDialog);
           });
@@ -88,7 +93,7 @@ function createSettings(AppConfig, toolbar, browser, update) {
       },
       ready: function settingsReady() {
         //settings dialog init
-        jQuery('#settingsDialog').modal({
+        jQuery(this.$el).modal({
           detachable: false,
           autofocus: false
         });
@@ -199,4 +204,8 @@ function createSettings(AppConfig, toolbar, browser, update) {
   Settings.prototype.load = loadSettings;
   SettingsInstance = new Settings();
   return SettingsInstance;
+}
+
+if (typeof exports !== 'undefined') {
+  exports.settings = createSettings();
 }

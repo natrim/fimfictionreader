@@ -1,9 +1,8 @@
-'use strict';
-
-/*globals Vue,jQuery*/
+/*globals Vue,jQuery,exports*/
 /*exported createOfflineController*/
 
 function createOfflineController(AppConfig, router) {
+  'use strict';
   var l = AppConfig.translate;
   return Vue.extend({
     template: '<div class="ui modal active visible">' + '<div class="header">' + 'OFFLINE' + '</div>' + '<div class="content">' + '<div class="description">' + l('offlineDetail') + '</div>' + '</div>' + '</div>',
@@ -17,4 +16,8 @@ function createOfflineController(AppConfig, router) {
       }, 1000);
     }
   });
+}
+
+if (typeof exports !== 'undefined') {
+  exports.offline = createOfflineController;
 }

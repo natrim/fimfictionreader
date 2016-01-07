@@ -1,27 +1,59 @@
-'use strict';
+/*globals _,Vue,VueRouter,jQuery,require*/
 
-/*globals _,AppConfig,Vue,VueRouter,jQuery,createSettings,createUpdater,createBrowser,createWindow,createShortcuts,createOnlineController,createOfflineController*/
+(function createToolbar() {
+  'use strict';
 
-function createApp(AppConfig) {
+  var appWindow = require('window');
+
+  //bind content resizing
+  appWindow.updateContentSize('.window_content', '.window_toolbar');
+
+  //fire toolbar right away - the DOM should be usable by now
+  var toolbar = new Vue({
+    el: '#toolbar',
+    data: {
+      appWindow: appWindow
+    },
+    methods: {
+      openSettings: function () {
+        jQuery('#settings').modal('toggle');
+      },
+      maximize: function (event) {
+        if (event.shiftKey) {
+          this.appWindow.fullscreen();
+        } else {
+          this.appWindow.maximize();
+        }
+      }
+    }
+  });
+
+  // force update content size on fullscreen change
+  toolbar.$watch('appWindow.isFullscreen', function () {
+    appWindow.updateContentSize();
+  });
+})();
+
+function createApp() {
+  'use strict';
+
+  // config
+  var AppConfig = AppConfig || require('config');
   // update checks
-  var update = createUpdater(AppConfig.translate);
+  var update = require('update');
   //schedule startup update check
   _.defer(update.check.bind(update));
 
-  //browser
-  var browser = createBrowser();
   // shortcuts
-  var shortcuts = createShortcuts(AppConfig.translate, AppConfig.findSelector);
-  // toolbar
-  var toolbar = createWindow();
+  var shortcuts = require('shortcuts');
 
   //load settings and start routing
-  createSettings(AppConfig, toolbar, browser, update).load().then(function init(settings) {
+  require('settings').load().then(function init(settings) {
     //the main component
     var App = Vue.extend({
       ready: function () {
         //bind shortcuts
-        shortcuts.bind(settings, browser, toolbar);
+        shortcuts.bind(settings);
       }
     });
 
@@ -33,10 +65,10 @@ function createApp(AppConfig) {
     });
     router.map({
       '/online': {
-        component: createOnlineController(AppConfig, router, settings)
+        component: require('online')(AppConfig, router, settings)
       },
       '/offline': {
-        component: createOfflineController(AppConfig, router, settings)
+        component: require('offline')(AppConfig, router, settings)
       }
     });
     router.start(App, '#app');
@@ -50,6 +82,8 @@ function createApp(AppConfig) {
 
 //app load
 window.addEventListener('load', function appLoad() {
+  'use strict';
+
   //enable tooltips
   jQuery('[data-content],[data-html]').popup();
 
@@ -73,10 +107,5 @@ window.addEventListener('load', function appLoad() {
   };
 
   //get config and load page
-  if (typeof AppConfig === 'object') {
-    createApp(AppConfig);
-  } else {
-    jQuery('#splash').dimmer('hide').remove();
-    jQuery('#app').append('<div class="ui modal active visible">' + '<div class="header">' + 'LOAD FAILURE' + '</div>' + '<div class="content">' + '<div class="description">No app config provided!</div>' + '</div>' + '</div>');
-  }
+  createApp();
 });

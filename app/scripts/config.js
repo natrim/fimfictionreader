@@ -1,6 +1,4 @@
-'use strict';
-
-/*globals chrome*/
+/*globals chrome,exports*/
 /*exported AppConfig*/
 
 var AppConfig = {
@@ -24,3 +22,7 @@ var AppConfig = {
 };
 
 AppConfig.translate = chrome.i18n.getMessage.bind(chrome.i18n);
+
+if (typeof exports !== 'undefined') {
+  exports.config = AppConfig;
+}
