@@ -5,9 +5,6 @@
 window.addEventListener('load', function appLoad() {
   'use strict';
 
-  //enable tooltips
-  jQuery('[data-content],[data-html]').popup();
-
   //set toast's
   window.toastr.options = {
     'closeButton': false,
@@ -50,6 +47,8 @@ window.addEventListener('load', function appLoad() {
     ready: function () {
       //bind shortcuts
       require('shortcuts').start(this);
+      //global tooltips
+      jQuery('[data-content],[data-html]').popup();
     }
   });
 
