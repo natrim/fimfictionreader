@@ -19,7 +19,7 @@ function createUpdater() {
 
   AppUpdater.prototype.check = function checkUpdate(isManual) {
     if (this.checking) {
-      window.toastr.warning(l('notificationWaitUpdateDetail'), l('notificationWaitUpdateTitle'), {
+      window.toastr.error(l('notificationWaitUpdateDetail'), l('notificationWaitUpdateTitle'), {
         'closeButton': false,
         'positionClass': 'toast-top-right',
         'timeOut': '4000',
@@ -51,7 +51,7 @@ function createUpdater() {
         chrome.runtime.onUpdateAvailable.removeListener(updateListener);
         this.checking = false;
         if (isManual) {
-          window.toastr.error(l('notificationNoUpdateDetail'), l('notificationNoUpdateTitle'), {
+          window.toastr.warning(l('notificationNoUpdateDetail'), l('notificationNoUpdateTitle'), {
             'closeButton': false,
             'positionClass': 'toast-top-right',
             'timeOut': '5000',
