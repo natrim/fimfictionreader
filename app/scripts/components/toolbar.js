@@ -15,7 +15,7 @@
       openSettings: function () {
         this.$root.$broadcast('toggle-settings');
       },
-      maximize: function (event) {
+      maximizeOrFullscreen: function (event) {
         if (event.shiftKey) {
           this.appWindow.fullscreen();
         } else {

@@ -16,7 +16,7 @@
         <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="remove circle icon link"></i></a>
       </div>
       <div class="item">
-        <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+        <a v-on:click="maximizeOrFullscreen" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
         <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
@@ -37,7 +37,7 @@
         <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
       </div>
       <div class="item">
-        <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
+        <a v-on:click="maximizeOrFullscreen" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
       </div>
       <div class="item">
         <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>
