@@ -75,7 +75,7 @@ window.addEventListener('load', function appLoad() {
   //start app when settings loaded
   require('settings').load(settings).then(function () {
     //start app
-    router.start(App, 'body');
+    router.start(App, '#app');
 
     //goto right page
     if (navigator.onLine) {

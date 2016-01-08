@@ -42,8 +42,35 @@
 </head>
 
 <body>
-  <!-- TOOLBAR BEGIN -->
-  <app-toolbar></app-toolbar>
+  <!-- APP BEGIN -->
+  <div id="app">
+    <app-toolbar></app-toolbar>
+
+    <div class="ui colorized image loader" id="loading" v-cloak>
+      <img alt="logo" src="images/icon-32.png">
+    </div>
+
+    <div class="window_content ui full trim dimmable dimmed">
+      <div id="splash" class="ui dimmer active">
+        <div class="ui colorized big loader"></div>
+        <div class="content">
+          <div class="center">
+            <img alt="logo" src="images/icon-128.png">
+          </div>
+        </div>
+      </div>
+      <div class="full trim ui">
+        <router-view></router-view>
+      </div>
+    </div>
+
+    <app-modal></app-modal>
+    <app-radial-menu></app-radial-menu>
+    <app-settings :settings="settings"></app-settings>
+  </div>
+  <!-- APP END -->
+
+  <!-- TEMPLATES START -->
   <template id="toolbarTemplate">
     <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen}" v-cloak>
       <div class="left menu" v-show="appWindow.toolbarType === 2">
@@ -89,35 +116,6 @@
       </div>
     </div>
   </template>
-  <!-- TOOLBAR END -->
-
-  <!-- APP BEGIN -->
-  <div id="app">
-    <div class="ui colorized image loader" id="loading" v-cloak>
-      <img alt="logo" src="images/icon-32.png">
-    </div>
-
-    <div class="window_content ui full trim dimmable dimmed">
-      <div id="splash" class="ui dimmer active">
-        <div class="ui colorized big loader"></div>
-        <div class="content">
-          <div class="center">
-            <img alt="logo" src="images/icon-128.png">
-          </div>
-        </div>
-      </div>
-      <div class="full trim ui">
-        <router-view></router-view>
-      </div>
-    </div>
-
-    <app-modal></app-modal>
-    <app-radial-menu></app-radial-menu>
-  </div>
-  <!-- APP END -->
-
-  <!-- SETTINGS START -->
-  <app-settings :settings="settings"></app-settings>
   <template id="settingsTemplate">
     <div class="ui modal">
       <i class="close icon"></i>
@@ -228,7 +226,7 @@
       </div>
     </div>
   </template>
-  <!-- SETTINGS END -->
+  <!-- TEMPLATES END -->
 
   <!-- build:js scripts/vendor.js -->
   <!-- bower:js -->
