@@ -18,7 +18,7 @@
   }
 
   Vue.component('app-settings', {
-    template: '#settingsTemplate',
+    template: document.querySelector('#settingsTemplate').import.body,
     props: {
       settings: {
         type: Object,

@@ -5,7 +5,7 @@
   'use strict';
 
   Vue.component('app-toolbar', {
-    template: '#toolbarTemplate',
+    template: document.querySelector('#toolbarTemplate').import.body,
     data: function () {
       return {
         appWindow: require('window')

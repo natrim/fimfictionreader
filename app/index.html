@@ -64,168 +64,17 @@
       </div>
     </div>
 
-    <app-modal></app-modal>
+    <app-dialog></app-dialog>
     <app-radial-menu></app-radial-menu>
     <app-settings :settings="settings"></app-settings>
   </div>
   <!-- APP END -->
 
   <!-- TEMPLATES START -->
-  <template id="toolbarTemplate">
-    <div class="window_toolbar ui three item menu trim inverted" v-bind:class="{blured: !appWindow.isFocused, fullscreen: appWindow.isFullscreen}" v-cloak>
-      <div class="left menu" v-show="appWindow.toolbarType === 2">
-        <div class="item">
-        </div>
-        <div class="item">
-          <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
-            <i class="settings link icon"></i>
-          </a>
-        </div>
-      </div>
-      <div class="left menu" v-show="appWindow.toolbarType === 1">
-        <div class="item">
-          <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="remove circle icon link"></i></a>
-        </div>
-        <div class="item">
-          <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add circle icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
-        </div>
-        <div class="item">
-          <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus circle icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
-        </div>
-      </div>
-      <div class="header item">
-        <l>appName</l>
-      </div>
-      <div class="right menu" v-show="appWindow.toolbarType === 1">
-        <div class="item">
-          <a class="settingsTrigger" v-on:click="openSettings" aria-label="Settings" data-content="SettingsMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']">
-            <i class="settings link icon"></i>
-          </a>
-        </div>
-      </div>
-      <div class="right menu" v-show="appWindow.toolbarType === 2">
-        <div class="item">
-          <a v-on:click="appWindow.minimize()" aria-label="Minimize" data-content="MinimizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="minus icon link" v-bind:class="{square: appWindow.isMinimized}"></i></a>
-        </div>
-        <div class="item">
-          <a v-on:click="maximize" aria-label="Maximize" data-html="MaximizeMore" data-variation="basic tiny" v-l="['aria-label', 'data-html']"><i class="add icon link" v-bind:class="{square: appWindow.isMaximized}"></i></a>
-        </div>
-        <div class="item">
-          <a v-on:click="appWindow.close()" aria-label="Close" data-content="CloseMore" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="close outline icon link"></i></a>
-        </div>
-      </div>
-    </div>
-  </template>
-  <template id="settingsTemplate">
-    <div class="ui modal">
-      <i class="close icon"></i>
-      <div class="content">
-        <div class="description ui form">
-          <h4 class="ui dividing header"><l>SettingsApp</l></h4>
-
-          <div class="inline fields">
-            <label>
-              <l>toolbarType</l>
-            </label>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeAuto" name="toolbarType" value="0" v-model="settings.toolbarType">
-                <label for="toolbarTypeAuto">
-                  <l>toolbarTypeAuto</l>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeMac" name="toolbarType" value="1" v-model="settings.toolbarType">
-                <label for="toolbarTypeMac">
-                  <l>toolbarTypeMac</l>
-                </label>
-              </div>
-            </div>
-            <div class="field">
-              <div class="ui radio checkbox">
-                <input type="radio" id="toolbarTypeWin" name="toolbarType" value="2" v-model="settings.toolbarType">
-                <label for="toolbarTypeWin">
-                  <l>toolbarTypeWin</l>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <h4 class="ui dividing header"><l>SettingsBrowser</l></h4>
-          <div class="inline fields">
-            <label for="homePage">
-              <l>homePage</l>:
-            </label>
-            <div class="sixteen wide field">
-              <div class="ui labeled action input">
-                <div class="ui label">
-                  {{shortDomainUrl}}
-                </div>
-                <input type="text" id="homePage" name="homePage" v-model="settings.homePage" debounce="500">
-                <button class="ui icon button" v-on:click="setHome(browser.getUrl())" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
-                <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="saveLastPage" name="saveLastPage" v-model="settings.saveLastPage">
-              <label for="saveLastPage">
-                <l>saveLastPage</l>
-              </label>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="enableKeyboardShortcuts" name="enableKeyboardShortcuts" v-model="settings.enableKeyboardShortcuts">
-              <label for="enableKeyboardShortcuts">
-                <l>enableKeyboardShortcuts</l>
-                <i class="ui help icon" v-on:click="$event.preventDefault()" data-html="shortcuts_help" data-variation="basic tiny" v-l="['data-html']"></i>
-              </label>
-            </div>
-          </div>
-
-          <div class="field">
-            <div class="ui toggle checkbox">
-              <input type="checkbox" id="enableShiftToOpenWindow" name="enableShiftToOpenWindow" v-model="settings.enableShiftToOpenWindow">
-              <label for="enableShiftToOpenWindow">
-                <l>enableShiftToOpenWindow</l>
-              </label>
-            </div>
-          </div>
-
-          <h4 class="ui dividing header"><l>SettingsActions</l></h4>
-          <div class="fields">
-            <div class="field">
-              <button class="ui button" v-on:click="clearBrowser" data-content="ResetDataMore" data-variation="basic tiny" aria-label="ResetData" v-l="['aria-label', 'data-content']">
-                <l>ResetData</l>
-              </button>
-            </div>
-            <div class="field">
-              <button class="ui button" v-on:click="reloadApp" data-content="ReloadAppMore" data-variation="basic tiny" aria-label="ReloadApp" v-l="['aria-label', 'data-content']">
-                <l>ReloadApp</l>
-              </button>
-            </div>
-            <div class="field">
-              <button class="ui button" v-on:click="checkUpdates" data-html="CheckUpdateMore" data-variation="basic tiny" aria-label="CheckUpdate" v-l="['aria-label', 'data-html']">
-                <l>CheckUpdate</l>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="actions">
-        <p style="position: absolute;">{{appVersion}}</p>
-        <div class="ui ok button">
-          <l>Close</l>
-        </div>
-      </div>
-    </div>
-  </template>
+  <link rel="import" href="templates/toolbar.html" id="toolbarTemplate">
+  <link rel="import" href="templates/dialog.html" id="dialogTemplate">
+  <link rel="import" href="templates/radial.html" id="radialTemplate">
+  <link rel="import" href="templates/settings.html" id="settingsTemplate">
   <!-- TEMPLATES END -->
 
   <!-- build:js scripts/vendor.js -->
@@ -256,7 +105,7 @@
   <script src="scripts/libs/settings.js"></script>
   <script src="scripts/components/toolbar.js"></script>
   <script src="scripts/components/settings.js"></script>
-  <script src="scripts/components/modal.js"></script>
+  <script src="scripts/components/dialog.js"></script>
   <script src="scripts/components/radial.js"></script>
   <script src="scripts/controller/offline.js"></script>
   <script src="scripts/controller/online.js"></script>

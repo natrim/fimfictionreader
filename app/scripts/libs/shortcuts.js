@@ -1,4 +1,4 @@
-/*globals _,window,Vue,exports,require*/
+/*globals _,window,exports,require*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;
