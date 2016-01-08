@@ -356,6 +356,10 @@ function createBrowser() {
     webviewDomainLimit = reg;
   };
 
+  Browser.prototype.getUrl = function getUrl() {
+    return webview.src;
+  };
+
   Browser.prototype.addChangeCallback = function addChangeCallback(callback) {
     if (typeof callback === 'function') {
       this._callbacks.push(callback);

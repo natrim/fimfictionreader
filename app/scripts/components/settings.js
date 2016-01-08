@@ -28,7 +28,8 @@
     data: function () {
       return {
         appVersion: 'v' + manifest.version,
-        shortDomainUrl: AppConfig.shortUrl
+        shortDomainUrl: AppConfig.shortUrl,
+        browser: browser
       };
     },
     events: {

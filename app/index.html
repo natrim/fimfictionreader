@@ -166,7 +166,7 @@
                   {{shortDomainUrl}}
                 </div>
                 <input type="text" id="homePage" name="homePage" v-model="settings.homePage" debounce="500">
-                <button class="ui icon button" v-on:click="setHome(settings.lastUrl)" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
+                <button class="ui icon button" v-on:click="setHome(browser.getUrl())" aria-label="setCurrentPageAsHome" data-content="setCurrentPageAsHome" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon browser"></i></button>
                 <button class="ui icon button" v-on:click="setHome('')" aria-label="clearCurrentHomePage" data-content="clearCurrentHomePage" data-variation="basic tiny" v-l="['aria-label', 'data-content']"><i class="ui icon remove circle"></i></button>
               </div>
             </div>
