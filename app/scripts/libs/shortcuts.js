@@ -1,4 +1,4 @@
-/*globals _,window,jQuery,exports,require*/
+/*globals _,window,Vue,exports,require*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;
@@ -146,7 +146,7 @@ function createShortcuts() {
     }
   }
 
-  AppShortcuts.prototype.bind = function bindShortcuts(settings) {
+  AppShortcuts.prototype.start = function bindShortcuts(App) {
     function doShortcut(action) {
       switch (action) {
       case 'back':
@@ -162,10 +162,7 @@ function createShortcuts() {
         controls.top();
         break;
       case 'settings':
-        var mod = jQuery('.settingsTrigger').get(0);
-        if (mod) {
-          mod.click();
-        }
+        App.$broadcast('toggle-settings');
         break;
       case 'fullscreen':
         toolbar.fullscreen();
@@ -180,7 +177,7 @@ function createShortcuts() {
       _.each(this.shortcuts, function (sh, action) {
         _.each(sh, function (shortcut) {
           if (e.keyCode === shortcut.key && (e.shiftKey === shortcut.shift || (e.shiftKey === false && shortcut.shift === undefined)) && (e.altKey === shortcut.alt || (e.altKey === false && shortcut.alt === undefined)) && (e.metaKey === shortcut.meta || (e.metaKey === false && shortcut.meta === undefined)) && (e.ctrlKey === shortcut.ctrl || (e.ctrlKey === false && shortcut.ctrl === undefined))) {
-            if (settings.enableKeyboardShortcuts || shortcut.forced) {
+            if (App.settings.enableKeyboardShortcuts || shortcut.forced) {
               doShortcut(action);
             }
           }

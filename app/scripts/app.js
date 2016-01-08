@@ -1,54 +1,7 @@
 /*globals _,Vue,VueRouter,jQuery,require*/
 
-Vue.config.debug = true;
 
-function createApp() {
-  'use strict';
-
-  // config
-  var AppConfig = AppConfig || require('config');
-  // update checks
-  var update = require('update');
-  //schedule startup update check
-  _.defer(update.check.bind(update));
-
-  // shortcuts
-  var shortcuts = require('shortcuts');
-
-  //load settings and start routing
-  require('settings').load().then(function init(settings) {
-    //the main component
-    var App = Vue.extend({
-      ready: function () {
-        //bind shortcuts
-        shortcuts.bind(settings);
-      }
-    });
-
-    history.pushState = null; //to prevent warn
-    var router = new VueRouter({
-      hashbang: false,
-      history: false,
-      abstract: true
-    });
-    router.map({
-      '/online': {
-        component: require('online')(AppConfig, router, settings)
-      },
-      '/offline': {
-        component: require('offline')(AppConfig, router, settings)
-      }
-    });
-    router.start(App, 'body');
-    if (navigator.onLine) {
-      router.go('/online');
-    } else {
-      router.go('/offline');
-    }
-  });
-}
-
-//app load
+// common helpers set
 window.addEventListener('load', function appLoad() {
   'use strict';
 
@@ -74,6 +27,62 @@ window.addEventListener('load', function appLoad() {
     'hideMethod': 'fadeOut'
   };
 
-  //get config and load page
-  createApp();
+  // update check
+  require('update').check();
 });
+
+(function createApp() {
+  'use strict';
+
+  // config
+  var AppConfig = AppConfig || require('config');
+
+  //default settings
+  var settings = _.clone(AppConfig.settings);
+
+  //the main component
+  var App = Vue.extend({
+    data: function () {
+      return {
+        settings: settings
+      };
+    },
+    ready: function () {
+      //bind shortcuts
+      require('shortcuts').start(this);
+    }
+  });
+
+  //to prevent warn
+  history.pushState = null;
+
+  //router
+  var router = new VueRouter({
+    hashbang: false,
+    history: false,
+    abstract: true
+  });
+
+  //nav
+  router.map({
+    '/online': {
+      component: require('online').create(router, settings)
+    },
+    '/offline': {
+      component: require('offline').create(router, settings)
+    }
+  });
+
+  //start app when settings loaded
+  require('settings').load(settings).then(function () {
+    //start app
+    router.start(App, 'body');
+
+    //goto right page
+    if (navigator.onLine) {
+      router.go('/online');
+    } else {
+      router.go('/offline');
+    }
+  });
+})();

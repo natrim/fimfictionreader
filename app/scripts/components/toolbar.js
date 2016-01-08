@@ -1,4 +1,4 @@
-/*globals jQuery,Vue,require*/
+/*globals Vue,require*/
 
 //radial menu component
 (function createToolbar() {
@@ -6,7 +6,6 @@
 
   Vue.component('app-toolbar', {
     template: '#toolbarTemplate',
-    replace: false,
     data: function () {
       return {
         appWindow: require('window')
@@ -14,7 +13,7 @@
     },
     methods: {
       openSettings: function () {
-        jQuery(require('settings').el).modal('toggle');
+        this.$root.$broadcast('toggle-settings');
       },
       maximize: function (event) {
         if (event.shiftKey) {

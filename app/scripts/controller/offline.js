@@ -1,10 +1,11 @@
-/*globals Vue,jQuery,exports*/
+/*globals jQuery,exports,require*/
 /*exported createOfflineController*/
 
-function createOfflineController(AppConfig, router) {
+function createOfflineController(router) {
   'use strict';
+  var AppConfig = AppConfig || require('config');
   var l = AppConfig.translate;
-  return Vue.extend({
+  return {
     template: '<div class="ui modal active visible">' + '<div class="header">' + 'OFFLINE' + '</div>' + '<div class="content">' + '<div class="description">' + l('offlineDetail') + '</div>' + '</div>' + '</div>',
     ready: function offlineReady() {
       jQuery('#splash').dimmer('hide').remove();
@@ -15,9 +16,11 @@ function createOfflineController(AppConfig, router) {
         }
       }, 1000);
     }
-  });
+  };
 }
 
 if (typeof exports !== 'undefined') {
-  exports.offline = createOfflineController;
+  exports.offline = {
+    create: createOfflineController
+  };
 }

@@ -1,9 +1,10 @@
-/*globals _,window,Vue,jQuery,exports,require*/
+/*globals _,window,jQuery,exports,require*/
 /*exported createOnlineController*/
 
-function createOnlineController(AppConfig, router, settings) {
+function createOnlineController(router, settings) {
   'use strict';
 
+  var AppConfig = AppConfig || require('config');
   var l = AppConfig.translate;
 
   // browser
@@ -28,7 +29,7 @@ function createOnlineController(AppConfig, router, settings) {
   });
 
 
-  return Vue.extend({
+  return {
     template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
     ready: function onlineReady() {
       browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent);
@@ -110,9 +111,11 @@ function createOnlineController(AppConfig, router, settings) {
         done();
       });
     }
-  });
+  };
 }
 
 if (typeof exports !== 'undefined') {
-  exports.online = createOnlineController;
+  exports.online = {
+    create: createOnlineController
+  };
 }
