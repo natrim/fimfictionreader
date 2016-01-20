@@ -201,6 +201,10 @@ function createBrowser() {
     this._downloadFrom = d;
   };
 
+  Browser.prototype.clearWebview = function clearWebview() {
+    webview = undefined;
+  };
+
   Browser.prototype.bindWebview = function bindWebview(selecter, partition, userAgent) {
     if (webview) {
       throw new Error('Browser is already bound to Webview!');

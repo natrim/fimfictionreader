@@ -31,6 +31,9 @@ function createOnlineController(router, settings) {
 
   return {
     template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
+    destroyed: function destroyOnline() {
+      browser.clearWebview();
+    },
     ready: function onlineReady() {
       browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent);
       browser.setDomainLimit(AppConfig.domainLimit);
