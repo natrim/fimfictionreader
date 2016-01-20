@@ -35,6 +35,11 @@ function createOnlineController(router, settings) {
       browser.clearWebview();
     },
     ready: function onlineReady() {
+      if (!navigator.onLine) {
+        jQuery('#splash').dimmer('show');
+        router.go('/offline');
+      }
+
       browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent);
       browser.setDomainLimit(AppConfig.domainLimit);
       browser.allowDownloadFrom(AppConfig.domainLimit);
@@ -81,13 +86,13 @@ function createOnlineController(router, settings) {
           firstLoadBrowserTimer = _.delay(function firstLoadBrowserTimerDelay() {
             firstLoadBrowserTimer = null;
             firstBrowserLoad = false;
-            jQuery('#splash').dimmer('hide').remove();
+            jQuery('#splash').dimmer('hide');
           }, 5000);
         } else if (firstBrowserLoad && type === 'loadstop') {
           if (firstLoadBrowserTimer) {
             clearTimeout(firstLoadBrowserTimer);
             firstLoadBrowserTimer = null;
-            jQuery('#splash').dimmer('hide').remove();
+            jQuery('#splash').dimmer('hide');
           }
           firstBrowserLoad = false;
         }

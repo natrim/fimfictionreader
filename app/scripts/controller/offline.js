@@ -15,11 +15,12 @@ function createOfflineController(router) {
       }
     },
     ready: function offlineReady() {
-      jQuery('#splash').dimmer('hide').remove();
+      jQuery('#splash').dimmer('hide');
       check = setInterval(function checkOnline() {
         if (navigator.onLine) {
           clearInterval(check);
           check = undefined;
+          jQuery('#splash').dimmer('show');
           router.go('/online');
         }
       }, 1000);
