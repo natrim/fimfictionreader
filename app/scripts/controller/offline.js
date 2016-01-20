@@ -8,7 +8,7 @@ function createOfflineController(router) {
   var check;
   return {
     template: '<div class="ui modal active visible">' + '<div class="header">' + 'OFFLINE' + '</div>' + '<div class="content">' + '<div class="description">' + l('offlineDetail') + '</div>' + '</div>' + '</div>',
-    destroyed: function destroydOffline() {
+    destroyed: function destroyOffline() {
       if (check) {
         clearInterval(check);
         check = undefined;
