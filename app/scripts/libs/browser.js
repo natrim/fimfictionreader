@@ -274,6 +274,14 @@ function createBrowser() {
       }
     }.bind(this));
 
+    webview.addEventListener('loadabort', function onAbortWebview(e) {
+      if (this._callbacks.length > 0) {
+        _.each(this._callbacks, function (v) {
+          v('loadabort', null, e, this);
+        }, this);
+      }
+    }.bind(this));
+
     webview.addEventListener('contentload', function onLoadWebview(e) {
       //shake hands to send this app id to web
       var handshake = function handshake(event) {
