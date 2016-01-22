@@ -103,8 +103,8 @@ function createOnlineController(router, settings) {
         settings.lastUrl = url;
       }, 500);
       browser.addChangeCallback(function saveLastUrl(type, err, e) {
-        if (type === 'handshake') {
-          debouncedSaveLastUrl(e.data.url);
+        if (type === 'loadstart' && e.isTopLevel && !err) {
+          debouncedSaveLastUrl(e.url);
         }
       });
 

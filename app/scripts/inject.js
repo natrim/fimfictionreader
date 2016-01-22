@@ -1,4 +1,4 @@
-/*globals window,document,console*/
+/*globals window,document*/
 (function inject() {
   'use strict';
 
@@ -6,10 +6,9 @@
     appOrigin = null;
 
   function _sendMessage(data) {
-    if (!appWindow || !appOrigin) {
-      return console.error('Cannot send message to Chrome wrapper app - communication channel has not yet been opened');
+    if (appWindow && appOrigin) {
+      appWindow.postMessage(data, appOrigin);
     }
-    appWindow.postMessage(data, appOrigin);
   }
 
   function runScript(source) {
@@ -27,8 +26,7 @@
       appOrigin = event.origin;
 
       _sendMessage({
-        command: 'handshakereply',
-        url: window.location.href
+        command: 'handshakereply'
       });
     }
 
@@ -60,8 +58,6 @@
     }, 100);
   };
 
-  window.addEventListener('load', function () {
-    scrollSend();
-    window.addEventListener('scroll', scrollSend);
-  });
+  window.addEventListener('load', scrollSend);
+  window.addEventListener('scroll', scrollSend);
 })();
