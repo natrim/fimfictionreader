@@ -288,22 +288,27 @@ function createBrowser() {
 
     webview.addEventListener('contentload', function onLoadWebview(e) {
       //shake hands to send this app id to web
+      var shaked = false;
       var handshake = function handshake(event) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
-          if (event.data.url) {
-            if (this._callbacks.length > 0) {
-              _.each(this._callbacks, function (v) {
-                v('handshake', null, event, this);
-              }, this);
-            }
-          }
+          shaked = true;
           window.removeEventListener('message', handshake);
         }
       }.bind(this);
       window.addEventListener('message', handshake);
-      webview.contentWindow.postMessage({
-        command: 'handshake'
-      }, '*');
+      var shake = function shake() {
+        if (webview && !shaked) {
+          webview.contentWindow.postMessage({
+            command: 'handshake'
+          }, '*');
+        } else {
+          clearInterval(shaker);
+          shaker = undefined;
+        }
+      };
+      var shaker = setInterval(shake, 30000);
+      //shake now
+      shake();
 
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {
