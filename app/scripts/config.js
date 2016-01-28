@@ -8,16 +8,17 @@ var AppConfig = {
   domainLimit: 'fimfiction.net', //used for browser access limit's
   partition: 'persist:fimfictionreader', //where to save cookies
   homeReplacer: /https?\:\/\/((.*)\.)?fimfiction\.net\/?/, //for cleaning user defined home page
-  userAgent: 'FimFictionReader/' + chrome.runtime.getManifest().version, //browser user agent
+  userAgent: 'FimFictionReader/' + chrome.runtime.getManifest().version, //browser user agent appendum
   findSelector: '#site-search input[name="search"]', //for ctrl+F shortcut to focus search input
-  //applications user settings defaults
+  //application user settings
   settings: {
     toolbarType: 0, //0-auto,1-mac,2-win
     enableKeyboardShortcuts: true, //keybord shortcuts
     enableShiftToOpenWindow: true, //shift click to open link in chrome
     saveLastPage: true, //goto last page on app start instead of home
     homePage: '', //user set homepage (url+thissettings)
-    lastUrl: '' //saved last url for next open
+    lastUrl: '', //saved last url for next open
+    lastUrlChanged: 0 //timestamp of lastUrl change
   }
 };
 

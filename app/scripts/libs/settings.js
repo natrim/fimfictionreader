@@ -22,14 +22,18 @@ function createSettings() {
     settingsType = 'sync';
   }
 
-  function loadSettings(settings) {
+  function Settings() {
+    this.settingsType = settingsType;
+    this.settingsKeys = [];
+  }
+  Settings.prototype.load = function loadSettings(settings) {
+    this.settingsKeys = Object.keys(settings);
     var defer = jQuery.Deferred();
-    var settingsKeys = Object.keys(settings);
 
     //load settings
-    chrome.storage[settingsType].get(settingsKeys, function getSettings(items) {
+    chrome.storage[this.settingsType].get(this.settingsKeys, function getSettings(items) {
       if (!chrome.runtime.lastError) {
-        _.each(settingsKeys, function (v) {
+        _.each(this.settingsKeys, function (v) {
           if (typeof items[v] !== 'undefined') {
             settings[v] = items[v];
           }
@@ -51,13 +55,48 @@ function createSettings() {
       }
 
       defer.resolve();
+    }.bind(this));
+
+    return defer.promise();
+  };
+
+  Settings.prototype.save = function saveSettings(settings, data) {
+    var defer = jQuery.Deferred();
+
+    var set = {};
+    set[data.key] = data.newVal;
+    if (data.key === 'homePage') {
+      set[data.key] = data.newVal.replace(AppConfig.homeReplacer, '');
+    }
+
+    chrome.storage[this.settingsType].set(set, function setSettings() {
+      if (chrome.runtime.lastError) {
+        if (data.key !== 'lastUrl' && data.key !== 'lastUrlChanged') {
+          defer.resolve(true, true);
+        } else {
+          defer.resolve(true, false);
+        }
+      } else if (data.key !== 'lastUrl' && data.key !== 'lastUrlChanged') {
+        if (data.key === 'homePage') {
+          browser.setHome(AppConfig.url + settings.homePage);
+        } else if (data.key === 'enableShiftToOpenWindow') {
+          browser.allowNewWindows(settings.enableShiftToOpenWindow);
+        } else if (data.key === 'toolbarType') {
+          if (typeof settings.toolbarType === 'undefined' || parseInt(settings.toolbarType) <= 0 || parseInt(settings.toolbarType) > 2) {
+            toolbar.toolbarType = toolbar.isMac ? 1 : 2;
+          } else {
+            toolbar.toolbarType = parseInt(settings.toolbarType);
+          }
+        }
+        defer.resolve(false, true);
+      } else {
+        defer.resolve(false, false);
+      }
     });
 
     return defer.promise();
-  }
+  };
 
-  function Settings() {}
-  Settings.prototype.load = loadSettings;
   SettingsInstance = new Settings();
   return SettingsInstance;
 }

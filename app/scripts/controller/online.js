@@ -101,6 +101,7 @@ function createOnlineController(router, settings) {
       //save last browser url
       var debouncedSaveLastUrl = _.debounce(function (url) {
         settings.lastUrl = url;
+        settings.lastUrlChanged = Math.round(Date.now() / 1000);
       }, 500);
       browser.addChangeCallback(function saveLastUrl(type, err, e) {
         if (type === 'loadstart' && e.isTopLevel && !err) {
