@@ -11,27 +11,52 @@ function createOnlineController(router, settings) {
   var browser = require('browser');
 
   //alow new windows with shift click (not here, goes to chrome)
-  window.addEventListener('keydown', function newWDown(e) {
+  var newWDown = function newWDown(e) {
     if (!settings.enableShiftToOpenWindow) {
       return;
     }
     if (e.keyCode === 16) {
       browser.allowNewWindows(true);
     }
-  });
-  window.addEventListener('keyup', function newWUp(e) {
+  };
+  var newWUp = function newWUp(e) {
     if (!settings.enableShiftToOpenWindow) {
       return;
     }
     if (e.keyCode === 16) {
       browser.allowNewWindows(false);
     }
-  });
-
+  };
+  var reloadSomeSettingsOnFocus = function reloadSomeSettingsOnFocus() {
+    if (settings.lastUrlChanged + 30 <= Math.round(Date.now() / 1000)) { //if away longer than
+      //then check if we were open on some other pc
+      require('settings').get(['lastUrl', 'lastUrlChanged']).then(function (err, items) {
+        if (!err) {
+          if (settings.lastUrlChanged < items.lastUrlChanged && settings.lastUrl !== items.lastUrl) {
+            var dialog = function dialog() {};
+            dialog.ok = function () {
+              browser.getControls().go(items.lastUrl);
+              dialog.ok = function () {};
+              dialog.cancel = function () {};
+            };
+            dialog.cancel = function () {
+              settings.lastUrlChanged = items.lastUrlChanged; //just update local time without really changing
+              dialog.ok = function () {};
+              dialog.cancel = function () {};
+            };
+            window.confirm(l('Confirm'), l('ConfirmNewUrlChange') + ' "' + items.lastUrl + '" ?', dialog);
+          }
+        }
+      });
+    }
+  };
 
   return {
     template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
     destroyed: function destroyOnline() {
+      window.removeEventListener('keyup', newWUp);
+      window.removeEventListener('keydown', newWDown);
+      window.removeEventListener('focus', reloadSomeSettingsOnFocus);
       browser.clearWebview();
     },
     ready: function onlineReady() {
@@ -39,6 +64,10 @@ function createOnlineController(router, settings) {
         jQuery('#splash').dimmer('show');
         router.go('/offline');
       }
+
+      window.addEventListener('keyup', newWUp);
+      window.addEventListener('keydown', newWDown);
+      window.addEventListener('focus', reloadSomeSettingsOnFocus);
 
       browser.bindWebview('#browser', AppConfig.partition, AppConfig.userAgent);
       browser.setDomainLimit(AppConfig.domainLimit);

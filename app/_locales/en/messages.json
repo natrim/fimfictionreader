@@ -87,6 +87,10 @@
     "message": "Browser clearing failed!"
   },
 
+  "ConfirmNewUrlChange": {
+    "message": "There was change in last visited URL. Change current URL to: "
+  },
+
   "block_window": {
     "message": "Window popup blocked! Tried to open:"
   },
