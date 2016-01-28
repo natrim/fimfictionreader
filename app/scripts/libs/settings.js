@@ -31,8 +31,8 @@ function createSettings() {
     var defer = jQuery.Deferred();
 
     //load settings
-    chrome.storage[this.settingsType].get(this.settingsKeys, function getSettings(items) {
-      if (!chrome.runtime.lastError) {
+    this.get(this.settingsKeys).then(function getSettings(err, items) {
+      if (!err) {
         _.each(this.settingsKeys, function (v) {
           if (typeof items[v] !== 'undefined') {
             settings[v] = items[v];
@@ -69,8 +69,8 @@ function createSettings() {
       set[data.key] = data.newVal.replace(AppConfig.homeReplacer, '');
     }
 
-    chrome.storage[this.settingsType].set(set, function setSettings() {
-      if (chrome.runtime.lastError) {
+    this.set(set).then(function setSettings(err) {
+      if (err) {
         if (data.key !== 'lastUrl' && data.key !== 'lastUrlChanged') {
           defer.resolve(true, true);
         } else {
@@ -94,6 +94,32 @@ function createSettings() {
       }
     });
 
+    return defer.promise();
+  };
+
+  Settings.prototype.get = function get(what) {
+    var defer = jQuery.Deferred();
+    chrome.storage[this.settingsType].get(what, function getg(items) {
+      var err = chrome.runtime.lastError;
+      if (err) {
+        defer.resolve(err, items);
+      } else {
+        defer.resolve(null, items);
+      }
+    });
+    return defer.promise();
+  };
+
+  Settings.prototype.set = function set(what) {
+    var defer = jQuery.Deferred();
+    chrome.storage[this.settingsType].set(what, function setg() {
+      var err = chrome.runtime.lastError;
+      if (err) {
+        defer.resolve(err);
+      } else {
+        defer.resolve(null);
+      }
+    });
     return defer.promise();
   };
 
