@@ -27,8 +27,8 @@ function createShortcuts() {
         },
         {
           key: 37,
-          alt: true,
-          description: l('shortcut_key_alt') + ' + ' + l('shortcut_key_arrow_left')
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + ' + l('shortcut_key_arrow_left')
         },
         {
           key: 37,
@@ -44,8 +44,8 @@ function createShortcuts() {
         },
         {
           key: 39,
-          alt: true,
-          description: l('shortcut_key_alt') + ' + ' + l('shortcut_key_arrow_right')
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + ' + l('shortcut_key_arrow_right')
         },
         {
           key: 39,
@@ -56,8 +56,8 @@ function createShortcuts() {
       top: [
         {
           key: 38,
-          alt: true,
-          description: l('shortcut_key_alt') + ' + ' + l('shortcut_key_arrow_up')
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + ' + l('shortcut_key_arrow_up')
         },
         {
           key: 38,
@@ -73,8 +73,8 @@ function createShortcuts() {
         },
         {
           key: 40,
-          alt: true,
-          description: l('shortcut_key_alt') + ' + ' + l('shortcut_key_arrow_down')
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + ' + l('shortcut_key_arrow_down')
         },
         {
           key: 40,
@@ -83,8 +83,8 @@ function createShortcuts() {
         },
         {
           key: 82,
-          alt: true,
-          description: l('shortcut_key_alt') + ' + R'
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + R'
         },
         {
           key: 82,

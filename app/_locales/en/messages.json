@@ -208,7 +208,7 @@
   },
 
   "shortcuts_help": {
-    "message": "<strong>Shortcuts</strong><br>Ctrl + P - Toggle settings<br>Ctrl + R - Browser Reload<br>Alt + Left Arrow - Browser Back<br>Alt + Right Arrow - Browser Forward<br>Alt + Up Arrow - Browser Scroll Top<br>Alt + Down Arrow - Browser Reload<br>Ctrl + F - Focus site search<br>Ctrl + Alt + F - Toggle App Fullscreen<br>Esc - Exit fullscreen"
+    "message": "<strong>Shortcuts</strong><br>Ctrl + P - Toggle settings<br>Ctrl + R - Browser Reload<br>Ctrl + Left Arrow - Browser Back<br>Ctrl + Right Arrow - Browser Forward<br>Ctrl + Up Arrow - Browser Scroll Top<br>Ctrl + Down Arrow - Browser Reload<br>Ctrl + F - Focus site search<br>Ctrl + Alt + F - Toggle App Fullscreen<br>Esc - Exit fullscreen"
   },
 
   "shortcut_key_meta": {
