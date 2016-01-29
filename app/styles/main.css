@@ -43,6 +43,11 @@ body {
 
 .window_toolbar .right.menu.controls .item .icon {
   width: 3em;
+  margin: 0;
+}
+
+.window_toolbar .right.menu.controls .item .minus.icon {
+  margin: 0 0.05rem 0 0;
 }
 
 .window_toolbar .left.menu.settings .item .icon{
