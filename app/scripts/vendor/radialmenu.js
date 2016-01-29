@@ -1,8 +1,8 @@
-'use strict';
-
 /*global jQuery,window*/
 
 (function ($, window, document) {
+  'use strict';
+
   function radialMenu(el, checkCallback) {
     var radialSource = $(el || 'ul#radialmenu');
 
