@@ -41,6 +41,18 @@ body {
   padding-right: 0.3em!important;
 }
 
+.window_toolbar .right.menu.controls .item .icon {
+  width: 3em;
+}
+
+.window_toolbar .left.menu.settings .item .icon{
+  width: 2em;
+}
+
+.window_toolbar .right.menu.controls a:hover, .window_toolbar .left.menu.settings a:hover {
+  background-color: grey!important;
+}
+
 .window_toolbar .item::before {
   content: none!important;
 }
