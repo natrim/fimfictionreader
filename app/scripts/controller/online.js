@@ -52,7 +52,7 @@ function createOnlineController(router, settings) {
   };
 
   return {
-    template: '<webview allowtransparency="on" class="trim full" flex id="browser"></webview>',
+    template: '<webview class="trim full" flex id="browser"></webview>',
     destroyed: function destroyOnline() {
       window.removeEventListener('keyup', newWUp);
       window.removeEventListener('keydown', newWDown);
