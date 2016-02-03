@@ -25,7 +25,9 @@ window.addEventListener('load', function appLoad() {
   };
 
   // update check
-  require('update').check();
+  setTimeout(function () {
+    require('update').check();
+  }, 5000);
 });
 
 (function createApp() {
