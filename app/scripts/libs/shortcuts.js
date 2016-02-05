@@ -127,6 +127,18 @@ function createShortcuts() {
           meta: true,
           description: l('shortcut_key_ctrl') + ' + ' + l('shortcut_key_meta') + ' + F'
         }
+      ],
+      go: [
+        {
+          key: 71,
+          ctrl: true,
+          description: l('shortcut_key_ctrl') + ' + G'
+        },
+        {
+          key: 71,
+          meta: true,
+          description: l('shortcut_key_meta') + ' + G'
+        }
       ]
     };
 
@@ -160,6 +172,20 @@ function createShortcuts() {
         break;
       case 'top':
         controls.top();
+        break;
+      case 'go':
+        var dialog = {
+          ok: function (result) {
+            controls.go(AppConfig.url + result.replace(AppConfig.homeReplacer, ''));
+            this.ok = function () {};
+            this.cancel = function () {};
+          },
+          cancel: function () {
+            this.ok = function () {};
+            this.cancel = function () {};
+          }
+        };
+        window.prompt(l('Prompt'), l('goToUrlDialog') + ':', dialog);
         break;
       case 'settings':
         App.$broadcast('toggle-settings');
