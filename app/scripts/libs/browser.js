@@ -214,6 +214,11 @@ function createBrowser() {
       throw new Error('Invalid selector or webview not found!');
     }
 
+    if (!webview.setZoomMode) {
+      webview = null;
+      throw new Error('Invalid webview!');
+    }
+
     //set where to save cookie and other data
     if (partition) {
       webview.partition = partition;
