@@ -48,7 +48,7 @@
       },
       clearBrowser: function clearBrowser() {
         jQuery(this.$el).modal('hide');
-        var resetDialog = function resetDialog() {};
+        var resetDialog = {};
         resetDialog.ok = function () {
           browser.getControls().clearData(function (ok) {
             if (ok) {

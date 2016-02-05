@@ -28,12 +28,12 @@ function createOnlineController(router, settings) {
     }
   };
   var reloadSomeSettingsOnFocus = function reloadSomeSettingsOnFocus() {
-    if (settings.lastUrlChanged + 30 <= Math.round(Date.now() / 1000)) { //if away longer than
+    if (settings.lastUrlChanged + 60 <= Math.round(Date.now() / 1000)) { //if away longer than
       //then check if we were open on some other pc
       require('settings').get(['lastUrl', 'lastUrlChanged']).then(function (err, items) {
         if (!err) {
           if (settings.lastUrlChanged < items.lastUrlChanged && settings.lastUrl !== items.lastUrl) {
-            var dialog = function dialog() {};
+            var dialog = {};
             dialog.ok = function () {
               browser.getControls().go(items.lastUrl);
               dialog.ok = function () {};
