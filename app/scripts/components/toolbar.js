@@ -1,4 +1,4 @@
-/*globals Vue,require*/
+/*globals Vue,require,AppConfig*/
 
 //radial menu component
 (function createToolbar() {
@@ -14,6 +14,20 @@
     methods: {
       openSettings: function () {
         this.$root.$broadcast('toggle-settings');
+      },
+      openGoToURL: function () {
+        var dialog = {
+          ok: function (result) {
+            require('browser').getControls().go(AppConfig.url + result.replace(AppConfig.homeReplacer, ''));
+            this.ok = function () {};
+            this.cancel = function () {};
+          },
+          cancel: function () {
+            this.ok = function () {};
+            this.cancel = function () {};
+          }
+        };
+        window.prompt(AppConfig.translate('Prompt'), AppConfig.translate('goToUrlDialog') + ':', dialog);
       },
       maximizeOrFullscreen: function (event) {
         if (event.shiftKey) {

@@ -157,6 +157,13 @@
     "message": "Go to top of page"
   },
 
+  "GoToURL": {
+    "message": "Go to URL"
+  },
+
+  "GoToURLMore": {
+    "message": "Go to some URL, if you want"
+  },
 
   "SettingsApp": {
     "message": "App Settings"

@@ -41,6 +41,14 @@ body {
   padding-right: 0.3em!important;
 }
 
+.window_toolbar .settings.right.menu .item {
+  margin-left: 0.3em!important;
+}
+
+.window_toolbar .left.menu.settings .item {
+  padding-left: 0.5em!important;
+}
+
 .window_toolbar .right.menu.controls .item .icon {
   width: 3em;
   margin: 0;
@@ -50,11 +58,12 @@ body {
   margin: 0 0.05rem 0 0;
 }
 
-.window_toolbar .left.menu.settings .item .icon{
+.window_toolbar .left.menu.settings .item .icon {
   width: 2em;
 }
 
-.window_toolbar .right.menu.controls a:hover, .window_toolbar .left.menu.settings a:hover {
+.window_toolbar .right.menu.controls a:hover,
+.window_toolbar .left.menu.settings a:hover {
   background-color: grey!important;
 }
 
