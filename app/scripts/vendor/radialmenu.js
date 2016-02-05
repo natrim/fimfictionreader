@@ -148,9 +148,11 @@
         isRightMB = e.button === 2;
       }
 
-      if (isRightMB && !e.altKey) {
-        openMenu(e);
-        return false;
+      if (isRightMB) {
+        if (!e.altKey) {
+          openMenu(e);
+          return false;
+        }
       } else {
         clicking = setTimeout(function () {
           clicking = null;
