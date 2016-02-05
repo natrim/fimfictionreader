@@ -1,4 +1,4 @@
-/*globals _,window,exports,require*/
+/*globals _,window,exports,require,jQuery*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;
@@ -174,18 +174,11 @@ function createShortcuts() {
         controls.top();
         break;
       case 'go':
-        var dialog = {
-          ok: function (result) {
-            controls.go(AppConfig.url + result.replace(AppConfig.homeReplacer, ''));
-            this.ok = function () {};
-            this.cancel = function () {};
-          },
-          cancel: function () {
-            this.ok = function () {};
-            this.cancel = function () {};
-          }
-        };
-        window.prompt(l('Prompt'), l('goToUrlDialog') + ':', dialog);
+        var trig = jQuery('.goToUrlTrigger:visible');
+        if (trig && trig.length) {
+          trig[0].click();
+          jQuery('#subnote').find('input').focus().select();
+        }
         break;
       case 'settings':
         App.$broadcast('toggle-settings');

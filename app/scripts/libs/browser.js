@@ -283,6 +283,24 @@ function createBrowser() {
       }
     }.bind(this));
 
+    webview.addEventListener('loadcommit', function onCommitWebview(e) {
+      webviewLoaded = true;
+      if (this._callbacks.length > 0) {
+        _.each(this._callbacks, function (v) {
+          v('loadcommit', null, e, this);
+        }, this);
+      }
+    }.bind(this));
+
+    webview.addEventListener('loadredirect', function onRedirectWebview(e) {
+      webviewLoaded = true;
+      if (this._callbacks.length > 0) {
+        _.each(this._callbacks, function (v) {
+          v('loadredirect', null, e, this);
+        }, this);
+      }
+    }.bind(this));
+
     webview.addEventListener('loadabort', function onAbortWebview(e) {
       if (this._callbacks.length > 0) {
         _.each(this._callbacks, function (v) {

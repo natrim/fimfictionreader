@@ -58,12 +58,29 @@ function createOnlineController(router, settings) {
       window.removeEventListener('keydown', newWDown);
       window.removeEventListener('focus', reloadSomeSettingsOnFocus);
       browser.clearWebview();
+      jQuery('#subnote').html('');
     },
     ready: function onlineReady() {
       if (!navigator.onLine) {
         jQuery('#splash').dimmer('show');
         router.go('/offline');
       }
+
+      var sub = jQuery('#subnote');
+      sub.html('<div class="ui fluid small action input"><input type="text" id="location"><button class="ui small button" id="locationGo">GO</div>');
+      _.defer(function () {
+        sub.find('#location').on('keyup', function (e) {
+          if (e.which === 13) {
+            sub.find('#locationGo').trigger('click');
+          } else if (e.which === 27) {
+            sub.trigger('mouseout');
+          }
+        });
+        sub.find('#locationGo').on('click', function () {
+          browser.getControls().go(AppConfig.url + jQuery(this).prev('input').val().replace(AppConfig.homeReplacer, ''));
+          sub.trigger('mouseout');
+        });
+      });
 
       window.addEventListener('keyup', newWUp);
       window.addEventListener('keydown', newWDown);
@@ -93,6 +110,12 @@ function createOnlineController(router, settings) {
           } else {
             window.alert(l('Alert'), e.messageText, e.dialog);
           }
+        }
+
+        if (e.isTopLevel && !err && (type === 'loadstart' || type === 'loadcommit')) {
+          jQuery('#location').val(e.url);
+        } else if (e.isTopLevel && !err && type === 'loadredirect') {
+          jQuery('#location').val(e.newUrl);
         }
 
         //show small circle to indicate page loading
