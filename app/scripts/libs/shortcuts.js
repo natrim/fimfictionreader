@@ -1,4 +1,4 @@
-/*globals _,window,exports,require,jQuery*/
+/*globals _,window,exports,require*/
 /*exported createShortcuts*/
 
 var AppShortcutsInstance;

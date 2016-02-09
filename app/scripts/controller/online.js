@@ -58,7 +58,6 @@ function createOnlineController(router, settings) {
       window.removeEventListener('keydown', newWDown);
       window.removeEventListener('focus', reloadSomeSettingsOnFocus);
       browser.clearWebview();
-      jQuery('#subnote').html('');
     },
     ready: function onlineReady() {
       if (!navigator.onLine) {

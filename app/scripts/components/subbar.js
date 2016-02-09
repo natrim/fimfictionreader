@@ -1,10 +1,11 @@
-/*globals jQuery,Vue,require,AppConfig*/
+/*globals jQuery,Vue,require*/
 
 //radial menu component
 (function createSubbar() {
   'use strict';
 
   var browser = require('browser');
+  var AppConfig = AppConfig || require('settings');
 
   Vue.component('app-subbar', {
     template: document.querySelector('#subbarTemplate').import.body,
