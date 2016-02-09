@@ -174,11 +174,7 @@ function createShortcuts() {
         controls.top();
         break;
       case 'go':
-        var trig = jQuery('.goToUrlTrigger:visible');
-        if (trig && trig.length) {
-          trig[0].click();
-          jQuery('#subnote').find('input').focus().select();
-        }
+        App.$broadcast('toggle-subbar');
         break;
       case 'settings':
         App.$broadcast('toggle-settings');

@@ -125,6 +125,19 @@ body {
   background-color: #111 !important;
 }
 
+.ui.dual.icon.input > i.icon {
+  width: 1.3em;
+}
+
+.ui.dual.icon.input > i.icon:first-of-type{
+  margin-right: 1.4em;
+  margin-left: 0;
+}
+
+.ui.right.dual.icon.input > i.icon:first-of-type {
+  margin-right: 0;
+  margin-left: 1.4em;
+}
 
 /*fix toastr positions*/
 

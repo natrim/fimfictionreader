@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="ui top grey small attached label" style="display:none;" id="subnote"></div>
+      <app-subbar></app-subbar>
       <div class="full trim ui">
         <router-view></router-view>
       </div>
@@ -61,6 +61,7 @@
   </div>
 
   <link rel="import" href="templates/toolbar.html" id="toolbarTemplate">
+  <link rel="import" href="templates/subbar.html" id="subbarTemplate">
   <link rel="import" href="templates/dialog.html" id="dialogTemplate">
   <link rel="import" href="templates/radial.html" id="radialTemplate">
   <link rel="import" href="templates/settings.html" id="settingsTemplate">
@@ -92,6 +93,7 @@
   <script src="scripts/libs/shortcuts.js"></script>
   <script src="scripts/libs/settings.js"></script>
   <script src="scripts/components/toolbar.js"></script>
+  <script src="scripts/components/subbar.js"></script>
   <script src="scripts/components/settings.js"></script>
   <script src="scripts/components/dialog.js"></script>
   <script src="scripts/components/radial.js"></script>
