@@ -27,12 +27,12 @@
     },
     methods: {
       show: function () {
-        jQuery(this.$el).slideDown(400, function () {
+        jQuery(this.$el).slideDown(100, function () {
           this.isOpen = true;
         }.bind(this));
       },
       hide: function () {
-        jQuery(this.$el).slideUp(400, function () {
+        jQuery(this.$el).slideUp(100, function () {
           this.isOpen = false;
         }.bind(this));
       },
