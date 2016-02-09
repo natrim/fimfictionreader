@@ -3,7 +3,7 @@
 
 function createOfflineController(router) {
   'use strict';
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
   var l = AppConfig.translate;
   var check;
   return {

@@ -10,7 +10,7 @@ function createShortcuts() {
     return AppShortcutsInstance;
   }
 
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
   var l = AppConfig.translate;
   var searchSelector = AppConfig.findSelector;
   var browser = require('browser');

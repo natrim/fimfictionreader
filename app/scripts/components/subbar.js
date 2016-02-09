@@ -5,7 +5,7 @@
   'use strict';
 
   var browser = require('browser');
-  var AppConfig = AppConfig || require('settings');
+  var AppConfig = AppConfig || require('appConfig');
 
   Vue.component('app-subbar', {
     template: document.querySelector('#subbarTemplate').import.body,
@@ -45,7 +45,7 @@
         }
       },
       changeURL: function () {
-        browser.getControls().go(AppConfig.url + this.location.replace(AppConfig.homeReplacer, ''));
+        browser.getControls().go(AppConfig.url + this.location.replace(AppConfig.urlReplacer, ''));
         this.hide();
       }
     },

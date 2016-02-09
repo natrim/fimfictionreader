@@ -5,9 +5,9 @@ var AppConfig = {
   name: 'FimFiction Reader', //name
   shortUrl: 'fimfiction.net/', //used for showing the url on settings
   url: 'https://www.fimfiction.net/', //used as prefix for browser and as default homepage
+  urlReplacer: /https?\:\/\/((.*)\.)?fimfiction\.net\/?/, //for cleaning user defined home page
   domainLimit: 'fimfiction.net', //used for browser access limit's
   partition: 'persist:fimfictionreader', //where to save cookies
-  homeReplacer: /https?\:\/\/((.*)\.)?fimfiction\.net\/?/, //for cleaning user defined home page
   userAgent: 'FimFictionReader/' + chrome.runtime.getManifest().version, //browser user agent appendum
   findSelector: '#site-search input[name="search"]', //for ctrl+F shortcut to focus search input
   //application user settings
@@ -25,5 +25,5 @@ var AppConfig = {
 AppConfig.translate = chrome.i18n.getMessage.bind(chrome.i18n);
 
 if (typeof exports !== 'undefined') {
-  exports.config = AppConfig;
+  exports.appConfig = AppConfig;
 }

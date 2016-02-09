@@ -12,7 +12,7 @@ function createSettings() {
 
   var toolbar = require('window');
   var browser = require('browser');
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
 
   var manifest = chrome.runtime.getManifest();
 
@@ -66,7 +66,7 @@ function createSettings() {
     var set = {};
     set[data.key] = data.newVal;
     if (data.key === 'homePage') {
-      set[data.key] = data.newVal.replace(AppConfig.homeReplacer, '');
+      set[data.key] = data.newVal.replace(AppConfig.urlReplacer, '');
     }
 
     this.set(set).then(function setSettings(err) {

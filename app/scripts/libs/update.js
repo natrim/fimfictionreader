@@ -10,7 +10,7 @@ function createUpdater() {
     return AppUpdaterInstance;
   }
 
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
   var l = AppConfig.translate;
 
   function AppUpdater() {

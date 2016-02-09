@@ -4,7 +4,7 @@
 (function createSettings() {
   'use strict';
 
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
   var browser = require('browser');
   var update = require('update');
   var Settings = require('settings');
@@ -44,7 +44,7 @@
         update.check(true);
       },
       setHome: function (url) {
-        this.settings.homePage = url.replace(AppConfig.homeReplacer, '');
+        this.settings.homePage = url.replace(AppConfig.urlReplacer, '');
       },
       clearBrowser: function clearBrowser() {
         jQuery(this.$el).modal('hide');

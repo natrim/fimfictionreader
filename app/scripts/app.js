@@ -34,7 +34,7 @@ window.addEventListener('load', function appLoad() {
   'use strict';
 
   // config
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
 
   //default settings
   var settings = _.clone(AppConfig.settings);

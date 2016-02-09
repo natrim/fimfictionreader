@@ -4,7 +4,7 @@
 function createOnlineController(router, settings) {
   'use strict';
 
-  var AppConfig = AppConfig || require('config');
+  var AppConfig = AppConfig || require('appConfig');
   var l = AppConfig.translate;
 
   // browser
