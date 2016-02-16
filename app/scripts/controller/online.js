@@ -36,13 +36,17 @@ function createOnlineController(router, settings) {
             var dialog = {};
             dialog.ok = function () {
               browser.getControls().go(items.lastUrl);
-              dialog.ok = function () {};
-              dialog.cancel = function () {};
+              dialog.ok = function () {
+              };
+              dialog.cancel = function () {
+              };
             };
             dialog.cancel = function () {
               settings.lastUrlChanged = items.lastUrlChanged; //just update local time without really changing
-              dialog.ok = function () {};
-              dialog.cancel = function () {};
+              dialog.ok = function () {
+              };
+              dialog.cancel = function () {
+              };
             };
             window.confirm(l('Confirm'), l('ConfirmNewUrlChange') + ' "' + items.lastUrl + '" ?', dialog);
           }

@@ -216,5 +216,6 @@
       }
     });
   }
+
   window.radialMenu = radialMenu;
 })(jQuery, window, window.document);

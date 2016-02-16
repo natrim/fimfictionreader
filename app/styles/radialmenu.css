@@ -5,10 +5,12 @@
   opacity: 0;
   display: none;
 }
+
 .radialmenu.paused {
   opacity: 1;
   display: inline;
 }
+
 .sector {
   width: 0;
   height: 0;
@@ -22,12 +24,15 @@
   -moz-border-radius: 0 0 90px 90px;
   -webkit-border-radius: 0 0 90px 90px;
 }
+
 .sector.selected {
   border-bottom-color: white;
 }
+
 .sector.disabled {
   border-bottom-color: gray;
 }
+
 .sectorlabel {
   position: absolute;
   top: 0;
@@ -35,22 +40,27 @@
   vertical-align: bottom;
   text-align: center;
 }
+
 .sectorlabel a {
   text-decoration: none;
   color: white;
   cursor: default;
 }
+
 .sectorlabel.selected a {
   color: black;
 }
+
 .sectorlabel.disabled a {
   color: darkgray;
 }
+
 .sectors, .sectorlabels, .vertex {
   position: absolute;
   top: 0;
   left: 0;
 }
+
 .vertex {
   height: 25px;
   width: 25px;
@@ -70,6 +80,7 @@
   margin-left: -8px;
   cursor: default;
 }
+
 .selvertex {
   border: 1px solid black;
   background: white;

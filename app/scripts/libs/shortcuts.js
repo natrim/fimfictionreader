@@ -161,30 +161,30 @@ function createShortcuts() {
   AppShortcuts.prototype.start = function bindShortcuts(App) {
     function doShortcut(action) {
       switch (action) {
-      case 'back':
-        controls.back();
-        break;
-      case 'forward':
-        controls.forward();
-        break;
-      case 'reload':
-        controls.reload();
-        break;
-      case 'top':
-        controls.top();
-        break;
-      case 'go':
-        App.$broadcast('toggle-subbar');
-        break;
-      case 'settings':
-        App.$broadcast('toggle-settings');
-        break;
-      case 'fullscreen':
-        toolbar.fullscreen();
-        break;
-      case 'find':
-        browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').focus();}');
-        break;
+        case 'back':
+          controls.back();
+          break;
+        case 'forward':
+          controls.forward();
+          break;
+        case 'reload':
+          controls.reload();
+          break;
+        case 'top':
+          controls.top();
+          break;
+        case 'go':
+          App.$broadcast('toggle-subbar');
+          break;
+        case 'settings':
+          App.$broadcast('toggle-settings');
+          break;
+        case 'fullscreen':
+          toolbar.fullscreen();
+          break;
+        case 'find':
+          browser.exec('if(typeof jQuery !== \'undefined\'){jQuery(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').val(\'\').focus();jQuery(\'html, body\').animate({scrollTop : 0}, 500);}else{window.scrollTo(0, 0);document.querySelector(\'' + searchSelector.replace(/\'/g, '\\\'') + '\').focus();}');
+          break;
       }
     }
 

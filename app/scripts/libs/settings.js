@@ -26,6 +26,7 @@ function createSettings() {
     this.settingsType = settingsType;
     this.settingsKeys = [];
   }
+
   Settings.prototype.load = function loadSettings(settings) {
     this.settingsKeys = Object.keys(settings);
     var defer = jQuery.Deferred();

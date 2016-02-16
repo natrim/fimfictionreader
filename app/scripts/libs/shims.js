@@ -28,8 +28,10 @@ var require;
 
   if (typeof chrome.runtime.requestUpdateCheck === 'undefined') {
     chrome.runtime.onUpdateAvailable = {
-      addListener: function () {},
-      removeListener: function () {}
+      addListener: function () {
+      },
+      removeListener: function () {
+      }
     };
 
     chrome.runtime.requestUpdateCheck = function () {
@@ -54,9 +56,12 @@ var require;
         close: function () {
           window.close();
         },
-        maximize: function () {},
-        minimize: function () {},
-        fullscreen: function () {},
+        maximize: function () {
+        },
+        minimize: function () {
+        },
+        fullscreen: function () {
+        },
         isMinimized: function () {
           return false;
         },
@@ -67,19 +72,24 @@ var require;
           return false;
         },
         onMaximized: {
-          addListener: function () {}
+          addListener: function () {
+          }
         },
         onMinimized: {
-          addListener: function () {}
+          addListener: function () {
+          }
         },
         onRestored: {
-          addListener: function () {}
+          addListener: function () {
+          }
         },
         onFullscreened: {
-          addListener: function () {}
+          addListener: function () {
+          }
         },
         onBoundsChanged: {
-          addListener: function () {}
+          addListener: function () {
+          }
         }
       };
     };

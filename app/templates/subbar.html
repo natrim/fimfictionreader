@@ -1,13 +1,9 @@
-<html>
-
 <body>
-  <div class="ui top grey small attached label" style="display:none;">
-    <div class="ui fluid small dual icon input">
-      <input type="text" v-model="location" v-on:keyup.enter="changeURL" v-on:keyup.esc="hide">
-      <i class="check circle big link icon" v-on:click="changeURL"></i>
-      <i class="remove circle big link icon" v-on:click="hide"></i>
-    </div>
+<div class="ui top grey small attached label" style="display:none;">
+  <div class="ui fluid small dual icon input">
+    <input type="text" v-model="location" v-on:keyup.enter="changeURL" v-on:keyup.esc="hide">
+    <i class="check circle big link icon" v-on:click="changeURL"></i>
+    <i class="remove circle big link icon" v-on:click="hide"></i>
   </div>
+</div>
 </body>
-
-</html>

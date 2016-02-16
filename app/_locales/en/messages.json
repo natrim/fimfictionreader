@@ -8,7 +8,6 @@
   "appDescription": {
     "message": "Fimfiction.net reader app"
   },
-
   "CheckUpdate": {
     "message": "Update app"
   },
@@ -42,14 +41,12 @@
   "offlineDetail": {
     "message": "Seems like your internet connection is down.<br>The offline mode for this App is still not complete, so you see this message."
   },
-
   "ReloadApp": {
     "message": "Reload App"
   },
   "ReloadAppMore": {
     "message": "Reload's App from disk (and installs updates if there are any)"
   },
-
   "ResetData": {
     "message": "Clear browser data"
   },
@@ -62,7 +59,6 @@
   "Reset": {
     "message": "Reset"
   },
-
   "Alert": {
     "message": "Alert"
   },
@@ -72,41 +68,33 @@
   "Prompt": {
     "message": "Prompt"
   },
-
   "Ok": {
     "message": "Ok"
   },
   "Cancel": {
     "message": "Cancel"
   },
-
   "goToUrlDialog": {
     "message": "Go to URL"
   },
-
   "clear_data": {
     "message": "All cookies and cached pages removed!"
   },
   "clear_data_fail": {
     "message": "Browser clearing failed!"
   },
-
   "ConfirmNewUrlChange": {
     "message": "There was change in last visited URL. Change current URL to: "
   },
-
   "block_window": {
     "message": "Window popup blocked! Tried to open:"
   },
-
   "block_exception": {
     "message": "To open this link in Chrome, hold Shift and click again."
   },
-
   "block_url": {
     "message": "Url blocked! Tried to open:"
   },
-
   "Minimize": {
     "message": "Minimize"
   },
@@ -125,7 +113,6 @@
   "CloseMore": {
     "message": "Close app"
   },
-
   "Home": {
     "message": "Home"
   },
@@ -156,15 +143,12 @@
   "TopMore": {
     "message": "Go to top of page"
   },
-
   "GoToURL": {
     "message": "Go to URL"
   },
-
   "GoToURLMore": {
     "message": "Go to some URL, if you want"
   },
-
   "SettingsApp": {
     "message": "App Settings"
   },
@@ -174,7 +158,6 @@
   "SettingsActions": {
     "message": "Actions"
   },
-
   "Settings": {
     "message": "Settings"
   },
@@ -217,11 +200,9 @@
   "clearCurrentHomePage": {
     "message": "Clear home page"
   },
-
   "shortcuts_help": {
     "message": "<strong>Shortcuts</strong><br>Ctrl + P - Toggle settings<br>Ctrl + R - Browser Reload<br>Ctrl + Left Arrow - Browser Back<br>Ctrl + Right Arrow - Browser Forward<br>Ctrl + Up Arrow - Browser Scroll Top<br>Ctrl + Down Arrow - Browser Reload<br>Ctrl + F - Focus site search<br>Ctrl + G - Go to url<br>Ctrl + Alt + F - Toggle App Fullscreen<br>Esc - Exit fullscreen"
   },
-
   "shortcut_key_meta": {
     "message": "Meta"
   },

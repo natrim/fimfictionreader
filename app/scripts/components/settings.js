@@ -67,16 +67,20 @@
               });
             }
           });
-          resetDialog.ok = function () {};
-          resetDialog.cancel = function () {};
+          resetDialog.ok = function () {
+          };
+          resetDialog.cancel = function () {
+          };
         };
         resetDialog.cancel = function () {
           _.defer(function () {
             //reopen settings
             jQuery(this.$el).modal('show');
           }.bind(this));
-          resetDialog.ok = function () {};
-          resetDialog.cancel = function () {};
+          resetDialog.ok = function () {
+          };
+          resetDialog.cancel = function () {
+          };
         }.bind(this);
         _.defer(function () {
           window.confirm(l('Confirm'), l('ConfirmResetData'), resetDialog);

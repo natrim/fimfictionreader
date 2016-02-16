@@ -19,7 +19,6 @@ body {
   -webkit-app-region: no-drag;
 }
 
-
 /*limit toolbar size*/
 
 .ui.window_toolbar {
@@ -30,23 +29,23 @@ body {
 }
 
 .menu.blured {
-  background-color: rgba(0, 0, 0, 0.5)!important;
+  background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
 .window_toolbar .left.menu .item {
-  margin-left: 0.3em!important;
+  margin-left: 0.3em !important;
 }
 
 .window_toolbar .right.menu .item {
-  padding-right: 0.3em!important;
+  padding-right: 0.3em !important;
 }
 
 .window_toolbar .settings.right.menu .item {
-  margin-left: 0.3em!important;
+  margin-left: 0.3em !important;
 }
 
 .window_toolbar .left.menu.settings .item {
-  padding-left: 0.5em!important;
+  padding-left: 0.5em !important;
 }
 
 .window_toolbar .right.menu.controls .item .icon {
@@ -64,11 +63,11 @@ body {
 
 .window_toolbar .right.menu.controls a:hover,
 .window_toolbar .left.menu.settings a:hover {
-  background-color: grey!important;
+  background-color: grey !important;
 }
 
 .window_toolbar .item::before {
-  content: none!important;
+  content: none !important;
 }
 
 .window_content {
@@ -82,11 +81,10 @@ body {
 }
 
 .trim {
-  margin: 0!important;
-  padding: 0!important;
-  border: 0!important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
 }
-
 
 /*create bigger loader*/
 
@@ -111,7 +109,7 @@ body {
 }
 
 .window_toolbar.fullscreen {
-  height: 0!important;
+  height: 0 !important;
   display: none;
 }
 
@@ -129,7 +127,7 @@ body {
   width: 1.3em;
 }
 
-.ui.dual.icon.input > i.icon:first-of-type{
+.ui.dual.icon.input > i.icon:first-of-type {
   margin-right: 1.4em;
   margin-left: 0;
 }
