@@ -94,6 +94,7 @@ module.exports = function (grunt) {
 
     // Empties folders to start fresh
     clean: {
+      options: { force: true },
       server: '.tmp',
       chrome: '.tmp',
       dist: {
@@ -317,7 +318,7 @@ module.exports = function (grunt) {
         },
         files: [{
           expand: true,
-          cwd: 'dist/',
+          cwd: '<%= config.dist %>',
           src: ['**'],
           dest: ''
         }]
