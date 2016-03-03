@@ -65,8 +65,9 @@
         }
 
         if (isClick) {
-          if (!$('#sectorlabel' + matchwhichsector).find('a').hasClass('disabled')) {
-            $('#sectorlabel' + matchwhichsector).find('a').get(0).click();
+          var link = $('#sectorlabel' + matchwhichsector).find('a');
+          if (!link.hasClass('disabled')) {
+            link.get(0).click();
           }
         } else {
           $('#sector' + matchwhichsector).addClass('selected');
@@ -84,7 +85,7 @@
       }
     });
 
-    $(document).off('mousemove.radial,touchmove.radial').on('mousemove.radial,touchmove.radial', function menuMove(e) {
+    $(document).off('mousemove.radial touchmove.radial').on('mousemove.radial touchmove.radial', function menuMove(e) {
       if (clicking) {
         clearTimeout(clicking);
         clicking = null;
@@ -97,7 +98,7 @@
     });
 
     var clicking = null;
-    $(document).off('mouseup.radial,touchend.radial').on('mouseup.radial,touchend.radial', function menuMUp(e) {
+    $(document).off('mouseup.radial touchend.radial').on('mouseup.radial touchend.radial', function menuMUp(e) {
       if (clicking) {
         clearTimeout(clicking);
         clicking = null;
@@ -120,7 +121,8 @@
     });
 
     function openMenu(e) {
-      $('div.radialmenu').css('top', e.pageY).css('left', e.pageX - w - 2);
+      var radial = $('.radialmenu');
+      radial.css('top', e.pageY).css('left', e.pageX - w - 2);
       $('.sector').removeClass('selected');
       $('.sectorlabel').removeClass('selected');
       $('.vertex').addClass('selvertex');
@@ -131,11 +133,11 @@
 
       mouseX = e.pageX;
       mouseY = e.pageY;
-      $('div.radialmenu').css('top', e.pageY).css('left', e.pageX - w - 2);
+      radial.css('top', e.pageY).css('left', e.pageX - w - 2);
       radialMidX = e.pageX;
       radialMidY = e.pageY;
 
-      $('.radialmenu').addClass('paused');
+      radial.addClass('paused');
       menuIsOpen = true;
     }
 
