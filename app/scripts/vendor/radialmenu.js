@@ -141,7 +141,14 @@
       menuIsOpen = true;
     }
 
-    $(document).off('mousedown.radial,touchstart.radial').on('mousedown.radial,touchstart.radial', function menuMDown(e) {
+    $(document).off('touchstart.radial').on('touchstart.radial', function menuTS(e) {
+      clicking = setTimeout(function () {
+        clicking = null;
+        openMenu(e);
+      }, 500);
+    });
+
+    $(document).off('mousedown.radial').on('mousedown.radial', function menuMDown(e) {
       var isRightMB;
       e = e || window.event;
       if ('which' in e) {
@@ -155,11 +162,6 @@
           openMenu(e);
           return false;
         }
-      } else {
-        clicking = setTimeout(function () {
-          clicking = null;
-          openMenu(e);
-        }, 500);
       }
     });
 
