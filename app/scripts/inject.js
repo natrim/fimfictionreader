@@ -21,6 +21,10 @@
   }
 
   function _receiveMessage(event) {
+    if (event.origin.indexOf('chrome-extension://') !== 0) {
+      return;
+    }
+
     if (!appWindow || !appOrigin) {
       appWindow = event.source;
       appOrigin = event.origin;

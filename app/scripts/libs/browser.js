@@ -309,7 +309,7 @@ function createBrowser() {
 
     webview.addEventListener('contentload', function onLoadWebview(e) {
       //shake hands to send this app id to web
-      var shaked = false;
+      var shaked = false, shaker;
       var handshake = function handshake(event) {
         if (event && event.data && event.data.command && event.data.command === 'handshakereply') {
           shaked = true;
@@ -322,12 +322,12 @@ function createBrowser() {
           webview.contentWindow.postMessage({
             command: 'handshake'
           }, '*');
-        } else {
+        } else if (shaker) {
           clearInterval(shaker);
           shaker = undefined;
         }
       };
-      var shaker = setInterval(shake, 30000);
+      shaker = setInterval(shake, 30000);
       //shake now
       shake();
 
